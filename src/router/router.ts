@@ -68,4 +68,13 @@ const router = createRouter({
   routes
 })
 
+//全局路由守卫
+router.beforeEach((to, from, next) => {
+  // const acpToken = localStorage.getItem('acpToken')
+  // if (to.name !== 'Login' && !acpToken) {
+  //   next({ name: 'Login' })
+  // }
+  // next()
+})
+
 export default router
