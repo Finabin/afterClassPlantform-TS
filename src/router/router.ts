@@ -61,6 +61,16 @@ const routes = [
       },
     ]
   },
+  {
+    path: '/error',
+    name: 'Error',
+    component: () => import('@/pages/Error.vue'),
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: () => import('@/pages/Test.vue'),
+  },
 ]
 
 const router = createRouter({
@@ -74,7 +84,7 @@ router.beforeEach((to, from, next) => {
   // if (to.name !== 'Login' && !acpToken) {
   //   next({ name: 'Login' })
   // }
-  // next()
+  next()
 })
 
 export default router
