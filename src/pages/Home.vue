@@ -12,19 +12,8 @@
             <span class="custom-inactive-action">EN</span>
           </template>
         </el-switch>
-        <el-dropdown>
-          <el-icon style="margin-right: 8px; margin-top: 1px">
-            <setting />
-          </el-icon>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item>View</el-dropdown-item>
-              <el-dropdown-item>Add</el-dropdown-item>
-              <el-dropdown-item>Delete</el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
-        <span>Tom</span>
+        <el-avatar :size="50" :src="circleUrl" />
+        <span>{{ $t('system.username') }},{{ nickname }}</span>
       </div>
     </el-header>
 
@@ -37,7 +26,8 @@
                 <el-icon>
                   <component :is="item.icon" />
                 </el-icon>
-                <span>{{ item.name }}</span>
+                <span v-if="i18nSwitch">{{ item.name }}</span>
+                <span v-else>{{ item.Ename }}</span>
               </el-menu-item>
             </div>
           </el-menu>
@@ -54,17 +44,22 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import menu from '@/router/menu'
-// import { useI18n } from 'vue-i18n'
+import { useI18n } from "vue-i18n";
+
+const { locale } = useI18n();
 
 const curRoute = ref('/main')
 const i18nSwitch = ref(true)
+const nickname = 'admin'
+const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 
 const changeRoute = (path: string) => {
   curRoute.value = path
 }
 
 const changeLanguage = () => {
-  localStorage.setItem('locale', i18nSwitch.value ? 'cn' : 'en')
+  localStorage.setItem('locale', i18nSwitch.value ? 'zhCn' : 'en')
+  locale.value = i18nSwitch.value ? 'zhCn' : 'en';
 }
 
 const item = {

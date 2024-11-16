@@ -2,12 +2,8 @@
     <div>item1</div>
 </template>
 
-<script>
-export default {
-    name: 'MainFilterListItem',
-}
+<script lang="ts" setup>
+
 </script>
 
-<style lang="less" scoped>
-
-</style>
+<style lang="less" scoped></style>

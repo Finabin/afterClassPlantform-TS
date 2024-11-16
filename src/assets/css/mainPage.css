@@ -1,0 +1,30 @@
+.mainpage-search {
+  width: 85vw;
+  height: 85vh;
+  border: 1px solid #ccc;
+}
+.mainpage-search .mainpage-seleArea {
+  width: 85vw;
+  height: 25vh;
+  border: 1px solid #ccc;
+}
+.mainpage-search .mainpage-seleArea .mainpage-seleArea-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  height: 8vh;
+  width: 85vw;
+}
+.mainpage-search .mainpage-seleArea .mainpage-seleArea-row .mainpage-seleArea-row-item {
+  width: 15vw;
+  height: 8vh;
+  border: 1px solid #ccc;
+  justify-content: space-around;
+  align-items: center;
+}
+.mainpage-search .mainpage-seleArea .mainpage-seleArea-row .mainpage-seleArea-row-item .mainpage-seleArea-item-title {
+  font-size: 1.5em;
+  margin-right: 5vw;
+  border: 1px solid #ccc;
+}
