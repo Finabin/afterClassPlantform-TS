@@ -1,4 +1,12 @@
-import { Menu as IconMenu, Message, Setting } from "@element-plus/icons-vue";
+import {
+  Menu as IconMenu,
+  Message,
+  Setting,
+  House,
+  PieChart,
+  Avatar,
+  MessageBox,
+} from "@element-plus/icons-vue";
 
 const menu = [
   {
@@ -6,7 +14,7 @@ const menu = [
     path: "/datasource",
     name: "数据看板",
     Ename: "DataSource",
-    icon: IconMenu,
+    icon: PieChart,
     meta: {
       title: "数据看板",
     },
@@ -16,7 +24,7 @@ const menu = [
     path: "/main",
     name: "首页",
     Ename: "Home",
-    icon: IconMenu,
+    icon: House,
     meta: {
       title: "首页",
     },
@@ -26,7 +34,7 @@ const menu = [
     path: "/application",
     name: "申请管理",
     Ename: "Application",
-    icon: IconMenu,
+    icon: MessageBox,
     meta: {
       title: "申请管理",
     },
@@ -56,7 +64,7 @@ const menu = [
     path: "/info",
     name: "个人信息",
     Ename: "Info",
-    icon: IconMenu,
+    icon: Avatar,
     meta: {
       title: "个人信息",
     },

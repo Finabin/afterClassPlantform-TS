@@ -68,11 +68,12 @@
           </div>
         </div>
       </div>
-      <div>
+      <div class="mainpage-table-title">
         星级榜
       </div>
-      <div>
-        <el-table :data="tableData" style="width: 100%">
+      <div class="mainpage-table">
+        <el-table :data="tableData" style="width: 100%" header-align="center" align="center"
+          :header-cell-style="{ backgroundColor: '#ccc', color: '#000' }">
           <el-table-column prop="name" label="姓名" width="180" />
           <el-table-column prop="sex" label="性别" width="180" />
           <el-table-column prop="star" label="星级">
@@ -83,11 +84,16 @@
           <el-table-column prop="school" label="高校">
             <template v-slot:default="scope">
               <span>{{ scope.row.school }}</span>
-              <span v-if="scope.row.rank === '985'">{{ scope.row.rank }}</span>
-              <span v-else-if="scope.row.rank === '211'">{{ scope.row.rank }}</span>
-              <span v-else-if="scope.row.rank === '双一流'">{{ scope.row.rank }}</span>
-              <span v-else-if="scope.row.rank === 'QS前50'">{{ scope.row.rank }}</span>
-              <span v-else-if="scope.row.rank === 'QS前100'">{{ scope.row.rank }}</span>
+              <span v-if="scope.row.rank === '985'" class="mainpage-label mainpage-label-985">{{ scope.row.rank
+                }}</span>
+              <span v-else-if="scope.row.rank === '211'" class="mainpage-label mainpage-label-211">{{ scope.row.rank
+                }}</span>
+              <span v-else-if="scope.row.rank === '双一流'" class="mainpage-label mainpage-label-df">{{ scope.row.rank
+                }}</span>
+              <span v-else-if="scope.row.rank === 'QS前50'" class="mainpage-label mainpage-label-qs50">{{ scope.row.rank
+                }}</span>
+              <span v-else-if="scope.row.rank === 'QS前100'" class="mainpage-label mainpage-label-qs100">{{
+                scope.row.rank }}</span>
               <span v-else>{{ scope.row.rank }}</span>
             </template>
           </el-table-column>

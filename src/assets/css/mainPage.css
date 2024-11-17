@@ -28,3 +28,47 @@
   margin-right: 5vw;
   border: 1px solid #ccc;
 }
+.mainpage-search .mainpage-table-title {
+  width: 7.5vw;
+  margin: 0 2vw;
+  padding: 1vh 2vw;
+  border: 1px solid #ccc;
+  background: #ccc;
+  font-size: 1.5em;
+  text-align: center;
+  color: orange;
+  font-weight: bold;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.mainpage-search .mainpage-table {
+  width: 80vw;
+  margin: 0 2vw;
+  border: 1px solid #ccc;
+}
+.mainpage-label {
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-left: 4px;
+}
+.mainpage-label-985 {
+  background: red;
+  border: 1px solid red;
+}
+.mainpage-label-211 {
+  background: skyblue;
+  border: 1px solid skyblue;
+}
+.mainpage-label-df {
+  background: greenyellow;
+  border: 1px solid greenyellow;
+}
+.mainpage-label-qs50 {
+  background: purple;
+  border: 1px solid purple;
+}
+.mainpage-label-qs100 {
+  background: orange;
+  border: 1px solid orange;
+}

@@ -4,7 +4,7 @@
     <el-header style="display: flex; justify-content: space-between; align-items: center">
       <span>{{ $t('system.logo') }}</span>
       <div class="toolbar">
-        <el-switch v-model="i18nSwitch" @change="changeLanguage">
+        <el-switch v-model="i18nSwitch" @change="changeLanguage" size="large">
           <template #active-action>
             <span class="custom-active-action">CN</span>
           </template>
@@ -13,7 +13,17 @@
           </template>
         </el-switch>
         <el-avatar :size="50" :src="circleUrl" />
-        <span>{{ $t('system.username') }},{{ nickname }}</span>
+        <el-dropdown>
+          <span>{{ $t('system.username') }},{{ nickname }}</span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item>当前角色：学生</el-dropdown-item>
+              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item>退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+
       </div>
     </el-header>
 
