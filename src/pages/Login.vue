@@ -45,7 +45,8 @@
               <input type="password" placeholder="请再次输入密码" v-model="registerRPassword">
             </div>
             <div class="login-checkbox">
-              <span>我已阅读并同意<span>用户协议</span>、<span>隐私政策</span>、<span>产品服务协议</span></span>
+              <input type="checkbox"
+                class="checkbox" /><span>我已阅读并同意<span>用户协议</span>、<span>隐私政策</span>、<span>产品服务协议</span></span>
             </div>
           </div>
           <div class="login-button">
@@ -62,6 +63,7 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
+import user from '@/mocks/user'
 
 const isPasswordLogin = ref(true)
 const isLoginPage = ref(true)
@@ -85,7 +87,17 @@ const toLogin = () => {
       })
       return
     }
-    router.push('/home')
+    for (let i = 0; i < user.length; i++) {
+      if (loginNickname.value === user[i].nickName && loginNPassword.value === user[i].password) {
+        ElMessage.success('登录成功')
+        router.push('/home')
+        return
+      }
+    }
+    ElMessage({
+      message: '账号或密码错误',
+      type: 'error',
+    })
   }
   else {
     if (loginPhone.value === '' || loginPPassword.value === '') {
@@ -143,5 +155,5 @@ const changeLoginPage = () => {
 </script>
 
 <style lang="less" scoped>
-@import '../assets/css/login.less';
+@import '../assets/css/pages/login.less';
 </style>

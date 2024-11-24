@@ -1,4 +1,8 @@
 <template>
+  <div>
+    <MainPagePopUp />
+    <LogOutPopUp v-if="logOutPopUpVisible" />
+  </div>
   <el-container class="layout-container-demo" style="height: 500px">
 
     <el-header style="display: flex; justify-content: space-between; align-items: center">
@@ -19,7 +23,7 @@
             <el-dropdown-menu>
               <el-dropdown-item>当前角色：学生</el-dropdown-item>
               <el-dropdown-item>修改密码</el-dropdown-item>
-              <el-dropdown-item>退出登录</el-dropdown-item>
+              <el-dropdown-item @click="logOut">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
         </el-dropdown>
@@ -55,13 +59,19 @@
 import { ref } from 'vue'
 import menu from '@/router/menu'
 import { useI18n } from "vue-i18n";
+import MainPagePopUp from '@/components/MainPagePopUp.vue';
+import { useRoute, useRouter } from 'vue-router'
+import LogOutPopUp from '@/components/LogOutPopUp.vue';
 
 const { locale } = useI18n();
-
+const router = useRouter()
+const route = useRoute()
 const curRoute = ref('/main')
 const i18nSwitch = ref(true)
 const nickname = 'admin'
 const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+const logOutPopUpVisible = ref(false)
+
 
 const changeRoute = (path: string) => {
   curRoute.value = path
@@ -70,6 +80,10 @@ const changeRoute = (path: string) => {
 const changeLanguage = () => {
   localStorage.setItem('locale', i18nSwitch.value ? 'zhCn' : 'en')
   locale.value = i18nSwitch.value ? 'zhCn' : 'en';
+}
+
+const logOut = () => {
+  logOutPopUpVisible.value = true
 }
 
 const item = {

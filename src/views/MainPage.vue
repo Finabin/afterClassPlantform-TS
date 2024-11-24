@@ -1,6 +1,6 @@
 <template>
-  <el-main>
-    <div>首页</div>
+  <el-main class="mainpage-main">
+    <div class="mainpage-title">首页</div>
     <div class="mainpage-search">
       <div class="mainpage-seleArea">
         <div class="mainpage-seleArea-row">
@@ -25,19 +25,19 @@
         </div>
         <div class="mainpage-seleArea-row">
           <div class="mainpage-seleArea-item">
-            <span>科目</span>
+            <span class="mainpage-seleArea-item-title">科目</span>
             <el-select v-model="selectSubject" placeholder="请选择科目" size="large" style="width: 240px">
               <el-option v-for="item in subjectSelection" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
           <div class="mainpage-seleArea-item">
-            <span>地区</span>
+            <span class="mainpage-seleArea-item-title">地区</span>
             <el-select v-model="selectArea" placeholder="请选择所在地区" size="large" style="width: 240px">
               <el-option v-for="item in areaSelection" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
           <div class="mainpage-seleArea-item">
-            <span>教师星级</span>
+            <span class="mainpage-seleArea-item-title">教师星级</span>
             <el-select v-model="selectStar" placeholder="请选择教师星级" size="large" style="width: 240px">
               <el-option v-for="item in starSelection" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
@@ -45,21 +45,21 @@
         </div>
         <div class="mainpage-seleArea-row">
           <div class="mainpage-seleArea-item">
-            <span>教龄</span>
+            <span class="mainpage-seleArea-item-title">教龄</span>
             <el-select v-model="selectTecAge" placeholder="请选择教师教龄" size="large" style="width: 240px">
               <el-option v-for="item in tecAgeSelection" :key="item.value" :label="item.label" :value="item.value" />
             </el-select>
           </div>
           <div>
-            <span>关键词</span>
+            <span class="mainpage-seleArea-item-title">关键词</span>
             <el-input v-model="searchInput" style="width: 30vw" placeholder="请输入教师ID、姓名" size="large" />
-            <el-button type="primary" size="large">
+            <el-button type="primary" size="large" @click="handleSearch">
               <el-icon>
                 <Search />
               </el-icon>
               {{ $t('mainPage.search') }}
             </el-button>
-            <el-button size="large">
+            <el-button size="large" @click="resetSearch">
               <el-icon>
                 <Refresh />
               </el-icon>
@@ -108,7 +108,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import MainFilterListItem from '@/components/MainFilterListItem.vue'
-import homeData from '@/static/homeData.ts'
+import homeData from '@/static/homeData'
 
 const {
   sexSelection,
@@ -128,8 +128,18 @@ const selectSubject = ref('')
 const selectArea = ref('')
 const selectTecAge = ref('')
 const searchInput = ref('')
+
+const handleSearch = () => {
+  console.log('search')
+  console.log(searchInput.value);
+}
+
+const resetSearch = () => {
+  console.log('reset')
+  searchInput.value = ''
+}
 </script>
 
 <style scoped>
-@import url('../assets/css/mainpage.less');
+@import url('../assets/css/views/mainPage.less');
 </style>

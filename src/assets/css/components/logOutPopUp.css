@@ -1,0 +1,54 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.logout-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 15vw;
+  height: 10vh;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.logout-popup .logout-popup-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background-color: #ccc;
+  border-radius: 10px;
+}
+.logout-popup .logout-popup-header .logout-popup-header-title {
+  margin-left: 2vw;
+}
+.logout-popup .logout-popup-main {
+  justify-content: center;
+  align-items: center;
+}
+.logout-popup .logout-popup-footer {
+  margin: 2vw 2vh;
+}
+.logout-popup .logout-popup-footer .logout-popup-footer-cancel {
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 10px;
+  margin-right: 2vw;
+}
+.logout-popup .logout-popup-footer .logout-popup-footer-confirm {
+  background-color: #2585eb;
+  border: 1px solid #000;
+  border-radius: 10px;
+  color: #fff;
+}

@@ -1,7 +1,22 @@
+.mainpage-main {
+  background-color: #ccc;
+}
+.mainpage-title {
+  width: 85vw;
+  height: 10vh;
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 2vh 7.5vw;
+  background-color: #fff;
+}
 .mainpage-search {
   width: 85vw;
   height: 85vh;
   border: 1px solid #ccc;
+  background-color: #fff;
+  margin: 2vh 7.5vw;
 }
 .mainpage-search .mainpage-seleArea {
   width: 85vw;
@@ -16,17 +31,18 @@
   height: 8vh;
   width: 85vw;
 }
+.mainpage-search .mainpage-seleArea .mainpage-seleArea-row .mainpage-seleArea-item-title {
+  font-size: 1em;
+  margin-right: 1vw;
+  border: 1px solid #ccc;
+  padding: 1vh 1vw;
+}
 .mainpage-search .mainpage-seleArea .mainpage-seleArea-row .mainpage-seleArea-row-item {
   width: 15vw;
   height: 8vh;
   border: 1px solid #ccc;
   justify-content: space-around;
   align-items: center;
-}
-.mainpage-search .mainpage-seleArea .mainpage-seleArea-row .mainpage-seleArea-row-item .mainpage-seleArea-item-title {
-  font-size: 1.5em;
-  margin-right: 5vw;
-  border: 1px solid #ccc;
 }
 .mainpage-search .mainpage-table-title {
   width: 7.5vw;
