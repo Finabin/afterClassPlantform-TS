@@ -27,7 +27,8 @@
               <input type="password" placeholder="请输入密码" v-model="loginPPassword">
             </div>
             <div class="login-checkbox">
-              <span>我已阅读并同意<span>用户协议</span>、<span>隐私政策</span>、<span>产品服务协议</span></span>
+              <input type="checkbox"
+                class="checkbox" /><span>我已阅读并同意<span>用户协议</span>、<span>隐私政策</span>、<span>产品服务协议</span></span>
             </div>
           </div>
           <div class="login-button">
@@ -45,8 +46,12 @@
               <input type="password" placeholder="请再次输入密码" v-model="registerRPassword">
             </div>
             <div class="login-checkbox">
-              <input type="checkbox"
-                class="checkbox" /><span>我已阅读并同意<span>用户协议</span>、<span>隐私政策</span>、<span>产品服务协议</span></span>
+              <div class="checkbox">
+                <input type="checkbox" />
+              </div>
+              <div class="login-checkbox-text">
+                <span>我已阅读并同意<span>用户协议</span>、<span>隐私政策</span>、<span>产品服务协议</span></span>
+              </div>
             </div>
           </div>
           <div class="login-button">

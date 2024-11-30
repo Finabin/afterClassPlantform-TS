@@ -149,19 +149,21 @@
                 flex-direction: row;
 
                 .checkbox {
-                    width: @page-width*0.05;
-                    height: @page-width*0.05;
+                    width: @page-width*0.01;
+                    height: @page-width*0.01;
                 }
 
-                span {
-                    font-size: 0.5em;
-
+                .login-checkbox-text {
                     span {
-                        cursor: pointer;
-                        color: orange;
+                        font-size: 0.5em;
 
-                        &:hover {
-                            color: #ecb915;
+                        span {
+                            cursor: pointer;
+                            color: orange;
+
+                            &:hover {
+                                color: #ecb915;
+                            }
                         }
                     }
                 }

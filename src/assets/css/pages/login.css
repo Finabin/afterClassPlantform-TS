@@ -127,17 +127,17 @@
   flex-direction: row;
 }
 .login-container .login-box .login-form .login-checkbox .checkbox {
-  width: 5vw;
-  height: 5vw;
+  width: 1vw;
+  height: 1vw;
 }
-.login-container .login-box .login-form .login-checkbox span {
+.login-container .login-box .login-form .login-checkbox .login-checkbox-text span {
   font-size: 0.5em;
 }
-.login-container .login-box .login-form .login-checkbox span span {
+.login-container .login-box .login-form .login-checkbox .login-checkbox-text span span {
   cursor: pointer;
   color: orange;
 }
-.login-container .login-box .login-form .login-checkbox span span:hover {
+.login-container .login-box .login-form .login-checkbox .login-checkbox-text span span:hover {
   color: #ecb915;
 }
 .login-container .login-box .login-form .register-input {

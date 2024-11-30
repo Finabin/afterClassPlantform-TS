@@ -34,5 +34,7 @@ declare module 'vue' {
     MainPagePopUp: typeof import('./src/components/MainPagePopUp.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UpdatePassword: typeof import('./src/components/UpdatePassword.vue')['default']
+    UpdatePasswordPopUp: typeof import('./src/components/UpdatePasswordPopUp.vue')['default']
   }
 }

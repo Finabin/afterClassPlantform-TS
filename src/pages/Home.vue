@@ -1,7 +1,9 @@
 <template>
   <div>
     <MainPagePopUp />
-    <LogOutPopUp v-if="logOutPopUpVisible" />
+    <LogOutPopUp v-if="logOutPopUpVisible" :popUpClosed="logOutPopUpVisible"
+      @custom-event="handleLogOutVisibleChange" />
+    <UpdatePasswordPopUp v-if="updatePasswordPopUpVisible" />
   </div>
   <el-container class="layout-container-demo" style="height: 500px">
 
@@ -16,13 +18,13 @@
             <span class="custom-inactive-action">EN</span>
           </template>
         </el-switch>
-        <el-avatar :size="50" :src="circleUrl" />
+        <el-avatar :size="50" :src="circleUrl" class="homepage-avatar" />
         <el-dropdown>
-          <span>{{ $t('system.username') }},{{ nickname }}</span>
+          <span class="homepage-nickname">{{ $t('system.username') }},{{ nickname }}</span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item>当前角色：学生</el-dropdown-item>
-              <el-dropdown-item>修改密码</el-dropdown-item>
+              <el-dropdown-item disabled="true">当前角色：学生</el-dropdown-item>
+              <el-dropdown-item @click="updatePassword">修改密码</el-dropdown-item>
               <el-dropdown-item @click="logOut">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -62,6 +64,7 @@ import { useI18n } from "vue-i18n";
 import MainPagePopUp from '@/components/MainPagePopUp.vue';
 import { useRoute, useRouter } from 'vue-router'
 import LogOutPopUp from '@/components/LogOutPopUp.vue';
+import UpdatePasswordPopUp from '@/components/UpdatePasswordPopUp.vue';
 
 const { locale } = useI18n();
 const router = useRouter()
@@ -71,6 +74,7 @@ const i18nSwitch = ref(true)
 const nickname = 'admin'
 const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 const logOutPopUpVisible = ref(false)
+const updatePasswordPopUpVisible = ref(false)
 
 
 const changeRoute = (path: string) => {
@@ -82,8 +86,16 @@ const changeLanguage = () => {
   locale.value = i18nSwitch.value ? 'zhCn' : 'en';
 }
 
+const updatePassword = () => {
+  updatePasswordPopUpVisible.value = true
+}
+
 const logOut = () => {
   logOutPopUpVisible.value = true
+}
+
+const handleLogOutVisibleChange = (visible: boolean) => {
+  logOutPopUpVisible.value = visible
 }
 
 const item = {
@@ -122,5 +134,14 @@ const tableData = ref(Array.from({ length: 20 }).fill(item))
   justify-content: center;
   height: 100%;
   right: 20px;
+}
+
+
+.homepage-avatar {
+  margin: 0 1vw;
+}
+
+.homepage-nickname {
+  font-size: 1.2em;
 }
 </style>

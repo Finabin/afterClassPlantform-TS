@@ -11,7 +11,7 @@
         确认退出登录?
       </div>
       <div class="logout-popup-footer">
-        <button class="logout-popup-footer-cancel" @click="popUpClosed = true">取消</button>
+        <button class="logout-popup-footer-cancel" @click="emitEvent">取消</button>
         <button class="logout-popup-footer-confirm" @click="logOut">确认</button>
       </div>
     </div>
@@ -25,12 +25,26 @@ import { Close } from '@element-plus/icons-vue'
 
 const router = useRouter();
 
-const popUpClosed = ref(false);
+const props = defineProps({
+  popUpClosed: {
+    type: Boolean,
+    required: true
+  }
+});
+
+const emit = defineEmits(['custom-event']);
+
+function emitEvent() {
+  emit('custom-event', popUpClosed.value);
+}
+
+const popUpClosed = ref(props.popUpClosed);
 
 const logOut = () => {
   localStorage.removeItem('token')
   router.push('/login')
   popUpClosed.value = true
+  emit('custom-event', popUpClosed.value);
 }
 </script>
 

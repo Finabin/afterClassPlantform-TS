@@ -76,10 +76,17 @@ const chooseIdentity = (iden: string) => {
 }
 
 const chooseGrade = (gra: string) => {
-  if (grade.indexOf(gra) === -1) {
+  if (identity.value === 'student') {
+    if (grade.length !== 0) {
+      grade.pop()
+    }
     grade.push(gra)
   } else {
-    grade.splice(grade.indexOf(gra), 1)
+    if (grade.indexOf(gra) === -1) {
+      grade.push(gra)
+    } else {
+      grade.splice(grade.indexOf(gra), 1)
+    }
   }
 }
 
