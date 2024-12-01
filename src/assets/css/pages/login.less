@@ -143,27 +143,35 @@
             }
 
             .login-checkbox {
-                width: 100%;
-                height: 10%;
                 display: flex;
                 flex-direction: row;
+                margin: 10px 0;
 
-                .checkbox {
-                    width: @page-width*0.01;
-                    height: @page-width*0.01;
+                /* 上下外边距，可根据需要调整 */
+                input[type="checkbox"] {
+                    margin-right: 10px;
+                    /* 选择框和文本之间的间距 */
+                    transform: scale(1.2);
+                    /* 放大选择框，使其更明显 */
                 }
 
                 .login-checkbox-text {
+                    font-size: 1em;
+                    /* 文本大小，可根据需要调整 */
+                    cursor: pointer;
+
+                    /* 当鼠标悬停在文本上时显示为指针 */
                     span {
-                        font-size: 0.5em;
+                        color: orange;
+                        /* 文本颜色 */
+                        margin-right: 10px;
+                        /* 各个协议之间的间距 */
+                        text-decoration: underline;
 
-                        span {
-                            cursor: pointer;
-                            color: orange;
-
-                            &:hover {
-                                color: #ecb915;
-                            }
+                        /* 下划线表示可点击 */
+                        &:hover {
+                            color: #ecb915;
+                            /* 鼠标悬停时的文本颜色 */
                         }
                     }
                 }

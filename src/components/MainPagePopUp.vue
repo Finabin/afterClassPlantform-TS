@@ -93,7 +93,9 @@ const chooseGrade = (gra: string) => {
 const confirm = () => {
   console.log(identity.value)
   console.log(grade)
-  chooseFinish.value = true
+  if (grade.length > 0 && identity.value !== '') {
+    chooseFinish.value = true
+  }
 }
 
 const isChoose = computed(() => {

@@ -106,7 +106,7 @@ const item = {
 const tableData = ref(Array.from({ length: 20 }).fill(item))
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .layout-container-demo .el-header {
   position: relative;
   background-color: var(--el-color-primary-light-7);
@@ -143,5 +143,17 @@ const tableData = ref(Array.from({ length: 20 }).fill(item))
 
 .homepage-nickname {
   font-size: 1.2em;
+}
+
+.el-menu .el-menu-item {
+  &:hover {
+    background-color: #f5f5f5 !important;
+    color: #409eff !important;
+  }
+
+  &.is-active {
+    background-color: #f5f5f5 !important;
+    color: #409eff !important;
+  }
 }
 </style>

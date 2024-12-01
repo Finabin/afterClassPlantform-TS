@@ -121,24 +121,34 @@
   border-bottom: 1px solid orange;
 }
 .login-container .login-box .login-form .login-checkbox {
-  width: 100%;
-  height: 10%;
   display: flex;
   flex-direction: row;
+  margin: 10px 0;
+  /* 上下外边距，可根据需要调整 */
 }
-.login-container .login-box .login-form .login-checkbox .checkbox {
-  width: 1vw;
-  height: 1vw;
+.login-container .login-box .login-form .login-checkbox input[type="checkbox"] {
+  margin-right: 10px;
+  /* 选择框和文本之间的间距 */
+  transform: scale(1.2);
+  /* 放大选择框，使其更明显 */
+}
+.login-container .login-box .login-form .login-checkbox .login-checkbox-text {
+  font-size: 1em;
+  /* 文本大小，可根据需要调整 */
+  cursor: pointer;
+  /* 当鼠标悬停在文本上时显示为指针 */
 }
 .login-container .login-box .login-form .login-checkbox .login-checkbox-text span {
-  font-size: 0.5em;
-}
-.login-container .login-box .login-form .login-checkbox .login-checkbox-text span span {
-  cursor: pointer;
   color: orange;
+  /* 文本颜色 */
+  margin-right: 10px;
+  /* 各个协议之间的间距 */
+  text-decoration: underline;
+  /* 下划线表示可点击 */
 }
-.login-container .login-box .login-form .login-checkbox .login-checkbox-text span span:hover {
+.login-container .login-box .login-form .login-checkbox .login-checkbox-text span:hover {
   color: #ecb915;
+  /* 鼠标悬停时的文本颜色 */
 }
 .login-container .login-box .login-form .register-input {
   width: 100%;
