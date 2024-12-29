@@ -31,46 +31,6 @@ const menu = [
   },
   {
     id: 3,
-    path: "/application",
-    name: "申请管理",
-    Ename: "Application",
-    icon: MessageBox,
-    meta: {
-      title: "申请管理",
-    },
-  },
-  {
-    id: 4,
-    path: "/order",
-    name: "订单管理",
-    Ename: "Order",
-    icon: IconMenu,
-    meta: {
-      title: "订单管理",
-    },
-  },
-  {
-    id: 5,
-    path: "/teach",
-    name: "授教管理",
-    Ename: "Teach",
-    icon: IconMenu,
-    meta: {
-      title: "授教管理",
-    },
-  },
-  {
-    id: 6,
-    path: "/info",
-    name: "个人信息",
-    Ename: "Info",
-    icon: Avatar,
-    meta: {
-      title: "个人信息",
-    },
-  },
-  {
-    id: 7,
     path: "/user",
     name: "人员管理",
     Ename: "User",
@@ -80,13 +40,54 @@ const menu = [
     },
   },
   {
-    id: 8,
-    path: "/eaxm",
-    name: "师资审核",
-    Ename: "Eaxm",
+    id: 4,
+    path: "/course",
+    name: "课程管理",
+    Ename: "Course",
+    icon: MessageBox,
+    meta: {
+      title: "课程管理",
+    },
+  },
+  {
+    id: 5,
+    path: "/order",
+    name: "订单管理",
+    Ename: "Order",
     icon: IconMenu,
     meta: {
-      title: "师资审核",
+      title: "订单管理",
+    },
+  },
+  {
+    id: 6,
+    path: "/file",
+    name: "文件管理",
+    Ename: "File",
+    icon: IconMenu,
+    meta: {
+      title: "文件管理",
+    },
+  },
+
+  {
+    id: 7,
+    path: "/income",
+    name: "收入管理",
+    Ename: "Income",
+    icon: IconMenu,
+    meta: {
+      title: "收入管理",
+    },
+  },
+  {
+    id: 8,
+    path: "/info",
+    name: "个人信息",
+    Ename: "Info",
+    icon: Avatar,
+    meta: {
+      title: "个人信息",
     },
   },
 ];
