@@ -81,7 +81,7 @@
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import dayjs from 'dayjs'
-import { courseState, subjectSelection } from '@/static/courseData'
+import { courseState, subjectSelection } from '@/mocks/courseData'
 
 const router = useRouter()
 const route = useRoute()

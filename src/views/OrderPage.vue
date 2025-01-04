@@ -2,7 +2,7 @@
   <el-main>
     <div>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/order' }">订单管理</el-breadcrumb-item>
+        <el-breadcrumb-item>订单管理</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div>
@@ -13,7 +13,7 @@
         <el-select v-model="search_order_state" placeholder="选择订单状态" size="large" style="width: 240px">
           <el-option v-for="item in orderState" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
-        <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" :size="size" />
+        <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" />
         <button>搜索</button>
       </div>
     </div>
@@ -37,7 +37,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import dayjs from 'dayjs'
-import { orderState } from '@/static/orderData'
+import { orderState } from '@/mocks/orderData'
 
 const now = new Date()
 const search_date = ref(dayjs(now).format('YYYY-MM-DD'))

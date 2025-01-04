@@ -108,7 +108,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import MainFilterListItem from '@/components/MainFilterListItem.vue'
-import homeData from '@/static/homeData'
+import homeData from '@/mocks/homeData'
 
 const {
   sexSelection,

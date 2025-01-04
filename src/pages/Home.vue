@@ -37,15 +37,35 @@
       <el-aside width="200px">
         <el-scrollbar>
           <el-menu :router="true" :default-active="curRoute">
-            <div v-for="(item, index) in menu" :key="index">
-              <el-menu-item :index="item.path" @click="changeRoute(item.path)">
+            <template v-for="(item, index) in menu" :key="index">
+              <!-- 如果有子菜单，则使用el-sub-menu -->
+              <el-sub-menu v-if="item.children && item.children.length > 0" :index="item.path || ''">
+                <template #title>
+                  <el-icon>
+                    <component :is="item.icon" />
+                  </el-icon>
+                  <span v-if="i18nSwitch">{{ item.name }}</span>
+                  <span v-else>{{ item.Ename }}</span>
+                </template>
+                <el-menu-item v-for="child in item.children" :key="child.id" :index="child.path"
+                  @click="changeRoute(child.path)">
+                  <el-icon>
+                    <component :is="child.icon" />
+                  </el-icon>
+                  <span v-if="i18nSwitch">{{ child.name }}</span>
+                  <span v-else>{{ child.Ename }}</span>
+                </el-menu-item>
+              </el-sub-menu>
+
+              <!-- 如果没有子菜单，则使用el-menu-item -->
+              <el-menu-item v-else :index="item.path" @click="changeRoute(item.path)">
                 <el-icon>
                   <component :is="item.icon" />
                 </el-icon>
                 <span v-if="i18nSwitch">{{ item.name }}</span>
                 <span v-else>{{ item.Ename }}</span>
               </el-menu-item>
-            </div>
+            </template>
           </el-menu>
         </el-scrollbar>
       </el-aside>

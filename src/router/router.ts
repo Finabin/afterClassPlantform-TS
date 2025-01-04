@@ -29,7 +29,20 @@ const routes = [
       {
         path: "/user",
         name: "用户管理",
-        component: () => import("@/views/UserPage.vue"),
+        // component: () => import("@/views/TeacherPage.vue"),
+        redirect: "/teacher",
+        children: [
+          {
+            path: "/teacher",
+            name: "教师列表",
+            component: () => import("@/views/TeacherPage.vue"),
+          },
+          {
+            path: "/student",
+            name: "学生列表",
+            component: () => import("@/views/StudentPage.vue"),
+          },
+        ],
       },
       {
         path: "/course",

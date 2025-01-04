@@ -31,13 +31,34 @@ const menu = [
   },
   {
     id: 3,
-    path: "/user",
-    name: "人员管理",
+    name: "用户管理",
     Ename: "User",
     icon: IconMenu,
     meta: {
-      title: "人员管理",
+      title: "用户管理",
     },
+    children: [
+      {
+        id: 31,
+        path: "/student",
+        name: "学生管理",
+        Ename: "Student Management",
+        icon: House,
+        meta: {
+          title: "学生管理",
+        },
+      },
+      {
+        id: 32,
+        path: "/teacher",
+        name: "教师管理",
+        Ename: "Teacher Management",
+        icon: House,
+        meta: {
+          title: "教师管理",
+        },
+      },
+    ],
   },
   {
     id: 4,
