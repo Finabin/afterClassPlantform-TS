@@ -1,94 +1,141 @@
 <template>
-  <el-main>
-    <div>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>文件管理</el-breadcrumb-item>
-      </el-breadcrumb>
+  <el-main class="incomepage-view">
+    <div class="incomepage-header">
+      收入管理
     </div>
-    <div>
-      <div>
-        <div>我的收入</div>
-        <div><span>￥</span>1500</div>
-      </div>
-      <div>
-        <div>
-          <div>我的余额</div>
-          <div><span>￥</span>1500</div>
+    <div class="incomepage-main">
+      <div class="incomepage-income-data">
+        <div class="incomepage-income-data-myincome">
+          <div class="incomepage-income-data-display">
+            <div class="incomepage-income-data-title">我的收入</div>
+            <div class="incomepage-income-data-money">￥{{ incomePageData.personalIncomeData.income }}</div>
+          </div>
+          <div class="incomepage-income-data-symbol">
+            <span>￥</span>
+          </div>
         </div>
-        <div>去提现</div>
+        <div class="incomepage-income-data-mybalance">
+          <div class="incomepage-income-data-display">
+            <div class="incomepage-income-data-title">我的余额</div>
+            <div class="incomepage-income-data-money">￥{{ incomePageData.personalIncomeData.balance }}</div>
+          </div>
+          <div class="incomepage-income-data-symbol">
+            <span>￥</span>
+          </div>
+          <div class="incomepage-income-data-button">
+            <el-button type="primary"
+              style="width: 120px; height: 75px; background: #FF9900; color: #fff; border-radius: 10px; font-size: 18px;">去提现</el-button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div>
-      <div>
-        <input type="text" v-model="search_course_name" placeholder="用户名" />
-        <input type="text" v-model="search_order_number" placeholder="老师" />
-        <el-select v-model="search_order_state" placeholder="选择订单状态" size="large" style="width: 240px">
-          <el-option v-for="item in orderState" :key="item.value" :label="item.label" :value="item.value" />
+      <div class="incomepage-search">
+        <el-input type="text" v-model="search_nickName" placeholder="用户名"
+          style="width: 180px; height: 40px; margin-right: 20px" />
+        <el-input type="text" v-model="search_teacherName" placeholder="老师"
+          style="width: 180px; height: 40px; margin-right: 20px" />
+        <el-select v-model="search_processType" placeholder="处理类型" size="large"
+          style="width: 240px; margin-right: 20px">
+          <el-option v-for="item in searchProcessTypeOptions" :key="item.value" :label="item.label"
+            :value="item.value" />
         </el-select>
-        <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" />
-        <button>搜索</button>
+        <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" value-format="YYYY-MM-DD" />
+        <button @click="search">搜索</button>
       </div>
-    </div>
-    <div>
-      <el-table :data="tableData" style="width: 100%" max-height="250">
-        <el-table-column label="序号" type="index" :index="indexMethod" />
-        <el-table-column prop="id" label="课程编号" width="150" />
-        <el-table-column prop="name" label="用户名" width="120" />
-        <el-table-column prop="state" label="老师" width="120" />
-        <el-table-column prop="city" label="处理类型" width="120" />
-        <el-table-column prop="address" label="处理金额" width="200" />
-        <el-table-column prop="address" label="处理前金额" width="200" />
-        <el-table-column prop="address" label="处理后金额" width="200" />
-        <el-table-column prop="zip" label="申请时间" width="120" />
-      </el-table>
+      <div class="incomepage-result">
+        <el-table :data="tableData" style="width: 100%;">
+          <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
+          <el-table-column prop="id" label="编号" width="150" v-if="false" />
+          <el-table-column prop="nickName" label="用户名" width="150" />
+          <el-table-column prop="teacherName" label="老师" width="120" />
+          <el-table-column prop="processType" label="处理类型" width="150">
+            <template #default="scope">
+              <span v-if="scope.row.processType === 1" style="color: orange;">提现</span>
+              <span v-else style="color: aqua;">收入</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="money" label="处理金额" width="100">
+            <template #default="scope">
+              <span v-if="scope.row.processType === 1" style="color: orange;">{{ scope.row.money }}</span>
+              <span v-else style="color: aqua;">{{ scope.row.money }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="moneyBefore" label="处理前金额" width="100" />
+          <el-table-column prop="applicteTime" label="申请时间" width="180" />
+        </el-table>
+      </div>
+      <div>
+        <el-pagination background layout="prev, pager, next,sizes" :total="tableData.length" :page-sizes="[5, 15, 30]"
+          v-model="pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          @prev-click="handlePrevClick" @next-click="handleNextClick" />
+      </div>
     </div>
   </el-main>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
-import { orderState } from '@/mocks/orderData'
+import { ElMessage } from 'element-plus'
+import { searchProcessTypeOptions } from '../static/incomePageData'
+import { incomePageData } from '../mocks/incomePage'
 
-const now = new Date()
-const search_date = ref(dayjs(now).format('YYYY-MM-DD'))
-const search_course_name = ref('')
-const search_order_number = ref('')
-const search_order_state = ref('')
+interface IncomePageData {
+  id: number
+  nickName: string
+  teacherName: number
+  processType: number,
+  money: number,
+  moneyBefore: number,
+  applicteTime: string,
+}
 
-const tableData = ref([
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-])
+const search_date = ref('')
+const search_processType = ref('')
+const search_nickName = ref('')
+const search_teacherName = ref('')
+const tableData = ref<Array<IncomePageData>>([])
+const pageSize = ref(5)
+
+onMounted(() => {
+  tableData.value = incomePageData.incomeDataList
+})
+
+const handleSizeChange = (val: number) => {
+  pageSize.value = val
+}
+
+const handleCurrentChange = (val: number) => {
+  console.log(`当前页: ${val}`)
+}
+
+const handlePrevClick = (val: number) => {
+  console.log(`上一页: ${val}`)
+}
+
+const handleNextClick = (val: number) => {
+  console.log(`下一页: ${val}`)
+}
 
 const indexMethod = (index: number) => {
   return index++
 }
 
-const downloadFile = (id: number) => {
-  console.log(id)
+const search = () => {
+  if (search_date.value === "" && search_processType.value === "" && search_nickName.value === "" && search_teacherName.value === "") {
+    ElMessage.warning('请输入搜索条件!')
+    return
+  }
+  let data = {
+    processType: search_processType.value,
+    nickName: search_course.value,
+    applicteTime: search_date.value,
+    teacherName: search_teacherName.value,
+  }
+  console.log(data);
 }
 
 </script>
+
+<style>
+@import url('../assets/css/views/incomePage.css');
+</style>

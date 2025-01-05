@@ -1,86 +1,113 @@
 <template>
-  <el-main>
-    <div>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item>文件管理</el-breadcrumb-item>
-      </el-breadcrumb>
+  <el-main class="filepage-view">
+    <div class="filepage-header">
+      文件管理
     </div>
-    <div>
-      <div>
-        <input type="text" v-model="search_course_name" placeholder="课程名称" />
-        <input type="text" v-model="search_order_number" placeholder="课程小节" />
-        <el-select v-model="search_order_state" placeholder="选择订单状态" size="large" style="width: 240px">
-          <el-option v-for="item in orderState" :key="item.value" :label="item.label" :value="item.value" />
-        </el-select>
-        <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" />
-        <button>搜索</button>
+    <div class="filepage-main">
+      <div class="filepage-search">
+        <el-input type="text" v-model="search_course" placeholder="课程名称"
+          style="width: 180px; height: 40px; margin-right: 20px" />
+        <el-input type="text" v-model="search_courseSection" placeholder="课程小节"
+          style="width: 180px; height: 40px; margin-right: 20px" />
+        <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" value-format="YYYY-MM-DD" />
+        <button @click="search">搜索</button>
       </div>
-    </div>
-    <div>
-      <el-table :data="tableData" style="width: 100%" max-height="250">
-        <el-table-column label="序号" type="index" :index="indexMethod" />
-        <el-table-column prop="id" label="课程编号" width="150" />
-        <el-table-column prop="name" label="课程名称" width="120" />
-        <el-table-column prop="state" label="课程小节" width="120" />
-        <el-table-column prop="city" label="老师" width="120" />
-        <el-table-column prop="address" label="课程文件" width="200">
-          <template #default="scope">
-            <el-button link type="primary" size="small" @click="downloadFile(scope.row.id)">
-              点我下载
-            </el-button>
-          </template>
-        </el-table-column>
-        <el-table-column prop="zip" label="文件大小" width="120" />
-        <el-table-column prop="zip" label="开课时间" width="120" />
-      </el-table>
+      <div class="filepage-result">
+        <el-table :data="tableData" style="width: 100%;">
+          <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
+          <el-table-column prop="id" label="编号" width="150" v-if="false" />
+          <el-table-column prop="courseName" label="课程名称" width="150" />
+          <el-table-column prop="courseSection" label="课程小节" width="150" />
+          <el-table-column prop="teacherName" label="老师" width="120" />
+          <el-table-column prop="courseFile" label="课程文件" width="100">
+            <template #default="scope">
+              <span @click="downloadFile(scope.row)" style="color: blue; cursor: pointer;">点我下载</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="fileSize" label="文件大小" width="100">
+            <template #default="scope">
+              <span>{{ scope.row.fileSize }}MB</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="beginTime" label="开课时间" width="180" />
+        </el-table>
+      </div>
+      <div>
+        <el-pagination background layout="prev, pager, next,sizes" :total="tableData.length" :page-sizes="[5, 15, 30]"
+          v-model="pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          @prev-click="handlePrevClick" @next-click="handleNextClick" />
+      </div>
     </div>
   </el-main>
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
-import { orderState } from '@/mocks/orderData'
+import { ElMessage } from 'element-plus'
+import { filePageData } from '../mocks/filePage'
 
-const now = new Date()
-const search_date = ref(dayjs(now).format('YYYY-MM-DD'))
-const search_course_name = ref('')
-const search_order_number = ref('')
-const search_order_state = ref('')
+interface FilePageData {
+  id: number
+  status: number
+  courseName: string
+  teacherName: number
+  courseSection: string,
+  courseFile: string,
+  beginTime: string,
+  fileSize: number,
+}
 
-const tableData = ref([
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    state: 'California',
-    city: 'Los Angeles',
-    address: 'No. 189, Grove St, Los Angeles',
-    zip: 'CA 90036',
-  },
-])
+const search_date = ref('')
+const search_courseSection = ref('')
+const search_course = ref('')
+const tableData = ref<Array<FilePageData>>([])
+const pageSize = ref(5)
+
+onMounted(() => {
+  tableData.value = filePageData
+})
+
+const handleSizeChange = (val: number) => {
+  pageSize.value = val
+}
+
+const handleCurrentChange = (val: number) => {
+  console.log(`当前页: ${val}`)
+}
+
+const handlePrevClick = (val: number) => {
+  console.log(`上一页: ${val}`)
+}
+
+const handleNextClick = (val: number) => {
+  console.log(`下一页: ${val}`)
+}
 
 const indexMethod = (index: number) => {
   return index++
 }
 
-const downloadFile = (id: number) => {
-  console.log(id)
+const search = () => {
+  if (search_date.value === "" && search_courseSection.value === "" && search_course.value === "") {
+    ElMessage.warning('请输入搜索条件!')
+    return
+  }
+  let data = {
+    courseSection: search_courseSection.value,
+    courseName: search_course.value,
+    beginTime: search_date.value,
+  }
+  console.log(data);
+}
+
+const downloadFile = (row: FilePageData) => {
+  console.log(row.courseFile);
+  ElMessage.success('下载成功!')
 }
 
 </script>
+
+<style>
+@import url('../assets/css/views/filePage.css');
+</style>

@@ -36,7 +36,7 @@
           <el-table-column prop="subject" label="科目" width="100" />
           <el-table-column prop="takePercent" label="抽成比" width="100">
             <template #default="scope">
-              <span style="color: aqua;">{{ scope.row.takePercent }}</span>
+              <span style="color: aqua;">{{ scope.row.takePercent }}%</span>
             </template>
           </el-table-column>
           <el-table-column prop="totalIncome" label="总收入" width="150">
@@ -48,7 +48,7 @@
           <el-table-column prop="createTime" label="创建时间" width="250" />
           <el-table-column fixed="right" label="操作" min-width="120">
             <template #default="scope">
-              <el-button link type="primary" size="small" @click="handleEdit(scope.row.id)">修改</el-button>
+              <el-button link type="primary" size="small" @click="handleEdit(scope.row)">修改</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -60,6 +60,31 @@
       </div>
     </div>
   </el-main>
+
+  <el-dialog v-model="teacherInfoDialogVisible" title="修改" width="500" align-center>
+    <div class="teacherpage-dialog-row">
+      <span class="teacherpage-dialog-span-require">*</span>
+      <span class="teacherpage-dialog-span-text">抽成比：</span>
+      <el-input v-model="teacherInfo.takePercent" placeholder="请输入" style="width: 120px;" />
+      <span class="teacherpage-dialog-span-symbol">%</span>
+    </div>
+    <div class="teacherpage-dialog-row">
+      <span class="teacherpage-dialog-span-require">*</span>
+      <span class="teacherpage-dialog-span-text">账号状态：</span>
+      <el-radio-group v-model="teacherInfo.status">
+        <el-radio value="1">启用</el-radio>
+        <el-radio value="0">禁用</el-radio>
+      </el-radio-group>
+    </div>
+    <template #footer>
+      <div class="teacherpage-dialog-footer">
+        <el-button @click="teacherInfoDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="teacherInfoDialogVisible = false">
+          确定
+        </el-button>
+      </div>
+    </template>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -83,13 +108,20 @@ const search_status = ref('')
 const search_name_phone = ref('')
 const tableData = ref<Array<TeacherPageData>>([])
 const pageSize = ref(5)
+const teacherInfo = ref({
+  takePercent: "",
+  status: ""
+})
+const teacherInfoDialogVisible = ref(false)
 
 onMounted(() => {
   tableData.value = teacherPageData
 })
 
-const handleEdit = (id: number) => {
-  console.log(id);
+const handleEdit = (row: TeacherPageData) => {
+  row.status = row.status.toString()
+  teacherInfoDialogVisible.value = true
+  teacherInfo.value = row
 }
 
 const handleSizeChange = (val: number) => {
@@ -114,17 +146,21 @@ const indexMethod = (index: number) => {
 
 const search = () => {
   const regex = /^1[3-9]\d{9}$/
-  if (search_date.value === "" && search_name_phone.value === "") {
+  if (search_date.value === "" && search_name_phone.value === "" && search_status.value === "") {
     ElMessage.warning('请输入搜索条件!')
     return
   }
   let data = {
     nickName: "",
     phone: "",
+    status: "",
     registerTime: ""
   }
   if (search_date.value !== "") {
     data.registerTime = search_date.value
+  }
+  if (search_status.value !== "") {
+    data.status = search_status.value
   }
   if (search_name_phone.value !== "" && regex.test(search_name_phone.value)) {
     data.registerTime = search_date.value
