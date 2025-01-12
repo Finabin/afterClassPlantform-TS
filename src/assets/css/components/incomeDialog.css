@@ -1,0 +1,15 @@
+.incomepage-dialog-row {
+  margin: 20px 0;
+}
+.incomepage-dialog-row .incomepage-dialog-span-require {
+  color: red;
+}
+.incomepage-dialog-row .incomepage-dialog-span-symbol {
+  margin: 0 10px;
+}
+.incomepage-dialog-row .incomepage-dialog-footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}

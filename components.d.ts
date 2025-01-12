@@ -37,6 +37,7 @@ declare module 'vue' {
     ElSwitch: typeof import('element-plus/es')['ElSwitch']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    IncomeDialog: typeof import('./src/components/IncomeDialog.vue')['default']
     LogOutPopUp: typeof import('./src/components/LogOutPopUp.vue')['default']
     MainFilterListItem: typeof import('./src/components/MainFilterListItem.vue')['default']
     MainPagePopUp: typeof import('./src/components/MainPagePopUp.vue')['default']

@@ -23,7 +23,7 @@
             <span>￥</span>
           </div>
           <div class="incomepage-income-data-button">
-            <el-button type="primary"
+            <el-button type="primary" @click="IncomeDialogVisible = true"
               style="width: 120px; height: 75px; background: #FF9900; color: #fff; border-radius: 10px; font-size: 18px;">去提现</el-button>
           </div>
         </div>
@@ -42,25 +42,26 @@
         <button @click="search">搜索</button>
       </div>
       <div class="incomepage-result">
-        <el-table :data="tableData" style="width: 100%;">
-          <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
+        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+          :header-cell-style="headerCellStyle" border>
+          <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />
           <el-table-column prop="id" label="编号" width="150" v-if="false" />
-          <el-table-column prop="nickName" label="用户名" width="150" />
-          <el-table-column prop="teacherName" label="老师" width="120" />
+          <el-table-column prop="nickName" label="用户名" width="250" />
+          <el-table-column prop="teacherName" label="老师" width="200" />
           <el-table-column prop="processType" label="处理类型" width="150">
             <template #default="scope">
               <span v-if="scope.row.processType === 1" style="color: orange;">提现</span>
               <span v-else style="color: aqua;">收入</span>
             </template>
           </el-table-column>
-          <el-table-column prop="money" label="处理金额" width="100">
+          <el-table-column prop="money" label="处理金额" width="160">
             <template #default="scope">
               <span v-if="scope.row.processType === 1" style="color: orange;">{{ scope.row.money }}</span>
               <span v-else style="color: aqua;">{{ scope.row.money }}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="moneyBefore" label="处理前金额" width="100" />
-          <el-table-column prop="applicteTime" label="申请时间" width="180" />
+          <el-table-column prop="moneyBefore" label="处理前金额" width="160" />
+          <el-table-column prop="applicteTime" label="申请时间" width="300" />
         </el-table>
       </div>
       <div>
@@ -69,6 +70,9 @@
           @prev-click="handlePrevClick" @next-click="handleNextClick" />
       </div>
     </div>
+
+    <IncomeDialog v-if="IncomeDialogVisible" :IncomeDialogVisible="IncomeDialogVisible"
+      @custom-event="handleIncomeDialogVisibleChange" />
   </el-main>
 </template>
 
@@ -76,8 +80,14 @@
 import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
-import { searchProcessTypeOptions } from '../static/incomePageData'
+import {
+  searchProcessTypeOptions, rowStyle,
+  cellStyle,
+  headerRowStyle,
+  headerCellStyle,
+} from '../static/incomePageData'
 import { incomePageData } from '../mocks/incomePage'
+import IncomeDialog from '../components/IncomeDialog.vue'
 
 interface IncomePageData {
   id: number
@@ -95,10 +105,16 @@ const search_nickName = ref('')
 const search_teacherName = ref('')
 const tableData = ref<Array<IncomePageData>>([])
 const pageSize = ref(5)
+const IncomeDialogVisible = ref(false)
+
 
 onMounted(() => {
   tableData.value = incomePageData.incomeDataList
 })
+
+const handleIncomeDialogVisibleChange = (visible: boolean) => {
+  IncomeDialogVisible.value = visible
+}
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
@@ -133,6 +149,7 @@ const search = () => {
   }
   console.log(data);
 }
+
 
 </script>
 
