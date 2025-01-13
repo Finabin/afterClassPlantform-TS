@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MainPagePopUp />
+    <!-- <MainPagePopUp /> -->
     <LogOutPopUp v-if="logOutPopUpVisible" :popUpClosed="logOutPopUpVisible"
       @custom-event="handleLogOutVisibleChange" />
     <UpdatePasswordPopUp v-if="updatePasswordPopUpVisible" />

@@ -1,122 +1,100 @@
-@page-width: 100vw;
-@page-height: 100vh;
-@max-fontSize: 24px;
-@min-fontSize: 14px;
-@normal-fontSize: 18px;
+.mainpage-view {
+  // width: 100%;
+  // height: 100vh;
+  background-color: #f5f5f5;
+  margin: 20px;
+}
+
+.mainpage-header {
+  border: 1px solid #ccc;
+  height: 50px;
+  line-height: 50px;
+  background-color: #fff;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 0 20px;
+  margin: 20px;
+}
 
 .mainpage-main {
-  width: @page-width * 0.87;
-  height: @page-height * 0.92;
-  // display: flex;
-  // flex-direction: column;
-  // align-items: center;
-  background-color: #ccc;
-}
-
-.mainpage-title {
-  width: @page-width*0.80;
-  height: @page-height*0.1;
-  border: 1px solid #ccc;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  margin: @page-height*0.01 @page-width*0.01;
+  margin: 20px 15px;
   background-color: #fff;
-  font-size: 1.5em;
-  padding-left: @page-width*0.03;
-}
+  border: 1px solid #f5f5f5;
+  border-radius: 10px;
+  padding: 20px;
 
-.mainpage-search {
-  width: @page-width*0.83;
-  height: @page-height*0.8;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  margin: @page-height*0.01 @page-width*0.01;
+  .mainpage-selectarea-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 
-  .mainpage-seleArea {
-    width: @page-width*0.85;
-    height: @page-height*0.25;
-    border: 1px solid #ccc;
-
-    .mainpage-seleArea-row {
+    .mainpage-selectarea-single {
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
+      width: 400px;
+      height: 38px;
       align-items: center;
-      height: @page-height*0.08;
-      width: @page-width*0.85;
+      margin-right: 20px;
 
-      .mainpage-seleArea-item-title {
-        font-size: 1em;
-        margin-right: @page-width*0.01;
-        border: 1px solid #ccc;
-        padding: @page-height * 0.01 @page-width * 0.01;
-      }
-
-      .mainpage-seleArea-row-item {
-        width: @page-width*0.15;
-        height: @page-height*0.08;
-        border: 1px solid #ccc;
-        justify-content: space-around;
+      .mainpage-selectarea-single-title {
+        width: 100px;
+        height: 38px;
+        margin-right: 10px;
+        border: 1px solid #000;
+        // padding: 8px 15px;
         align-items: center;
+        display: flex;
+        justify-content: center;
       }
 
-      .mainpage-search-btn {
-        margin: 0 @page-width*0.021;
-        width: 10vw;
+      .mainpage-selectarea-single-button-search {
+        width: 155px;
+        height: 38px;
+        margin-right: 25px;
+      }
+
+      .mainpage-selectarea-single-button-reset {
+        width: 155px;
+        height: 38px;
+        margin-right: 25px;
       }
     }
   }
 
-  .mainpage-table-title {
-    width: @page-width*0.075;
-    margin: 0 @page-width*0.02;
-    padding: @page-height*0.01 @page-width*0.02;
-    border: 1px solid #ccc;
-    background: #ccc;
-    font-size: 1.5em;
-    text-align: center;
-    color: orange;
+  .mainpage-recommend {
+    margin-top: 20px;
+    border: 1px solid #000;
+    padding: 20px;
+  }
+
+  .mainpage-bestselling-label {
+    width: 150px;
+    height: 38px;
+    margin-top: 20px;
+    background-color: #ccc;
+    padding: 20px 100px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: #fff;
+    font-size: 32px;
     font-weight: bold;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 35%;
   }
 
-  .mainpage-table {
-    width: @page-width*0.8;
-    margin: 0 @page-width*0.02;
+  .mainpage-bestselling {
     border: 1px solid #ccc;
+    padding: 20px;
+    background-color: #ccc;
   }
 }
 
-.mainpage-label {
-  color: #fff;
-  padding: 2px 8px;
-  border-radius: 20px;
-  margin-left: 4px;
-}
-
-.mainpage-label-985 {
-  background: red;
-  border: 1px solid red;
-}
-
-.mainpage-label-211 {
-  background: skyblue;
-  border: 1px solid skyblue;
-}
-
-.mainpage-label-df {
-  background: greenyellow;
-  border: 1px solid greenyellow;
-}
-
-.mainpage-label-qs50 {
-  background: purple;
-  border: 1px solid purple;
-}
-
-.mainpage-label-qs100 {
-  background: orange;
-  border: 1px solid orange;
+.mainpage-result {
+  margin-top: 20px;
+  background-color: #fff;
 }

@@ -29,7 +29,6 @@ const routes = [
       {
         path: "/user",
         name: "用户管理",
-        // component: () => import("@/views/TeacherPage.vue"),
         redirect: "/teacher",
         children: [
           {
@@ -47,7 +46,6 @@ const routes = [
       {
         path: "/course",
         name: "课程管理",
-        // component: () => import("@/views/CoursePage.vue"),
         redirect: "/courseList",
         children: [
           {
@@ -64,6 +62,11 @@ const routes = [
             path: "/course/edit",
             name: "编辑课程",
             component: () => import("@/views/EditCoursePage.vue"),
+          },
+          {
+            path: "/course/detail",
+            name: "课程详情",
+            component: () => import("@/views/CourseDetailPage.vue"),
           },
         ],
       },
