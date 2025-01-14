@@ -1,10 +1,10 @@
 <template>
-  <el-main class="teacherpage-view">
-    <div class="teacherpage-header">
+  <el-main class="coursepage-view">
+    <div class="coursepage-header">
       课程管理
     </div>
-    <div class="teacherpage-main">
-      <div class="teacherpage-search">
+    <div class="coursepage-main">
+      <div class="coursepage-search">
         <el-input type="text" v-model="search_name_phone" placeholder="姓名或手机号"
           style="width: 240px; height: 40px; margin-right: 20px" />
         <el-select v-model="search_status" placeholder="课程状态" size="large" style="width: 240px; margin-right: 20px">
@@ -19,8 +19,9 @@
         <button @click="search">搜索</button>
         <button @click="addCourse">增加</button>
       </div>
-      <div class="teacherpage-result">
-        <el-table :data="tableData" style="width: 100%; margin: 20px;">
+      <div class="coursepage-result">
+        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+          :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
           <el-table-column prop="id" label="课程编号" width="150" v-if="false" />
           <el-table-column prop="courseName" label="课程名称" width="150" />
@@ -62,17 +63,17 @@
   </el-main>
 
   <el-dialog v-model="courseInfoDialogVisible" title="修改" width="500" align-center>
-    <div class="teacherpage-dialog-row">
-      <span class="teacherpage-dialog-span-require">*</span>
-      <span class="teacherpage-dialog-span-text">展示状态：</span>
+    <div class="coursepage-dialog-row">
+      <span class="coursepage-dialog-span-require">*</span>
+      <span class="coursepage-dialog-span-text">展示状态：</span>
       <el-radio-group v-model="teacherInfo.status">
         <el-radio value="1">已上架</el-radio>
         <el-radio value="0">已下架</el-radio>
       </el-radio-group>
     </div>
-    <div class="teacherpage-dialog-row">
-      <span class="teacherpage-dialog-span-require">*</span>
-      <span class="teacherpage-dialog-span-text">课程状态：</span>
+    <div class="coursepage-dialog-row">
+      <span class="coursepage-dialog-span-require">*</span>
+      <span class="coursepage-dialog-span-text">课程状态：</span>
       <el-radio-group v-model="teacherInfo.status">
         <el-radio value="0">未开课</el-radio>
         <el-radio value="1">开课中</el-radio>
@@ -80,7 +81,7 @@
       </el-radio-group>
     </div>
     <template #footer>
-      <div class="teacherpage-dialog-footer">
+      <div class="coursepage-dialog-footer">
         <el-button @click="teacherInfoDialogVisible = false">取消</el-button>
         <el-button type="primary" @click="teacherInfoDialogVisible = false">
           确定
@@ -92,8 +93,15 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
+import {
+  rowStyle,
+  cellStyle,
+  headerRowStyle,
+  headerCellStyle,
+} from '../public/tableStyle'
 import { courseStatusOptions, courseClassificationOptions } from '../static/coursePageData'
 import { coursePageData } from '../mocks/coursePage'
 
@@ -111,6 +119,8 @@ interface CoursePageData {
   beginTime: string
   createTime: string
 }
+
+const router = new useRouter()
 
 const search_date = ref('')
 const search_status = ref('')
@@ -171,11 +181,11 @@ const search = () => {
 }
 
 const addCourse = function () {
-  console.log('addCourse');
+  router.push('/course/add')
 }
 
 </script>
 
 <style>
-@import url('../assets/css/views/teacherPage.css');
+@import url('../assets/css/views/coursePage.css');
 </style>

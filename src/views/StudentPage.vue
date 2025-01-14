@@ -11,14 +11,15 @@
         <button @click="search">搜索</button>
       </div>
       <div class="studentpage-result">
-        <el-table :data="tableData" style="width: 100%; margin: 20px;" header-align="center">
-          <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
+        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+          :header-cell-style="headerCellStyle" border>
+          <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />
           <!-- <el-table-column prop="id" label="课程编号" width="150" /> -->
           <el-table-column prop="userName" label="用户名" width="250" />
-          <el-table-column prop="nickName" label="姓名" width="200" />
+          <el-table-column prop="nickName" label="姓名" width="250" />
           <el-table-column prop="phone" label="手机号" width="250" />
-          <el-table-column prop="buyCourseNum" label="已购课程数" width="150" />
-          <el-table-column prop="registerTime" label="注册时间" width="200" />
+          <el-table-column prop="buyCourseNum" label="已购课程数" width="215" />
+          <el-table-column prop="registerTime" label="注册时间" width="250" />
         </el-table>
       </div>
       <div>
@@ -34,6 +35,12 @@
 import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
+import {
+  rowStyle,
+  cellStyle,
+  headerRowStyle,
+  headerCellStyle,
+} from '../public/tableStyle'
 import studentPageData from '../mocks/studentPage'
 
 interface StudentPageData {

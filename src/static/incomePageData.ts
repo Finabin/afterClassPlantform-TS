@@ -13,26 +13,4 @@ const searchProcessTypeOptions = [
   },
 ];
 
-const rowStyle = {
-  height: "40px",
-};
-
-const cellStyle = {
-  "text-align": "center",
-};
-
-const headerRowStyle = {
-  height: "30px",
-};
-
-const headerCellStyle = {
-  "text-align": "center",
-};
-
-export {
-  searchProcessTypeOptions,
-  rowStyle,
-  cellStyle,
-  headerRowStyle,
-  headerCellStyle,
-};
+export { searchProcessTypeOptions };

@@ -14,7 +14,8 @@
         <button @click="search">搜索</button>
       </div>
       <div class="teacherpage-result">
-        <el-table :data="tableData" style="width: 100%; margin: 20px;">
+        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+          :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
           <el-table-column prop="id" label="课程编号" width="150" v-if="false" />
           <el-table-column prop="status" label="状态" width="100">
@@ -92,6 +93,12 @@ import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import { searchStatusOptions } from '../static/teacherPageData'
+import {
+  rowStyle,
+  cellStyle,
+  headerRowStyle,
+  headerCellStyle,
+} from '../public/tableStyle'
 import teacherPageData from '../mocks/teacherPage'
 
 interface TeacherPageData {

@@ -80,12 +80,13 @@
 import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
+import { searchProcessTypeOptions } from '../static/incomePage'
 import {
-  searchProcessTypeOptions, rowStyle,
+  rowStyle,
   cellStyle,
   headerRowStyle,
   headerCellStyle,
-} from '../static/incomePageData'
+} from '../public/tableStyle'
 import { incomePageData } from '../mocks/incomePage'
 import IncomeDialog from '../components/IncomeDialog.vue'
 

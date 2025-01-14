@@ -1,9 +1,9 @@
-.teacherpage-view {
+.coursepage-view {
   height: 100vh;
   background-color: #f5f5f5;
   margin: 20px;
 }
-.teacherpage-header {
+.coursepage-header {
   border: 1px solid #ccc;
   height: 50px;
   line-height: 50px;
@@ -13,20 +13,20 @@
   justify-content: space-between;
   padding: 0 20px;
 }
-.teacherpage-main {
+.coursepage-main {
   margin: 20px 0;
   background-color: #fff;
   border: 1px solid #f5f5f5;
   border-radius: 10px;
   padding: 20px;
 }
-.teacherpage-main button {
+.coursepage-main button {
   margin: 10px;
   width: 150px;
   height: 38px;
   letter-spacing: 3px;
 }
-.teacherpage-result {
+.coursepage-result {
   margin-top: 20px;
   background-color: #fff;
 }

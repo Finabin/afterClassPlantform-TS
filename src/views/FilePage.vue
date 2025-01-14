@@ -13,23 +13,24 @@
         <button @click="search">搜索</button>
       </div>
       <div class="filepage-result">
-        <el-table :data="tableData" style="width: 100%;">
-          <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
+        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+          :header-cell-style="headerCellStyle" border>
+          <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />
           <el-table-column prop="id" label="编号" width="150" v-if="false" />
-          <el-table-column prop="courseName" label="课程名称" width="150" />
-          <el-table-column prop="courseSection" label="课程小节" width="150" />
-          <el-table-column prop="teacherName" label="老师" width="120" />
-          <el-table-column prop="courseFile" label="课程文件" width="100">
+          <el-table-column prop="courseName" label="课程名称" width="250" />
+          <el-table-column prop="courseSection" label="课程小节" width="250" />
+          <el-table-column prop="teacherName" label="老师" width="150" />
+          <el-table-column prop="courseFile" label="课程文件" width="150">
             <template #default="scope">
               <span @click="downloadFile(scope.row)" style="color: blue; cursor: pointer;">点我下载</span>
             </template>
           </el-table-column>
-          <el-table-column prop="fileSize" label="文件大小" width="100">
+          <el-table-column prop="fileSize" label="文件大小" width="150">
             <template #default="scope">
               <span>{{ scope.row.fileSize }}MB</span>
             </template>
           </el-table-column>
-          <el-table-column prop="beginTime" label="开课时间" width="180" />
+          <el-table-column prop="beginTime" label="开课时间" width="265" />
         </el-table>
       </div>
       <div>
@@ -45,6 +46,12 @@
 import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
+import {
+  rowStyle,
+  cellStyle,
+  headerRowStyle,
+  headerCellStyle,
+} from '../public/tableStyle'
 import { filePageData } from '../mocks/filePage'
 
 interface FilePageData {

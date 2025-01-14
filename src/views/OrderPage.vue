@@ -18,7 +18,8 @@
         <button @click="search">搜索</button>
       </div>
       <div class="orderpage-result">
-        <el-table :data="tableData" style="width: 100%;">
+        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+          :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
           <el-table-column prop="id" label="编号" width="150" v-if="false" />
           <el-table-column prop="orderNo" label="订单编号" width="180" />
@@ -52,6 +53,12 @@ import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import { orderState } from '../static/orderPageData'
+import {
+  rowStyle,
+  cellStyle,
+  headerRowStyle,
+  headerCellStyle,
+} from '../public/tableStyle'
 import { orderPageData } from '../mocks/orderPage'
 
 interface OrderPageData {
