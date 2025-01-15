@@ -1,23 +1,23 @@
 <template>
   <div>
-    <!-- <MainPagePopUp /> -->
+    <MainPagePopUp :mainpageDialogVisible="mainpageDialogVisible" />
     <LogOutPopUp v-if="logOutPopUpVisible" :popUpClosed="logOutPopUpVisible"
       @custom-event="handleLogOutVisibleChange" />
-    <UpdatePasswordPopUp v-if="updatePasswordPopUpVisible" />
+    <UpdatePasswordPopUp v-if="updatePasswordPopUpVisible" :popUpClosed="updatePasswordPopUpVisible"
+      @custom-event="handleUpdatePwdVisibleChange" />
   </div>
   <el-container class="layout-container-demo" style="height: 500px">
-
     <el-header style="display: flex; justify-content: space-between; align-items: center">
       <span>{{ $t('system.logo') }}</span>
       <div class="toolbar">
-        <el-switch v-model="i18nSwitch" @change="changeLanguage" size="large">
+        <!-- <el-switch v-model="i18nSwitch" @change="changeLanguage" size="large">
           <template #active-action>
             <span class="custom-active-action">CN</span>
           </template>
-          <template #inactive-action>
+<template #inactive-action>
             <span class="custom-inactive-action">EN</span>
           </template>
-        </el-switch>
+</el-switch> -->
         <el-avatar :size="50" :src="circleUrl" class="homepage-avatar" />
         <el-dropdown>
           <span class="homepage-nickname">{{ $t('system.username') }},{{ nickname }}</span>
@@ -34,7 +34,7 @@
     </el-header>
 
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="200px" style="background-color: #fff;">
         <el-scrollbar>
           <el-menu :router="true" :default-active="curRoute">
             <template v-for="(item, index) in menu" :key="index">
@@ -95,6 +95,7 @@ const nickname = 'admin'
 const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 const logOutPopUpVisible = ref(false)
 const updatePasswordPopUpVisible = ref(false)
+const mainpageDialogVisible = ref(true)
 
 
 const changeRoute = (path: string) => {
@@ -118,12 +119,11 @@ const handleLogOutVisibleChange = (visible: boolean) => {
   logOutPopUpVisible.value = visible
 }
 
-const item = {
-  date: '2016-05-02',
-  name: 'Tom',
-  address: 'No. 189, Grove St, Los Angeles',
+const handleUpdatePwdVisibleChange = (visible: boolean) => {
+  updatePasswordPopUpVisible.value = visible
 }
-const tableData = ref(Array.from({ length: 20 }).fill(item))
+
+
 </script>
 
 <style lang="less" scoped>

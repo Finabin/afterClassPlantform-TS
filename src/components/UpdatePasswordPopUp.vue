@@ -1,53 +1,67 @@
 <template>
-  <div class="overlay" v-if="popUpClosed === false">
-    <div class="updatepassword-popup">
-      <div class="updatepassword-popup-header">
-        <span class="updatepassword-popup-header-title">修改密码</span>
-        <span @click="popUpClosed = true"><el-icon>
-            <Close />
-          </el-icon></span>
-      </div>
-      <div class="updatepassword-popup-main">
-        <div>
-          <span>账号:</span>
-          <el-input v-model="nickName" disabled />
+  <div class="updatepwd-popup">
+    <el-dialog v-model="popUpClosed" title="修改密码" width="500" align-center>
+      <div class="updatepwd-popup-content">
+        <div class="updatepwd-popup-content-single">
+          <div class="updatepwd-popup-content-single-label">
+            <span class="updatepwd-popup-content-single-title">账号：</span>
+          </div>
+          <el-input v-model="nickName" style="width: 240px" disabled />
         </div>
-        <div>
-          <span>新密码:</span>
-          <el-input v-model="newPassword" placeholder="请输入新密码" class="updatepassword-popup-main-input" show-password />
+        <div class="updatepwd-popup-content-single">
+          <div class="updatepwd-popup-content-single-label">
+            <span class="updatepwd-popup-content-single-require">*</span>
+            <span class="updatepwd-popup-content-single-title">新密码：</span>
+          </div>
+          <el-input v-model="newPassword" style="width: 240px" type="password" placeholder="这是新密码" show-password />
         </div>
-        <div>
-          <span>确认密码:</span>
-          <el-input v-model="confirmPassword" placeholder="请再次输入新密码" class="updatepassword-popup-main-input"
-            show-password />
+        <div class="updatepwd-popup-content-single">
+          <div class="updatepwd-popup-content-single-label">
+            <span class="updatepwd-popup-content-single-require">*</span>
+            <span class="updatepwd-popup-content-single-title">确认密码：</span>
+          </div>
+          <el-input v-model="confirmPassword" style="width: 240px" type="password" placeholder="这是确认密码" show-password />
         </div>
       </div>
-      <div class="updatepassword-popup-footer">
-        <button class="updatepassword-popup-footer-cancel" @click="popUpClosed = true">取消</button>
-        <button class="updatepassword-popup-footer-confirm" @click="updatePassword">确认</button>
-      </div>
-    </div>
+      <template #footer>
+        <div class="updatepwd-popup-footer">
+          <el-button @click="emitEvent">取消</el-button>
+          <el-button type="primary" @click="updatePassword">
+            确定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { Close } from '@element-plus/icons-vue'
 
-const router = useRouter();
+const props = defineProps({
+  popUpClosed: {
+    type: Boolean,
+    required: true
+  }
+});
+const emit = defineEmits(['custom-event']);
 
-
-const popUpClosed = ref(false);
+const popUpClosed = ref(props.popUpClosed);
 const nickName = ref('');
 const newPassword = ref('');
 const confirmPassword = ref('');
 
+function emitEvent() {
+  popUpClosed.value = false;
+  emit('custom-event', false);
+}
+
 const updatePassword = () => {
-  popUpClosed.value = true
+  popUpClosed.value = false
+  emit('custom-event', false);
 }
 </script>
 
 <style lang="less" scoped>
-@import url('../assets/css/components/updatePasswordPopUp.less');
+@import url('../assets/css/components/updatePwdPopUp.css');
 </style>

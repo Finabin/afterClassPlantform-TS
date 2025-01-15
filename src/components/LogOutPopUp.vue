@@ -1,20 +1,18 @@
 <template>
-  <div class="overlay" v-if="popUpClosed === false">
-    <div class="logout-popup">
-      <div class="logout-popup-header">
-        <span class="logout-popup-header-title">退出登录</span>
-        <span @click="popUpClosed = true"><el-icon>
-            <Close />
-          </el-icon></span>
+  <div class="logout-popup">
+    <el-dialog v-model="popUpClosed" title="退出登录" width="500" align-center>
+      <div class="logout-popup-content">
+        <span>确认退出登录？</span>
       </div>
-      <div class="logout-popup-main">
-        确认退出登录?
-      </div>
-      <div class="logout-popup-footer">
-        <button class="logout-popup-footer-cancel" @click="emitEvent">取消</button>
-        <button class="logout-popup-footer-confirm" @click="logOut">确认</button>
-      </div>
-    </div>
+      <template #footer>
+        <div class="logout-popup-footer">
+          <el-button @click="emitEvent">取消</el-button>
+          <el-button type="primary" @click="logOut">
+            确定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -32,22 +30,22 @@ const props = defineProps({
   }
 });
 
+const popUpClosed = ref(props.popUpClosed);
 const emit = defineEmits(['custom-event']);
 
 function emitEvent() {
-  emit('custom-event', popUpClosed.value);
+  popUpClosed.value = false;
+  emit('custom-event', false);
 }
-
-const popUpClosed = ref(props.popUpClosed);
 
 const logOut = () => {
   localStorage.removeItem('token')
   router.push('/login')
-  popUpClosed.value = true
-  emit('custom-event', popUpClosed.value);
+  popUpClosed.value = false;
+  emit('custom-event', false);
 }
 </script>
 
 <style lang="less" scoped>
-@import url('../assets/css/components/logOutPopUp.less');
+@import url('../assets/css/components/logOutPopUp.css');
 </style>

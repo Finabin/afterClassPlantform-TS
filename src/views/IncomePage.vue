@@ -80,7 +80,7 @@
 import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
-import { searchProcessTypeOptions } from '../static/incomePage'
+import { searchProcessTypeOptions } from '../static/incomePageData'
 import {
   rowStyle,
   cellStyle,
