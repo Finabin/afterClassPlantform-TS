@@ -98,11 +98,6 @@ const routes = [
     name: "Error",
     component: () => import("@/pages/Error.vue"),
   },
-  {
-    path: "/test",
-    name: "Test",
-    component: () => import("@/pages/Test.vue"),
-  },
 ];
 
 const router = createRouter({

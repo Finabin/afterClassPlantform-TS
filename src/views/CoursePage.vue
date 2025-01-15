@@ -48,8 +48,8 @@
           <el-table-column prop="createTime" label="创建时间" width="200" />
           <el-table-column fixed="right" label="操作" min-width="150">
             <template #default="scope">
-              <span link type="primary" size="small" @click="handleEdit(scope.row)">修改</span>
-              <span link type="primary" size="small" @click="handleCheck(scope.row)">查看课程</span>
+              <span @click="handleEdit(scope.row)" style="color: #1890ff; margin: 0 10px; cursor: pointer;">修改</span>
+              <span @click="handleCheck(scope.row)" style="color: #1890ff; margin: 0 10px; cursor: pointer;">查看课程</span>
             </template>
           </el-table-column>
         </el-table>
@@ -103,7 +103,8 @@ import {
   headerCellStyle,
 } from '../public/tableStyle'
 import { courseStatusOptions, courseClassificationOptions } from '../static/coursePageData'
-import { coursePageData } from '../mocks/coursePage'
+// import { coursePageData } from '../mocks/coursePage'
+import { getAllCourseAPI } from '../apis/course'
 
 interface CoursePageData {
   id: number
@@ -134,8 +135,9 @@ const courseInfo = ref({
 })
 const courseInfoDialogVisible = ref(false)
 
-onMounted(() => {
-  tableData.value = coursePageData
+onMounted(async () => {
+  const coursePageData = await getAllCourseAPI()
+  tableData.value = coursePageData.data
 })
 
 const handleEdit = (row: TeacherPageData) => {
