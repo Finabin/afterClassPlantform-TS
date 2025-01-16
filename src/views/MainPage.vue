@@ -40,8 +40,14 @@
             <el-input v-model="search_keyword" placeholder="请输入关键词" style="width:240px; height: 38px;" />
           </div>
           <div class="mainpage-selectarea-single">
-            <el-button type="primary" @click="search" class="mainpage-selectarea-single-button-search">搜索</el-button>
-            <el-button @click="reset" class="mainpage-selectarea-single-button-reset">重置</el-button>
+            <el-button type="primary" @click="search" class="mainpage-selectarea-single-button-search"><el-icon
+                :size="20" style="margin-right: 10px">
+                <Search />
+              </el-icon>搜索</el-button>
+            <el-button @click="reset" class="mainpage-selectarea-single-button-reset"><el-icon :size="20"
+                style="margin-right: 10px;">
+                <RefreshRight />
+              </el-icon>重置</el-button>
           </div>
         </div>
       </div>

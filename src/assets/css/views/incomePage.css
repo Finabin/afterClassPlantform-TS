@@ -124,3 +124,9 @@
   margin-top: 20px;
   background-color: #fff;
 }
+.incomepage-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

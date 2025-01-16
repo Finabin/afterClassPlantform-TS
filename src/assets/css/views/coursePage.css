@@ -29,3 +29,9 @@
   margin-top: 20px;
   background-color: #fff;
 }
+.coursepage-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}

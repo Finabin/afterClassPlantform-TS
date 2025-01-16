@@ -1,11 +1,14 @@
 import {
   Menu as IconMenu,
-  Message,
-  Setting,
+  User,
+  UserFilled,
   House,
   PieChart,
   Avatar,
   MessageBox,
+  FolderOpened,
+  WalletFilled,
+  List,
 } from "@element-plus/icons-vue";
 
 const menu = [
@@ -33,7 +36,7 @@ const menu = [
     id: 3,
     name: "用户管理",
     Ename: "User",
-    icon: IconMenu,
+    icon: User,
     meta: {
       title: "用户管理",
     },
@@ -43,7 +46,7 @@ const menu = [
         path: "/student",
         name: "学生管理",
         Ename: "Student Management",
-        icon: House,
+        icon: UserFilled,
         meta: {
           title: "学生管理",
         },
@@ -53,7 +56,7 @@ const menu = [
         path: "/teacher",
         name: "教师管理",
         Ename: "Teacher Management",
-        icon: House,
+        icon: Avatar,
         meta: {
           title: "教师管理",
         },
@@ -75,7 +78,7 @@ const menu = [
     path: "/order",
     name: "订单管理",
     Ename: "Order",
-    icon: IconMenu,
+    icon: List,
     meta: {
       title: "订单管理",
     },
@@ -85,7 +88,7 @@ const menu = [
     path: "/file",
     name: "文件管理",
     Ename: "File",
-    icon: IconMenu,
+    icon: FolderOpened,
     meta: {
       title: "文件管理",
     },
@@ -96,7 +99,7 @@ const menu = [
     path: "/income",
     name: "收入管理",
     Ename: "Income",
-    icon: IconMenu,
+    icon: WalletFilled,
     meta: {
       title: "收入管理",
     },

@@ -82,8 +82,6 @@
   width: 70%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
 }
 .personinfo-container .personinfo-origin-form .personinfo-origin-row {
   display: flex;
@@ -104,13 +102,13 @@
 .personinfo-container .personinfo-origin-form .personinfo-origin-row-last {
   margin: 20px 0;
 }
-.personinfo-container .personinfo-origin-form .personinfo-origin-row-last .personinfo-origin-single {
+.personinfo-container .personinfo-origin-form .personinfo-origin-row-last .personinfo-origin-last-single {
   width: 420px;
   margin: 0 50px;
 }
-.personinfo-container .personinfo-origin-form .personinfo-origin-row-last .personinfo-origin-single .personinfo-origin-require {
+.personinfo-container .personinfo-origin-form .personinfo-origin-row-last .personinfo-origin-last-single .personinfo-origin-require {
   color: red;
 }
-.personinfo-container .personinfo-origin-form .personinfo-origin-row-last .personinfo-origin-single .personinfo-origin-title {
+.personinfo-container .personinfo-origin-form .personinfo-origin-row-last .personinfo-origin-last-single .personinfo-origin-title {
   margin-right: 20px;
 }

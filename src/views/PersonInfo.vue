@@ -108,7 +108,7 @@
             </div>
           </div>
           <div class="personinfo-origin-row-last">
-            <div class="personinfo-origin-single">
+            <div class="personinfo-origin-last-single">
               <span class="personinfo-origin-require">*</span>
               <span class="personinfo-origin-title">简介:</span>
               <span>{{ origin_info.introduce }}</span>

@@ -8,13 +8,17 @@
         <el-input type="text" v-model="search_name_phone" placeholder="姓名或手机号"
           style="width: 240px; height: 40px; margin-right: 20px" />
         <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" value-format="YYYY-MM-DD" />
-        <button @click="search">搜索</button>
+        <el-button @click="search" size="large" type="primary">
+          <el-icon :size="20" style="margin-right: 10px">
+            <Search />
+          </el-icon>
+          搜索
+        </el-button>
       </div>
       <div class="studentpage-result">
-        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+        <el-table :data="curPageData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
           :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />
-          <!-- <el-table-column prop="id" label="课程编号" width="150" /> -->
           <el-table-column prop="userName" label="用户名" width="250" />
           <el-table-column prop="nickName" label="姓名" width="250" />
           <el-table-column prop="phone" label="手机号" width="250" />
@@ -22,10 +26,10 @@
           <el-table-column prop="registerTime" label="注册时间" width="250" />
         </el-table>
       </div>
-      <div>
+      <div class="studentpage-pagination">
         <el-pagination background layout="prev, pager, next,sizes" :total="tableData.length" :page-sizes="[5, 15, 30]"
-          v-model="pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-          @prev-click="handlePrevClick" @next-click="handleNextClick" />
+          v-model="pageSize" @size-change="handleSizeChange" @current-change="handlePageChange"
+          @prev-click="handlePageChange" @next-click="handlePageChange" size="default" :default-page-size="15" />
       </div>
     </div>
   </el-main>
@@ -41,7 +45,7 @@ import {
   headerRowStyle,
   headerCellStyle,
 } from '../public/tableStyle'
-import studentPageData from '../mocks/studentPage'
+import { getAllStudentInfoAPI, searchAllStudentInfoAPI } from '../apis/user'
 
 interface StudentPageData {
   id: number
@@ -55,40 +59,46 @@ interface StudentPageData {
 const search_date = ref('')
 const search_name_phone = ref('')
 const tableData = ref<Array<StudentPageData>>([])
-const pageSize = ref(5)
+const curPageData = ref<Array<StudentPageData>>([])
+const pageSize = ref(15)
+const curPage = ref(1)
 
-onMounted(() => {
-  tableData.value = studentPageData
+onMounted(async () => {
+  const studentPageData = await getAllStudentInfoAPI()
+  tableData.value = studentPageData.data
+  curPageData.value = tableData.value.slice(0, pageSize.value)
 })
+
+// onWatch(async () => {
+//   if (search_date.value === '' && search_name_phone.value === '') {
+//     const studentPageData = await getAllStudentInfoAPI()
+//     tableData.value = studentPageData.data
+//     curPageData.value = tableData.value.slice(0, pageSize.value)
+//   }
+// })
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
-const handleCurrentChange = (val: number) => {
-  console.log(`当前页: ${val}`)
-}
-
-const handlePrevClick = (val: number) => {
-  console.log(`上一页: ${val}`)
-}
-
-const handleNextClick = (val: number) => {
-  console.log(`下一页: ${val}`)
+const handlePageChange = (val: number) => {
+  curPage.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
 const indexMethod = (index: number) => {
-  return index++
+  return index + 1 + (curPage.value - 1) * pageSize.value
 }
 
-const search = () => {
+const search = async () => {
   const regex = /^1[3-9]\d{9}$/
   if (search_date.value === "" && search_name_phone.value === "") {
     ElMessage.warning('请输入搜索条件!')
     return
   }
   let data = {
-    nickName: "",
+    username: "",
     phone: "",
     registerTime: ""
   }
@@ -96,13 +106,15 @@ const search = () => {
     data.registerTime = search_date.value
   }
   if (search_name_phone.value !== "" && regex.test(search_name_phone.value)) {
-    data.registerTime = search_date.value
     data.phone = search_name_phone.value
   } else {
-    data.registerTime = search_date.value
-    data.nickName = search_name_phone.value
+    data.username = search_name_phone.value
   }
-  console.log(data);
+  const searchResult = await searchAllStudentInfoAPI(data)
+
+  tableData.value = searchResult.data
+  curPage.value = 1
+  curPageData.value = tableData.value.slice(0, pageSize.value)
 }
 
 </script>

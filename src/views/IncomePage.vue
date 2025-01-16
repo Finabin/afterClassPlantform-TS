@@ -42,7 +42,7 @@
         <button @click="search">搜索</button>
       </div>
       <div class="incomepage-result">
-        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+        <el-table :data="curPageData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
           :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />
           <el-table-column prop="id" label="编号" width="150" v-if="false" />
@@ -64,10 +64,10 @@
           <el-table-column prop="applicteTime" label="申请时间" width="300" />
         </el-table>
       </div>
-      <div>
+      <div class="incomepage-pagination">
         <el-pagination background layout="prev, pager, next,sizes" :total="tableData.length" :page-sizes="[5, 15, 30]"
-          v-model="pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-          @prev-click="handlePrevClick" @next-click="handleNextClick" />
+          v-model="pageSize" @size-change="handleSizeChange" @current-change="handlePageChange"
+          @prev-click="handlePageChange" @next-click="handlePageChange" size="default" :default-page-size="15" />
       </div>
     </div>
 
@@ -105,12 +105,14 @@ const search_processType = ref('')
 const search_nickName = ref('')
 const search_teacherName = ref('')
 const tableData = ref<Array<IncomePageData>>([])
-const pageSize = ref(5)
 const IncomeDialogVisible = ref(false)
-
+const curPageData = ref<Array<OrderPageData>>([])
+const pageSize = ref(15)
+const curPage = ref(1)
 
 onMounted(() => {
   tableData.value = incomePageData.incomeDataList
+  curPageData.value = tableData.value.slice(0, pageSize.value)
 })
 
 const handleIncomeDialogVisibleChange = (visible: boolean) => {
@@ -119,22 +121,16 @@ const handleIncomeDialogVisibleChange = (visible: boolean) => {
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
-const handleCurrentChange = (val: number) => {
-  console.log(`当前页: ${val}`)
-}
-
-const handlePrevClick = (val: number) => {
-  console.log(`上一页: ${val}`)
-}
-
-const handleNextClick = (val: number) => {
-  console.log(`下一页: ${val}`)
+const handlePageChange = (val: number) => {
+  curPage.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
 const indexMethod = (index: number) => {
-  return index++
+  return index + 1 + (curPage.value - 1) * pageSize.value
 }
 
 const search = () => {

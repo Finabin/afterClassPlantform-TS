@@ -10,10 +10,15 @@
         <el-input type="text" v-model="search_courseSection" placeholder="课程小节"
           style="width: 180px; height: 40px; margin-right: 20px" />
         <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" value-format="YYYY-MM-DD" />
-        <button @click="search">搜索</button>
+        <el-button @click="search" size="large" type="primary">
+          <el-icon :size="20" style="margin-right: 10px">
+            <Search />
+          </el-icon>
+          搜索
+        </el-button>
       </div>
       <div class="filepage-result">
-        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+        <el-table :data="curPageData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
           :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />
           <el-table-column prop="id" label="编号" width="150" v-if="false" />
@@ -33,10 +38,10 @@
           <el-table-column prop="beginTime" label="开课时间" width="265" />
         </el-table>
       </div>
-      <div>
+      <div class="filepage-pagination">
         <el-pagination background layout="prev, pager, next,sizes" :total="tableData.length" :page-sizes="[5, 15, 30]"
-          v-model="pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-          @prev-click="handlePrevClick" @next-click="handleNextClick" />
+          v-model="pageSize" @size-change="handleSizeChange" @current-change="handlePageChange"
+          @prev-click="handlePageChange" @next-click="handlePageChange" size="default" :default-page-size="15" />
       </div>
     </div>
   </el-main>
@@ -52,7 +57,7 @@ import {
   headerRowStyle,
   headerCellStyle,
 } from '../public/tableStyle'
-import { filePageData } from '../mocks/filePage'
+import { getAllFileAPI } from '../apis/file'
 
 interface FilePageData {
   id: number
@@ -69,31 +74,30 @@ const search_date = ref('')
 const search_courseSection = ref('')
 const search_course = ref('')
 const tableData = ref<Array<FilePageData>>([])
-const pageSize = ref(5)
+const curPageData = ref<Array<FilePageData>>([])
+const pageSize = ref(15)
+const curPage = ref(1)
 
-onMounted(() => {
-  tableData.value = filePageData
+onMounted(async () => {
+  const filePageData = await getAllFileAPI()
+  tableData.value = filePageData.data
+  curPageData.value = tableData.value.slice(0, pageSize.value)
 })
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
-const handleCurrentChange = (val: number) => {
-  console.log(`当前页: ${val}`)
-}
-
-const handlePrevClick = (val: number) => {
-  console.log(`上一页: ${val}`)
-}
-
-const handleNextClick = (val: number) => {
-  console.log(`下一页: ${val}`)
+const handlePageChange = (val: number) => {
+  curPage.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
 const indexMethod = (index: number) => {
-  return index++
+  return index + 1 + (curPage.value - 1) * pageSize.value
 }
+
 
 const search = () => {
   if (search_date.value === "" && search_courseSection.value === "" && search_course.value === "") {

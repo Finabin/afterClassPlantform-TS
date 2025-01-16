@@ -16,11 +16,21 @@
             :value="item.value" />
         </el-select>
         <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" value-format="YYYY-MM-DD" />
-        <button @click="search">搜索</button>
-        <button @click="addCourse">增加</button>
+        <el-button @click="search" size="large" type="primary">
+          <el-icon :size="20" style="margin-right: 10px">
+            <Search />
+          </el-icon>
+          搜索
+        </el-button>
+        <el-button @click="addCourse" size="large" type="primary">
+          <el-icon :size="20" style="margin-right: 10px">
+            <Plus />
+          </el-icon>
+          增加
+        </el-button>
       </div>
       <div class="coursepage-result">
-        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+        <el-table :data="curPageData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
           :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
           <el-table-column prop="id" label="课程编号" width="150" v-if="false" />
@@ -54,10 +64,10 @@
           </el-table-column>
         </el-table>
       </div>
-      <div>
+      <div class="coursepage-pagination">
         <el-pagination background layout="prev, pager, next,sizes" :total="tableData.length" :page-sizes="[5, 15, 30]"
-          v-model="pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-          @prev-click="handlePrevClick" @next-click="handleNextClick" />
+          v-model="pageSize" @size-change="handleSizeChange" @current-change="handlePageChange"
+          @prev-click="handlePageChange" @next-click="handlePageChange" size="default" :default-page-size="15" />
       </div>
     </div>
   </el-main>
@@ -128,7 +138,9 @@ const search_status = ref('')
 const search_name_phone = ref('')
 const search_classification = ref('')
 const tableData = ref<Array<CoursePageData>>([])
-const pageSize = ref(5)
+const curPageData = ref<Array<CoursePageData>>([])
+const pageSize = ref(15)
+const curPage = ref(1)
 const courseInfo = ref({
   displayStatus: "",
   status: ""
@@ -138,6 +150,7 @@ const courseInfoDialogVisible = ref(false)
 onMounted(async () => {
   const coursePageData = await getAllCourseAPI()
   tableData.value = coursePageData.data
+  curPageData.value = tableData.value.slice(0, pageSize.value)
 })
 
 const handleEdit = (row: TeacherPageData) => {
@@ -148,22 +161,16 @@ const handleEdit = (row: TeacherPageData) => {
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
-const handleCurrentChange = (val: number) => {
-  console.log(`当前页: ${val}`)
-}
-
-const handlePrevClick = (val: number) => {
-  console.log(`上一页: ${val}`)
-}
-
-const handleNextClick = (val: number) => {
-  console.log(`下一页: ${val}`)
+const handlePageChange = (val: number) => {
+  curPage.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
 const indexMethod = (index: number) => {
-  return index++
+  return index + 1 + (curPage.value - 1) * pageSize.value
 }
 
 const search = () => {

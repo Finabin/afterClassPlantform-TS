@@ -15,18 +15,23 @@
           <el-option v-for="item in orderState" :key="item.value" :label="item.label" :value="item.value" />
         </el-select>
         <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" value-format="YYYY-MM-DD" />
-        <button @click="search">搜索</button>
+        <el-button @click="search" size="large" type="primary">
+          <el-icon :size="20" style="margin-right: 10px">
+            <Search />
+          </el-icon>
+          搜索
+        </el-button>
       </div>
       <div class="orderpage-result">
-        <el-table :data="tableData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
+        <el-table :data="curPageData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
           :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
           <el-table-column prop="id" label="编号" width="150" v-if="false" />
           <el-table-column prop="orderNo" label="订单编号" width="180" />
           <el-table-column prop="status" label="订单状态" width="100">
             <template #default="scope">
-              <span v-if="scope.row.status == 1" style="color: gray">待支付</span>
-              <span v-else-if="scope.row.status == 2" style="color: red;">已支付</span>
+              <span v-if="scope.row.status == '待支付'" style=" color: gray">待支付</span>
+              <span v-else-if="scope.row.status == '已支付'" style="color: red;">已支付</span>
               <span v-else style="color: aqua;">关闭</span>
             </template>
           </el-table-column>
@@ -39,10 +44,10 @@
           <el-table-column prop="payTime" label="支付时间" width="180" />
         </el-table>
       </div>
-      <div>
+      <div class="orderpage-pagination">
         <el-pagination background layout="prev, pager, next,sizes" :total="tableData.length" :page-sizes="[5, 15, 30]"
-          v-model="pageSize" @size-change="handleSizeChange" @current-change="handleCurrentChange"
-          @prev-click="handlePrevClick" @next-click="handleNextClick" />
+          v-model="pageSize" @size-change="handleSizeChange" @current-change="handlePageChange"
+          @prev-click="handlePageChange" @next-click="handlePageChange" size="default" :default-page-size="15" />
       </div>
     </div>
   </el-main>
@@ -59,7 +64,7 @@ import {
   headerRowStyle,
   headerCellStyle,
 } from '../public/tableStyle'
-import { orderPageData } from '../mocks/orderPage'
+import { getAllOrderAPI } from '../apis/order'
 
 interface OrderPageData {
   id: number
@@ -80,30 +85,28 @@ const search_course = ref('')
 const search_buyer = ref('')
 const search_orderNo = ref('')
 const tableData = ref<Array<OrderPageData>>([])
-const pageSize = ref(5)
+const curPageData = ref<Array<OrderPageData>>([])
+const pageSize = ref(15)
+const curPage = ref(1)
 
-onMounted(() => {
-  tableData.value = orderPageData
+onMounted(async () => {
+  const orderPageData = await getAllOrderAPI()
+  tableData.value = orderPageData.data
+  curPageData.value = tableData.value.slice(0, pageSize.value)
 })
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
-const handleCurrentChange = (val: number) => {
-  console.log(`当前页: ${val}`)
-}
-
-const handlePrevClick = (val: number) => {
-  console.log(`上一页: ${val}`)
-}
-
-const handleNextClick = (val: number) => {
-  console.log(`下一页: ${val}`)
+const handlePageChange = (val: number) => {
+  curPage.value = val
+  curPageData.value = tableData.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
 const indexMethod = (index: number) => {
-  return index++
+  return index + 1 + (curPage.value - 1) * pageSize.value
 }
 
 const search = () => {
