@@ -19,8 +19,8 @@
         <el-table :data="curPageData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
           :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />
-          <el-table-column prop="userName" label="用户名" width="250" />
-          <el-table-column prop="nickName" label="姓名" width="250" />
+          <el-table-column prop="nickName" label="用户名" width="250" />
+          <el-table-column prop="userName" label="姓名" width="250" />
           <el-table-column prop="phone" label="手机号" width="250" />
           <el-table-column prop="buyCourseNum" label="已购课程数" width="215" />
           <el-table-column prop="registerTime" label="注册时间" width="250" />
@@ -45,7 +45,9 @@ import {
   headerRowStyle,
   headerCellStyle,
 } from '../public/tableStyle'
-import { getAllStudentInfoAPI, searchAllStudentInfoAPI } from '../apis/user'
+import { getAllStudentInfoAPI, searchAllStudentInfoAPI, searchTStudentInfoAPI, getTStudentInfoAPI } from '../apis/user'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
 
 interface StudentPageData {
   id: number
@@ -56,6 +58,8 @@ interface StudentPageData {
   registerTime: string
 }
 
+const userInfoStore = useUserInfoStore();
+const { role, id } = storeToRefs(userInfoStore);
 const search_date = ref('')
 const search_name_phone = ref('')
 const tableData = ref<Array<StudentPageData>>([])
@@ -64,18 +68,18 @@ const pageSize = ref(15)
 const curPage = ref(1)
 
 onMounted(async () => {
-  const studentPageData = await getAllStudentInfoAPI()
+  let studentPageData
+  if (role.value === '0') {
+    studentPageData = await getAllStudentInfoAPI()
+  } else if (role.value === '1') {
+    const data = {
+      teacherId: Number(id.value)
+    }
+    studentPageData = await getTStudentInfoAPI(data)
+  }
   tableData.value = studentPageData.data
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
-
-// onWatch(async () => {
-//   if (search_date.value === '' && search_name_phone.value === '') {
-//     const studentPageData = await getAllStudentInfoAPI()
-//     tableData.value = studentPageData.data
-//     curPageData.value = tableData.value.slice(0, pageSize.value)
-//   }
-// })
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
@@ -110,8 +114,13 @@ const search = async () => {
   } else {
     data.username = search_name_phone.value
   }
-  const searchResult = await searchAllStudentInfoAPI(data)
-
+  let searchResult
+  if (role.value === '0') {
+    searchResult = await searchAllStudentInfoAPI(data)
+  } else if (role.value === '1') {
+    data['teacherId'] = Number(id.value)
+    searchResult = await searchTStudentInfoAPI(data)
+  }
   tableData.value = searchResult.data
   curPage.value = 1
   curPageData.value = tableData.value.slice(0, pageSize.value)

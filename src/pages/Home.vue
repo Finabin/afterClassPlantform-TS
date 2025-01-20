@@ -14,16 +14,20 @@
           <template #active-action>
             <span class="custom-active-action">CN</span>
           </template>
+
 <template #inactive-action>
             <span class="custom-inactive-action">EN</span>
           </template>
 </el-switch> -->
-        <el-avatar :size="50" :src="circleUrl" class="homepage-avatar" />
+        <el-avatar :size="50" :src="avatar" class="homepage-avatar" />
         <el-dropdown>
-          <span class="homepage-nickname">{{ $t('system.username') }},{{ nickname }}</span>
+          <span class="homepage-nickname">{{ $t('system.username') }},{{ nickName }}</span>
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item disabled="true">当前角色：学生</el-dropdown-item>
+              <el-dropdown-item disabled="true">当前角色：
+                <span v-if="role === 1">学生</span>
+                <span v-else-if="role === 2">老师</span>
+              </el-dropdown-item>
               <el-dropdown-item @click="updatePassword">修改密码</el-dropdown-item>
               <el-dropdown-item @click="logOut">退出登录</el-dropdown-item>
             </el-dropdown-menu>
@@ -85,17 +89,19 @@ import MainPagePopUp from '@/components/MainPagePopUp.vue';
 import { useRoute, useRouter } from 'vue-router'
 import LogOutPopUp from '@/components/LogOutPopUp.vue';
 import UpdatePasswordPopUp from '@/components/UpdatePasswordPopUp.vue';
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
 
 const { locale } = useI18n();
 const router = useRouter()
 const route = useRoute()
 const curRoute = ref('/main')
 const i18nSwitch = ref(true)
-const nickname = 'admin'
-const circleUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
 const logOutPopUpVisible = ref(false)
 const updatePasswordPopUpVisible = ref(false)
 const mainpageDialogVisible = ref(true)
+const userInfoStore = useUserInfoStore();
+const { nickName, role, avatar } = storeToRefs(userInfoStore);
 
 
 const changeRoute = (path: string) => {

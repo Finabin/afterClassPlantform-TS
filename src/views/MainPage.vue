@@ -54,6 +54,11 @@
 
       <div class="mainpage-recommend">
         <MainFilterListItem v-for="item in recommendData" :key="item.id" :courseData="item" />
+        <div class="mainpage-pagination">
+          <el-pagination background layout="prev, pager, next" :total="tableData.length""
+            v-model="pageSize" @current-change="handlePageChange" @prev-click="handlePageChange"
+            @next-click="handlePageChange" size="default" />
+        </div>
       </div>
       <div class="mainpage-bestselling-label">
         畅销榜
@@ -71,15 +76,15 @@ import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import MainFilterListItem from '../components/MainFilterListItem.vue'
 import { gradeOptions, subjectOptions, salesRange, classHour } from '../static/mainPageData'
-import { courseGoodSold, courseRecommend } from '../mocks/mainPage'
+import { getMainPageDataAPI, getGoodSellingDataAPI, getSearchDataAPI } from '../apis/main'
 
 interface MainPageData {
   id: number,
   courseImg: string,
   courseName: string
-  courseIntro: string,
-  coursePrice: number,
-  courseSold: number,
+  introduction: string,
+  price: number,
+  sellNum: number,
 }
 
 const search_subject = ref('')
@@ -87,48 +92,77 @@ const search_classHour = ref('')
 const search_grade = ref('')
 const search_salesRange = ref('')
 const search_keyword = ref('')
+const search_data = ref<Array<MainPageData>>([])
 const recommendData = ref<Array<MainPageData>>([])
 const bestSellingData = ref<Array<MainPageData>>([])
-const pageSize = ref(5)
+const pageSize = ref(4)
+const curPage = ref(1)
 
-onMounted(() => {
-  recommendData.value = courseRecommend
-  bestSellingData.value = courseGoodSold
+onMounted(async () => {
+  const recommendList = await getMainPageDataAPI()
+  const courseGoodSoldList = await getGoodSellingDataAPI()
+  recommendData.value = recommendList.data
+  bestSellingData.value = courseGoodSoldList.data
 })
+
+const reset = () => {
+  search_subject.value = ''
+  search_classHour.value = ''
+  search_grade.value = ''
+  search_salesRange.value = ''
+  search_keyword.value = ''
+}
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
+  recommendData.value = search_data.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
-const handleCurrentChange = (val: number) => {
-  console.log(`当前页: ${val}`)
+const handlePageChange = (val: number) => {
+  curPage.value = val
+  recommendData.value = search_data.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
-const handlePrevClick = (val: number) => {
-  console.log(`上一页: ${val}`)
-}
-
-const handleNextClick = (val: number) => {
-  console.log(`下一页: ${val}`)
-}
-
-const indexMethod = (index: number) => {
-  return index++
-}
-
-const search = () => {
-  if (search_date.value === "" && search_status.value === "" && search_course.value === "" && search_buyer.value === "" && search_ordernumber.value === "") {
+const search = async () => {
+  if (search_subject.value === "" && search_classHour.value === "" && search_grade.value === "" && search_salesRange.value === "" && search_keyword.value === "") {
     ElMessage.warning('请输入搜索条件!')
     return
   }
   let data = {
-    buyerName: search_buyer.value,
-    courseName: search_course.value,
-    status: search_status.value,
-    payTime: search_date.value,
-    orderNo: search_orderNo.value
+    classification: search_subject.value,
+    grade: search_grade.value,
+    courseTime: [],
+    sellNum: [],
+    username: search_keyword.value,
+    nickname: search_keyword.value
   }
-  console.log(data);
+  if (search_classHour.value !== "") {
+    if (search_classHour.value === "1") {
+      data.courseTime = [5, 10]
+    } else if (search_classHour.value === "2") {
+      data.courseTime = [11, 15]
+    } else if (search_classHour.value === "3") {
+      data.courseTime = [16, 20]
+    } else if (search_classHour.value === "4") {
+      data.courseTime = [21]
+    }
+  }
+  if (search_salesRange.value !== "") {
+    if (search_salesRange.value === "1") {
+      data.sellNum = [1, 50]
+    } else if (search_salesRange.value === "2") {
+      data.sellNum = [51, 100]
+    } else if (search_salesRange.value === "3") {
+      data.sellNum = [101, 200]
+    } else if (search_salesRange.value === "4") {
+      data.sellNum = [201, 500]
+    } else if (search_salesRange.value === "5") {
+      data.sellNum = [501]
+    }
+  }
+  const res = await getSearchDataAPI(data)
+  search_data.value = res.data
+  recommendData.value = search_data.value.slice(0, pageSize.value)
 }
 
 </script>

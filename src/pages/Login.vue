@@ -74,7 +74,8 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRoute, useRouter } from 'vue-router'
-import user from '@/mocks/user'
+import { LoginAPI } from '@/apis/login'
+import useUserInfoStore from "@/stores/user";
 
 const isPasswordLogin = ref(true)
 const isLoginPage = ref(true)
@@ -85,11 +86,12 @@ const loginPPassword = ref('')
 const registerNickname = ref('')
 const registerPassword = ref('')
 const registerRPassword = ref('')
+const userInfoStore = useUserInfoStore();
 
 const router = useRouter()
 const route = useRoute()
 
-const toLogin = () => {
+const toLogin = async () => {
   if (isPasswordLogin.value) {
     if (loginNickname.value === '' || loginNPassword.value === '') {
       ElMessage({
@@ -98,17 +100,26 @@ const toLogin = () => {
       })
       return
     }
-    for (let i = 0; i < user.length; i++) {
-      if (loginNickname.value === user[i].nickName && loginNPassword.value === user[i].password) {
-        ElMessage.success('登录成功')
-        router.push('/home')
-        return
-      }
+    const data = {
+      username: loginNickname.value,
+      password: loginNPassword.value
     }
-    ElMessage({
-      message: '账号或密码错误',
-      type: 'error',
-    })
+    const res = await LoginAPI(data)
+    if (res.code === 1) {
+      userInfoStore.$patch({
+        id: 1,
+        nickName: "susie",
+        role: 1,
+        avatar: "",
+        token: "",
+      })
+      router.push('/home')
+    } else if (res.code === 0) {
+      ElMessage({
+        message: '账号或密码错误',
+        type: 'error',
+      })
+    }
   }
   else {
     if (loginPhone.value === '' || loginPPassword.value === '') {

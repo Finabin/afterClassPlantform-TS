@@ -85,7 +85,7 @@
     <template #footer>
       <div class="teacherpage-dialog-footer">
         <el-button @click="teacherInfoDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="teacherInfoDialogVisible = false">
+        <el-button type="primary" @click="handleConfirm">
           确定
         </el-button>
       </div>
@@ -104,7 +104,7 @@ import {
   headerRowStyle,
   headerCellStyle,
 } from '../public/tableStyle'
-import { getAllTeacherInfoAPI } from '../apis/user'
+import { getAllTeacherInfoAPI, searchAllTeachernfoAPI, updateteacherTPAPI } from '../apis/user'
 
 interface TeacherPageData {
   id: number
@@ -124,7 +124,8 @@ const pageSize = ref(15)
 const curPage = ref(1)
 const teacherInfo = ref({
   takePercent: "",
-  status: ""
+  status: "",
+  id: ""
 })
 const teacherInfoDialogVisible = ref(false)
 
@@ -138,6 +139,21 @@ const handleEdit = (row: TeacherPageData) => {
   row.status = row.status.toString()
   teacherInfoDialogVisible.value = true
   teacherInfo.value = row
+}
+
+const handleConfirm = async () => {
+  const data = {
+    teacherId: Number(teacherInfo.value.id),
+    takePercent: Number(teacherInfo.value.takePercent),
+    status: teacherInfo.value.status
+  }
+  const res = await updateteacherTPAPI(data)
+  if (res === 1) {
+    ElMessage.success('修改成功！')
+    teacherInfoDialogVisible.value = false
+  } else {
+    ElMessage.error('修改失败！')
+  }
 }
 
 const handleSizeChange = (val: number) => {
@@ -154,7 +170,7 @@ const indexMethod = (index: number) => {
   return index + 1 + (curPage.value - 1) * pageSize.value
 }
 
-const search = () => {
+const search = async () => {
   const regex = /^1[3-9]\d{9}$/
   if (search_date.value === "" && search_name_phone.value === "" && search_status.value === "") {
     ElMessage.warning('请输入搜索条件!')
@@ -177,7 +193,10 @@ const search = () => {
   } else {
     data.nickName = search_name_phone.value
   }
-  console.log(data);
+  const res = await searchAllTeachernfoAPI(data)
+  tableData.value = res.data
+  curPageData.value = tableData.value.slice(0, pageSize.value)
+  curPage.value = 1
 }
 
 </script>

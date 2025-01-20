@@ -4,7 +4,7 @@
       收入管理
     </div>
     <div class="incomepage-main">
-      <div class="incomepage-income-data">
+      <div class="incomepage-income-data" v-if="role === '1'">
         <div class="incomepage-income-data-myincome">
           <div class="incomepage-income-data-display">
             <div class="incomepage-income-data-title">我的收入</div>
@@ -39,7 +39,12 @@
             :value="item.value" />
         </el-select>
         <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" value-format="YYYY-MM-DD" />
-        <button @click="search">搜索</button>
+        <el-button @click="search" size="large" type="primary">
+          <el-icon :size="20" style="margin-right: 10px">
+            <Search />
+          </el-icon>
+          搜索
+        </el-button>
       </div>
       <div class="incomepage-result">
         <el-table :data="curPageData" :row-style="rowStyle" :cell-style="cellStyle" :header-row-style="headerRowStyle"
@@ -87,8 +92,10 @@ import {
   headerRowStyle,
   headerCellStyle,
 } from '../public/tableStyle'
-import { incomePageData } from '../mocks/incomePage'
+import { getAllIncomeAPI, getTeacherIncomeAPI, searchTeacherIncomeAPI, searchAllIncomeAPI } from '../apis/income'
 import IncomeDialog from '../components/IncomeDialog.vue'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
 
 interface IncomePageData {
   id: number
@@ -100,18 +107,29 @@ interface IncomePageData {
   applicteTime: string,
 }
 
+const userInfoStore = useUserInfoStore();
+const { role, id } = storeToRefs(userInfoStore);
 const search_date = ref('')
 const search_processType = ref('')
 const search_nickName = ref('')
 const search_teacherName = ref('')
 const tableData = ref<Array<IncomePageData>>([])
 const IncomeDialogVisible = ref(false)
-const curPageData = ref<Array<OrderPageData>>([])
+const curPageData = ref<Array<IncomePageData>>([])
 const pageSize = ref(15)
 const curPage = ref(1)
 
-onMounted(() => {
-  tableData.value = incomePageData.incomeDataList
+onMounted(async () => {
+  let incomePageData
+  if (role.value != '2') {
+    incomePageData = await getAllIncomeAPI()
+  } else {
+    const data = {
+      teacher_id: Number(id.value)
+    }
+    incomePageData = await getTeacherIncomeAPI(data)
+  }
+  tableData.value = incomePageData.data
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
 
@@ -133,20 +151,28 @@ const indexMethod = (index: number) => {
   return index + 1 + (curPage.value - 1) * pageSize.value
 }
 
-const search = () => {
+const search = async () => {
+  let res
   if (search_date.value === "" && search_processType.value === "" && search_nickName.value === "" && search_teacherName.value === "") {
     ElMessage.warning('请输入搜索条件!')
     return
   }
   let data = {
-    processType: search_processType.value,
-    nickName: search_course.value,
+    type: search_processType.value,
+    nickName: search_nickName.value,
     applicteTime: search_date.value,
     teacherName: search_teacherName.value,
   }
-  console.log(data);
+  if (role.value !== '0') {
+    data['id'] = Number(id.value)
+    res = await searchTeacherIncomeAPI(data)
+  } else {
+    res = await searchAllIncomeAPI(data)
+  }
+  tableData.value = res.data
+  curPageData.value = tableData.value.slice(0, pageSize.value)
+  curPage.value = 1
 }
-
 
 </script>
 

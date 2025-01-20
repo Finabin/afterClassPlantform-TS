@@ -122,19 +122,25 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { sexOptions, gradeOptions, subjectOptions } from '../static/personInfoData'
+import { getPersonalInfoAPI } from '../apis/user'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
 
+
+const userInfoStore = useUserInfoStore();
+const { id } = storeToRefs(userInfoStore);
 const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
 const isUpdate = ref(false)
 const origin_info = ref({
-  nickname: 'Miss Zhao',
-  sex: '男',
-  username: '赵美延',
-  telephone: '12345678910',
-  grade: '高三',
-  subject: '数学',
-  introduce: '我是赵美延，一名高三学生，我喜欢数学，希望在这里和大家一起学习，共同进步。'
+  nickname: '',
+  sex: '',
+  username: '',
+  telephone: '',
+  grade: '',
+  subject: '',
+  introduce: ''
 })
 const update_info = ref({
   nickname: '',
@@ -155,6 +161,15 @@ const update_info = ref({
   introduce: ''
 })
 
+onMounted(async () => {
+  const data = {
+    userId: Number(id.value)
+  }
+  const res = await getPersonalInfoAPI(data)
+  if (res.code === 1) {
+    origin_info.value = res.data
+  }
+})
 
 const updatePersonInfo = () => {
   isUpdate.value = true

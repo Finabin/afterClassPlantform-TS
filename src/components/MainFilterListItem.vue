@@ -5,12 +5,12 @@
         </div>
         <div class="mainfilterlistitem-courseinfo">
             <div class="mainfilterlistitem-courseinfo-name">{{ props.courseData.courseName }}</div>
-            <div class="mainfilterlistitem-courseinfo-intro">课程简介: {{ props.courseData.courseIntro }}</div>
+            <div class="mainfilterlistitem-courseinfo-intro">课程简介: {{ props.courseData.introduction }}</div>
         </div>
         <div class="mainfilterlistitem-coursesold">
-            <div class="mainfilterlistitem-coursesold-price">￥{{ props.courseData.coursePrice }}</div>
+            <div class="mainfilterlistitem-coursesold-price">￥{{ props.courseData.price }}</div>
             <div v-if="props.courseData.courseSold" class="mainfilterlistitem-coursesold-soldcount">已售{{
-                props.courseData.courseSold }}套</div>
+                props.courseData.sellNum }}套</div>
         </div>
     </div>
 </template>
@@ -20,7 +20,6 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
 const props = defineProps({
     courseData: {
         type: Object,
@@ -28,7 +27,10 @@ const props = defineProps({
     }
 });
 
-const toCourseDetail = () => {
+const id = ref(props.courseData.id)
+
+const toCourseDetail = (id: number) => {
+    console.log(id)
     router.push('/course/detail')
 }
 </script>

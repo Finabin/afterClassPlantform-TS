@@ -64,7 +64,9 @@ import {
   headerRowStyle,
   headerCellStyle,
 } from '../public/tableStyle'
-import { getAllOrderAPI } from '../apis/order'
+import { getAllOrderAPI, getTeacherOrderAPI, getStudentOrderAPI, searchAllOrderAPI, searchTeacherOrderAPI, searchStudentOrderAPI } from '../apis/order'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
 
 interface OrderPageData {
   id: number
@@ -79,6 +81,8 @@ interface OrderPageData {
   buyerName: string
 }
 
+const userInfoStore = useUserInfoStore();
+const { role, id } = storeToRefs(userInfoStore);
 const search_date = ref('')
 const search_status = ref('')
 const search_course = ref('')
@@ -90,7 +94,20 @@ const pageSize = ref(15)
 const curPage = ref(1)
 
 onMounted(async () => {
-  const orderPageData = await getAllOrderAPI()
+  let orderPageData
+  if (role.value == '0') {
+    orderPageData = await getAllOrderAPI()
+  } else if (role.value == '1') {
+    const data = {
+      userId: Number(id.value)
+    }
+    orderPageData = await getTeacherOrderAPI(data)
+  } else if (role.value == '2') {
+    const data = {
+      userId: Number(id.value)
+    }
+    orderPageData = await getStudentOrderAPI(data)
+  }
   tableData.value = orderPageData.data
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
@@ -109,19 +126,29 @@ const indexMethod = (index: number) => {
   return index + 1 + (curPage.value - 1) * pageSize.value
 }
 
-const search = () => {
+const search = async () => {
   if (search_date.value === "" && search_status.value === "" && search_course.value === "" && search_buyer.value === "" && search_ordernumber.value === "") {
     ElMessage.warning('请输入搜索条件!')
     return
   }
   let data = {
-    buyerName: search_buyer.value,
-    courseName: search_course.value,
+    studentname: search_buyer.value,
+    coursename: search_course.value,
     status: search_status.value,
     payTime: search_date.value,
-    orderNo: search_orderNo.value
+    orderno: search_orderNo.value
   }
-  console.log(data);
+  let res
+  if (role.value == '0') {
+    res = await searchAllOrderAPI(data)
+  } else if (role.value == '1') {
+    res = await searchTeacherOrderAPI(data)
+  } else if (role.value == '2') {
+    res = await searchStudentOrderAPI(data)
+  }
+  tableData.value = res.data
+  curPageData.value = tableData.value.slice(0, pageSize.value)
+  curPage.value = 1
 }
 
 </script>

@@ -57,7 +57,9 @@ import {
   headerRowStyle,
   headerCellStyle,
 } from '../public/tableStyle'
-import { getAllFileAPI } from '../apis/file'
+import { getAllFileAPI, getTeacherFileAPI, getStudentFileAPI, searchAllFileAPI, searchTeacherFileAPI, searchStudentFileAPI } from '../apis/file'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
 
 interface FilePageData {
   id: number
@@ -70,6 +72,8 @@ interface FilePageData {
   fileSize: number,
 }
 
+const userInfoStore = useUserInfoStore();
+const { role, id } = storeToRefs(userInfoStore);
 const search_date = ref('')
 const search_courseSection = ref('')
 const search_course = ref('')
@@ -79,7 +83,20 @@ const pageSize = ref(15)
 const curPage = ref(1)
 
 onMounted(async () => {
-  const filePageData = await getAllFileAPI()
+  let filePageData
+  if (role.value === "0") {
+    filePageData = await getAllFileAPI()
+  } else if (role.value === "1") {
+    const data = {
+      teacherId: id.value
+    }
+    filePageData = await getTeacherFileAPI(data)
+  } else if (role.value === "2") {
+    const data = {
+      studentId: id.value
+    }
+    filePageData = await getStudentFileAPI(data)
+  }
   tableData.value = filePageData.data
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
@@ -99,15 +116,26 @@ const indexMethod = (index: number) => {
 }
 
 
-const search = () => {
+const search = async () => {
   if (search_date.value === "" && search_courseSection.value === "" && search_course.value === "") {
     ElMessage.warning('请输入搜索条件!')
     return
   }
+  let res
   let data = {
     courseSection: search_courseSection.value,
     courseName: search_course.value,
     beginTime: search_date.value,
+  }
+  if (role.value !== '0') {
+    data['userId'] = Number(id.value)
+  }
+  if (role.value === "0") {
+    res = searchAllFileAPI(data)
+  } else if (role.value === "1") {
+    res = searchTeacherFileAPI(data)
+  } else if (role.value === "2") {
+    res = searchStudentFileAPI(data)
   }
   console.log(data);
 }
