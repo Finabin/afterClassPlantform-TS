@@ -93,6 +93,20 @@
         </div>
       </div>
     </div>
+
+    <el-dialog v-model="buyDialogVisible" title="修改" width="500" align-center>
+      <div class="teacherpage-dialog-row">
+        你确定要购买<span>高考数学冲刺训练班</span>课程吗？
+      </div>
+      <template #footer>
+        <div class="teacherpage-dialog-footer">
+          <el-button @click="buyDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="handleConfirm">
+            确定
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </el-main>
 </template>
 
@@ -101,7 +115,16 @@ import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { courseDetailPageData } from '../mocks/courseDetailPage'
+import { buyCourseAPI, payCourseAPI } from '../apis/main'
+import { getCourseDetailAPI } from '../apis/course'
+import {
+  rowStyle,
+  cellStyle,
+  headerRowStyle,
+  headerCellStyle,
+} from '../public/tableStyle'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
 
 interface TablePageData {
   id: number
@@ -112,47 +135,25 @@ interface TablePageData {
 }
 
 const router = useRouter()
-
+const userInfoStore = useUserInfoStore();
+const { id } = storeToRefs(userInfoStore);
 const buyDialogVisible = ref(false)
 const tableData = ref<Array<TablePageData>>([])
 
-onMounted(() => {
-  tableData.value = courseDetailPageData
+onMounted(async () => {
+  const data = {
+    id: Number(router.currentRoute.value.params.id)
+  }
+  const res = await getCourseDetailAPI(data)
+  if (res.code === 1) {
+    tableData.value = res.data
+  } else {
+    ElMessage.error("获取课程详情失败！")
+  }
 })
 
-const handleSizeChange = (val: number) => {
-  pageSize.value = val
-}
-
-const handleCurrentChange = (val: number) => {
-  console.log(`当前页: ${val}`)
-}
-
-const handlePrevClick = (val: number) => {
-  console.log(`上一页: ${val}`)
-}
-
-const handleNextClick = (val: number) => {
-  console.log(`下一页: ${val}`)
-}
-
 const indexMethod = (index: number) => {
-  return index++
-}
-
-const search = () => {
-  if (search_date.value === "" && search_status.value === "" && search_course.value === "" && search_buyer.value === "" && search_ordernumber.value === "") {
-    ElMessage.warning('请输入搜索条件!')
-    return
-  }
-  let data = {
-    buyerName: search_buyer.value,
-    courseName: search_course.value,
-    status: search_status.value,
-    payTime: search_date.value,
-    orderNo: search_orderNo.value
-  }
-  console.log(data);
+  return index + 1
 }
 
 const goBack = () => {
@@ -162,6 +163,26 @@ const goBack = () => {
 const downloadFile = (id: number) => {
   console.log(id)
   ElMessage.success('试看文件下载成功！')
+}
+
+const handleConfirm = async () => {
+  const data = {
+    id: Number(id.value),
+    courseId: Number(router.currentRoute.value.params.id)
+  }
+  const res = await buyCourseAPI(data)
+  if (res.code === 1) {
+    const res2 = await payCourseAPI(data)
+    if (res2.code === 1) {
+      ElMessage.success('购买成功！')
+      buyDialogVisible.value = false
+    }
+    else {
+      ElMessage.error('购买失败！')
+    }
+  } else {
+    ElMessage.error('购买失败！')
+  }
 }
 
 </script>

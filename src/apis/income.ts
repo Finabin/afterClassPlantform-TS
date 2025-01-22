@@ -12,6 +12,12 @@ interface searchInfo {
   id?: number;
 }
 
+interface withdrawalInfo {
+  teacherId: number;
+  mode: string;
+  money: string;
+}
+
 export function getAllIncomeAPI() {
   return request(`/income_manage/admin`, "GET");
 }
@@ -26,4 +32,8 @@ export function searchTeacherIncomeAPI(data: searchInfo) {
 
 export function searchAllIncomeAPI(data: searchInfo) {
   return request(`/income_manage/search`, "GET", data);
+}
+
+export function withdrawalAPI(data: withdrawalInfo) {
+  return request(`/income_manage/withdrawal`, "PUT", data);
 }

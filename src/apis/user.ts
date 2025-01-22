@@ -28,7 +28,8 @@ interface teacherTPInfo {
 }
 
 interface personInfo {
-  userId: number;
+  userId?: number;
+  id?: number;
   username?: string;
   nickname?: string;
   password?: string;
@@ -55,10 +56,6 @@ export const searchAllTeachernfoAPI = (data: teacherSearch) => {
   return request("/teacher_manage/search", "GET", data);
 };
 
-export const getPersonalInfoAPI = (data: personInfo) => {
-  return request("/information", "GET", data);
-};
-
 export const getTStudentInfoAPI = (data: studentSearchT) => {
   return request("/student_manage/teacher", "GET", data);
 };
@@ -69,4 +66,12 @@ export const searchTStudentInfoAPI = (data: studentSearchT) => {
 
 export const updateteacherTPAPI = (data: teacherTPInfo) => {
   return request("/teacher_manage/update", "PUT", data);
+};
+
+export const getPersonalInfoAPI = (data: personInfo) => {
+  return request("/information", "GET", data);
+};
+
+export const updatePersonalInfoAPI = (data: personInfo) => {
+  return request("/information/update", "PUT", data);
 };

@@ -37,7 +37,13 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
+import { updatePwdAPI } from '@/apis/main'
+import { ElMessage } from 'element-plus'
 
+const userInfoStore = useUserInfoStore();
+const { id } = storeToRefs(userInfoStore);
 const props = defineProps({
   popUpClosed: {
     type: Boolean,
@@ -56,9 +62,25 @@ function emitEvent() {
   emit('custom-event', false);
 }
 
-const updatePassword = () => {
-  popUpClosed.value = false
-  emit('custom-event', false);
+const updatePassword = async () => {
+  const data = {
+    id: Number(id.value),
+    password: newPassword.value,
+  }
+  const res = await updatePwdAPI(data);
+  if (res.code === 1) {
+    ElMessage({
+      message: '修改密码成功',
+      type: 'success'
+    })
+    popUpClosed.value = false
+    emit('custom-event', false);
+  } else {
+    ElMessage({
+      message: '修改密码失败',
+      type: 'error'
+    })
+  }
 }
 </script>
 

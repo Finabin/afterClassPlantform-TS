@@ -69,6 +69,7 @@
         <div>
           <el-table :data="tableData">
             <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
+            <el-table-column prop="id" v-if="false" />
             <el-table-column prop="date" label="目录名称" width="180" />
             <el-table-column prop="name" label="课程状态" width="180">
               <template #default="scope">
@@ -80,12 +81,12 @@
             <el-table-column prop="name" label="开课时间" width="180" />
             <el-table-column prop="name" label="课程文件" width="180">
               <template #default="scope">
-                <span @click="handleEdit(scope.$index, scope.row)">点我上传</span>
+                <span @click="handleUpload(scope.row.id)">点我上传</span>
               </template>
             </el-table-column>
             <el-table-column prop="address" label="操作">
               <template #default="scope">
-                <span @click="handleEdit(scope.$index, scope.row)">修改</span>
+                <span @click="handleEdit(scope.row)">修改</span>
               </template>
             </el-table-column>
           </el-table>
@@ -118,7 +119,7 @@
     <div class="addcoursepage-dialog-row">
       <span class="addcoursepage-dialog-span-require">*</span>
       <span class="addcoursepage-dialog-span-text">课程状态：</span>
-      <el-radio-group v-model="teacherInfo.status">
+      <el-radio-group v-model="courseEditInfo.status">
         <el-radio value="0">未开课</el-radio>
         <el-radio value="1">开课中</el-radio>
         <el-radio value="2">已结课</el-radio>
@@ -127,7 +128,7 @@
     <template #footer>
       <div class="addcoursepage-dialog-footer">
         <el-button @click="courseStatusDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="courseStatusDialogVisible = false">
+        <el-button type="primary" @click="changeStatusConfirm">
           确定
         </el-button>
       </div>
@@ -138,17 +139,18 @@
     <div class="addcoursepage-dialog-row">
       <span class="addcoursepage-dialog-span-require">*</span>
       <span class="addcoursepage-dialog-span-text">目录名称：</span>
-      <el-input placeholder="请输入" style="width: 240px; height: 38px;" />
+      <el-input v-model="courseAddInfo.courseName" placeholder="请输入" style="width: 240px; height: 38px;" />
     </div>
     <div class="addcoursepage-dialog-row">
       <span class="addcoursepage-dialog-span-require">*</span>
       <span class="addcoursepage-dialog-span-text">开课时间：</span>
-      <el-date-picker v-model="search_date" type="date" placeholder="选择一个日期" size="large" value-format="YYYY-MM-DD" />
+      <el-date-picker v-model="courseAddInfo.beginTime" type="date" placeholder="选择一个日期" size="large"
+        value-format="YYYY-MM-DD" />
     </div>
     <template #footer>
       <div class="addcoursepage-dialog-footer">
         <el-button @click="addCatalogDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="addCatalogDialogVisible = false">
+        <el-button type="primary" @click="handleAddCatalogConfirm">
           确定
         </el-button>
       </div>
@@ -164,7 +166,8 @@ import { ElMessage } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
 import { courseStatusOptions, courseClassificationOptions } from '../static/coursePageData'
-import { coursePageData } from '../mocks/coursePage'
+// import { coursePageData } from '../mocks/coursePage'
+import { updateCatalogStatusAPI, addCatalogAPI } from '../apis/course'
 
 interface CourseInfoData {
   id: number
@@ -181,34 +184,73 @@ interface CourseInfoData {
   createTime: string
 }
 
-const router = new useRouter()
+const router = useRouter()
 
-const tableData = ref<Array<CoursePageData>>([])
+const tableData = ref<Array<CourseInfoData>>([])
 const courseStatusDialogVisible = ref(false)
 const addCatalogDialogVisible = ref(false)
-const courseInfo = ref<CoursePageData>({
-  id: null,
-  courseName: "string",
-  displayStatus: 0,
-  grade: "string",
-  price: "string",
-  status: 0,
-  courseClassification: "string",
-  courseCover: "string",
-  courseTime: 0,
-  teacherName: "string",
-  beginTime: "string",
-  createTime: "string",
+const courseInfo = ref<CourseInfoData>()
+const courseEditInfo = ref({
+  status: -1
+})
+const courseAddInfo = ref({
+  catalogName: "",
+  beginTime: ""
 })
 
 onMounted(() => {
   tableData.value = coursePageData
 })
 
-const handleEdit = (row: TeacherPageData) => {
+const handleEdit = (row: CourseInfoData) => {
   row.status = row.status.toString()
   courseInfoDialogVisible.value = true
-  courseInfo.value = row
+  courseEditInfo.value = row
+}
+
+const changeStatusConfirm = async () => {
+  const data = {
+    id: courseInfo.value!.id,
+    status: String(courseEditInfo.value.status)
+  }
+  const res = await updateCatalogStatusAPI(data)
+  if (res.code === 1) {
+    courseStatusDialogVisible.value = false
+    ElMessage({
+      message: '修改成功',
+      type: 'success',
+    })
+  } else {
+    ElMessage({
+      message: '修改失败',
+      type: 'error',
+    })
+  }
+}
+
+const handleUpload = (id: number) => {
+
+}
+
+const handleAddCatalogConfirm = async () => {
+  const data = {
+    id: courseInfo.value!.id,
+    catalogName: courseAddInfo.value.catalogName,
+    beginTime: courseAddInfo.value.beginTime
+  }
+  const res = await addCatalogAPI(data)
+  if (res.code === 1) {
+    addCatalogDialogVisible.value = false
+    ElMessage({
+      message: '修改成功',
+      type: 'success',
+    })
+  } else {
+    ElMessage({
+      message: '修改失败',
+      type: 'error',
+    })
+  }
 }
 
 const indexMethod = (index: number) => {
@@ -216,6 +258,7 @@ const indexMethod = (index: number) => {
 }
 
 const cancelAddCourse = () => {
+  courseInfo.value = {}
   router.push('/course')
 }
 

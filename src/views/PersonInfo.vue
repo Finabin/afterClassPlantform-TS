@@ -34,7 +34,7 @@
             <div class="personinfo-single">
               <span class="personinfo-require">*</span>
               <span class="personinfo-title">手机:</span>
-              <el-input v-model="update_info.telephone" placeholder="请输入" style="width: 240px; height: 38px;" />
+              <el-input v-model="update_info.phone" placeholder="请输入" style="width: 240px; height: 38px;" />
             </div>
           </div>
           <div class="personinfo-row">
@@ -92,7 +92,7 @@
             <div class="personinfo-origin-single">
               <span class="personinfo-origin-require">*</span>
               <span class="personinfo-origin-title">手机:</span>
-              <span>{{ origin_info.telephone }}</span>
+              <span>{{ origin_info.phone }}</span>
             </div>
           </div>
           <div class="personinfo-origin-row">
@@ -124,9 +124,10 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { sexOptions, gradeOptions, subjectOptions } from '../static/personInfoData'
-import { getPersonalInfoAPI } from '../apis/user'
+import { getPersonalInfoAPI, updatePersonalInfoAPI } from '../apis/user'
 import useUserInfoStore from '@/stores/user'
 import { storeToRefs } from "pinia";
+import { ElMessage } from 'element-plus'
 
 
 const userInfoStore = useUserInfoStore();
@@ -137,7 +138,7 @@ const origin_info = ref({
   nickname: '',
   sex: '',
   username: '',
-  telephone: '',
+  phone: '',
   grade: '',
   subject: '',
   introduce: ''
@@ -149,7 +150,7 @@ const update_info = ref({
     label: ''
   },
   username: '',
-  telephone: '',
+  phone: '',
   grade: {
     value: '',
     label: ''
@@ -183,7 +184,7 @@ const updatePersonInfo = () => {
   }
   update_info.value.nickname = origin_info.value.nickname
   update_info.value.username = origin_info.value.username
-  update_info.value.telephone = origin_info.value.telephone
+  update_info.value.phone = origin_info.value.phone
   update_info.value.introduce = origin_info.value.introduce
   if (origin_info.value.sex === '男') {
     update_info.value.sex = {
@@ -198,9 +199,23 @@ const updatePersonInfo = () => {
   }
 }
 
-const savePersonInfo = () => {
-  console.log(update_info.value);
-  isUpdate.value = false
+const savePersonInfo = async () => {
+  const data = {
+    id: Number(id.value),
+    nickname: update_info.value.nickname,
+    gender: Number(update_info.value.sex.value),
+    username: update_info.value.username,
+    phone: update_info.value.phone,
+    grade: update_info.value.grade.label,
+    subject: update_info.value.subject.label,
+    introduce: update_info.value.introduce
+  }
+  const res = await updatePersonalInfoAPI(data)
+  if (res.code === 1) {
+    isUpdate.value = false
+  } else {
+    ElMessage.error("修改失败!")
+  }
 }
 
 </script>

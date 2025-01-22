@@ -76,7 +76,7 @@
     <div class="coursepage-dialog-row">
       <span class="coursepage-dialog-span-require">*</span>
       <span class="coursepage-dialog-span-text">展示状态：</span>
-      <el-radio-group v-model="teacherInfo.status">
+      <el-radio-group v-model="courseInfo.status">
         <el-radio value="1">已上架</el-radio>
         <el-radio value="0">已下架</el-radio>
       </el-radio-group>
@@ -84,7 +84,7 @@
     <div class="coursepage-dialog-row">
       <span class="coursepage-dialog-span-require">*</span>
       <span class="coursepage-dialog-span-text">课程状态：</span>
-      <el-radio-group v-model="teacherInfo.status">
+      <el-radio-group v-model="courseInfo.status">
         <el-radio value="0">未开课</el-radio>
         <el-radio value="1">开课中</el-radio>
         <el-radio value="2">已结课</el-radio>
@@ -92,8 +92,8 @@
     </div>
     <template #footer>
       <div class="coursepage-dialog-footer">
-        <el-button @click="teacherInfoDialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="teacherInfoDialogVisible = false">
+        <el-button @click="courseInfoDialogVisible = false">取消</el-button>
+        <el-button type="primary" @click="handleConfirm">
           确定
         </el-button>
       </div>
@@ -113,8 +113,10 @@ import {
   headerCellStyle,
 } from '../public/tableStyle'
 import { courseStatusOptions, courseClassificationOptions } from '../static/coursePageData'
-// import { coursePageData } from '../mocks/coursePage'
-import { getAllCourseAPI } from '../apis/course'
+import { getAllCourseAPI, getTeacherCourseAPI, searchAllCourseAPI, searchTeacherCourseAPI, updateCourseInfoAPI } from '../apis/course'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
+
 
 interface CoursePageData {
   id: number
@@ -131,8 +133,9 @@ interface CoursePageData {
   createTime: string
 }
 
-const router = new useRouter()
-
+const router = useRouter()
+const userInfoStore = useUserInfoStore();
+const { role, id } = storeToRefs(userInfoStore);
 const search_date = ref('')
 const search_status = ref('')
 const search_name_phone = ref('')
@@ -148,7 +151,15 @@ const courseInfo = ref({
 const courseInfoDialogVisible = ref(false)
 
 onMounted(async () => {
-  const coursePageData = await getAllCourseAPI()
+  let coursePageData
+  if (role.value == "1") {
+    const data = {
+      id: Number(id.value),
+    }
+    coursePageData = await getTeacherCourseAPI(data)
+  } else {
+    coursePageData = await getAllCourseAPI()
+  }
   tableData.value = coursePageData.data
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
@@ -173,24 +184,48 @@ const indexMethod = (index: number) => {
   return index + 1 + (curPage.value - 1) * pageSize.value
 }
 
-const search = () => {
-  const regex = /^1[3-9]\d{9}$/
+const search = async () => {
+  let res
   if (search_date.value === "" && search_name_phone.value === "" && search_status.value === "" && search_classification.value === "") {
     ElMessage.warning('请输入搜索条件!')
     return
   }
   let data = {
-    nickName: "",
-    phone: "",
+    username: search_name_phone.value,
+    course_name: search_name_phone.value,
     status: search_status.value,
-    createTime: search_date.value,
+    beginTime: search_date.value,
     classification: search_classification.value
   }
-  console.log(data);
+  if (role.value == "1") {
+    data["id"] = Number(id.value)
+    res = await searchTeacherCourseAPI(data)
+  } else {
+    res = await searchAllCourseAPI(data)
+  }
+  tableData.value = res.data
+  curPageData.value = tableData.value.slice(0, pageSize.value)
+  curPage.value = 1
 }
 
 const addCourse = function () {
   router.push('/course/add')
+}
+
+const handleConfirm = async (id: number) => {
+  courseInfoDialogVisible.value = false
+  const data = {
+    courseId: id,
+    status: courseInfo.value.status,
+    displayStatus: courseInfo.value.displayStatus
+  }
+  const res = await updateCourseInfoAPI(data)
+  if (res.code === 1) {
+    ElMessage.success('修改成功')
+    courseInfoDialogVisible.value = false
+  } else {
+    ElMessage.error('修改失败')
+  }
 }
 
 </script>

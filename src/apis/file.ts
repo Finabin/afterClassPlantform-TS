@@ -25,7 +25,7 @@ export function getStudentFileAPI(data: getDataInfo) {
 }
 
 export function searchAllFileAPI(data: searchDataInfo) {
-  return request(`/file_manage/admin`, "GET");
+  return request(`/file_manage/admin`, "GET", data);
 }
 
 export function searchTeacherFileAPI(data: searchDataInfo) {
