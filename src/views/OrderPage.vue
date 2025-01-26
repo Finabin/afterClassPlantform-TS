@@ -146,7 +146,7 @@ const search = async () => {
   } else if (role.value == '2') {
     res = await searchStudentOrderAPI(data)
   }
-  tableData.value = res.data
+  tableData.value = res.data || []
   curPageData.value = tableData.value.slice(0, pageSize.value)
   curPage.value = 1
 }

@@ -26,13 +26,13 @@ export function getStudentOrderAPI(data: getOrderInfo) {
 }
 
 export function searchAllOrderAPI(data: searchOrderInfo) {
-  return request(`/order_manage/admin`, "GET", data);
+  return request(`/order_manage/search/admin`, "GET", data);
 }
 
 export function searchTeacherOrderAPI(data: searchOrderInfo) {
-  return request(`/order_manage/admin`, "GET", data);
+  return request(`/order_manage/search/admin`, "GET", data);
 }
 
 export function searchStudentOrderAPI(data: searchOrderInfo) {
-  return request(`/order_manage/admin`, "GET", data);
+  return request(`/order_manage/search/admin`, "GET", data);
 }

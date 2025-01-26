@@ -123,7 +123,7 @@
           订单统计
         </div>
         <div class="datapage-main-map-data">
-          <img src="" alt="">
+          <OrdersGraph />
         </div>
       </div>
       <div class="datapage-main-map">
@@ -131,7 +131,7 @@
           销售统计
         </div>
         <div class="datapage-main-map-data">
-          <img src="" alt="">
+          <SalesGraph />
         </div>
       </div>
     </div>
@@ -141,6 +141,8 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { getDataPageInfoAPI } from '../apis/data'
+import SalesGraph from '../components/SalesGraph.vue'
+import OrdersGraph from '../components/OrdersGraph.vue'
 
 interface DataInfo {
   ordersToday: number, //今日订单数
@@ -163,10 +165,29 @@ interface DataInfo {
   }
 }
 
-const dataInfo = ref<DataInfo>({})
+const dataInfo = ref<DataInfo>({
+  ordersToday: 0,
+  salesToday: 0,
+  salesYes: 0,
+  salesWeek: 0,
+  courseData: {
+    courseOn: 0,
+    courseDown: 0,
+    courseAll: 0,
+    courseOver: 0
+  },
+  userData: {
+    newUserToday: 0,
+    newUserMonth: 0,
+    userAll: 0,
+    newUserYesterday: 0
+  }
+})
 
 onMounted(async () => {
   const res = await getDataPageInfoAPI()
+  console.log(res);
+
   dataInfo.value = res.data
 })
 </script>

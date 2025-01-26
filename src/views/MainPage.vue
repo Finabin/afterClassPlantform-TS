@@ -55,9 +55,9 @@
       <div class="mainpage-recommend">
         <MainFilterListItem v-for="item in recommendData" :key="item.id" :courseData="item" />
         <div class="mainpage-pagination">
-          <el-pagination background layout="prev, pager, next" :total="tableData.length""
-            v-model="pageSize" @current-change="handlePageChange" @prev-click="handlePageChange"
-            @next-click="handlePageChange" size="default" />
+          <el-pagination background layout="prev, pager, next" :total="recommendData.length" v-model="pageSize"
+            @current-change="handlePageChange" @prev-click="handlePageChange" @next-click="handlePageChange"
+            size="default" />
         </div>
       </div>
       <div class="mainpage-bestselling-label">
@@ -101,6 +101,8 @@ const curPage = ref(1)
 onMounted(async () => {
   const recommendList = await getMainPageDataAPI()
   const courseGoodSoldList = await getGoodSellingDataAPI()
+  console.log(recommendList);
+
   recommendData.value = recommendList.data
   bestSellingData.value = courseGoodSoldList.data
 })
@@ -111,11 +113,6 @@ const reset = () => {
   search_grade.value = ''
   search_salesRange.value = ''
   search_keyword.value = ''
-}
-
-const handleSizeChange = (val: number) => {
-  pageSize.value = val
-  recommendData.value = search_data.value.slice(pageSize.value * (curPage.value - 1), pageSize.value * curPage.value)
 }
 
 const handlePageChange = (val: number) => {

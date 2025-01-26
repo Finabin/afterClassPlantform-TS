@@ -43,8 +43,10 @@ declare module 'vue' {
     LogOutPopUp: typeof import('./src/components/LogOutPopUp.vue')['default']
     MainFilterListItem: typeof import('./src/components/MainFilterListItem.vue')['default']
     MainPagePopUp: typeof import('./src/components/MainPagePopUp.vue')['default']
+    OrdersGraph: typeof import('./src/components/OrdersGraph.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SalesGraph: typeof import('./src/components/SalesGraph.vue')['default']
     UpdatePassword: typeof import('./src/components/UpdatePassword.vue')['default']
     UpdatePasswordPopUp: typeof import('./src/components/UpdatePasswordPopUp.vue')['default']
   }

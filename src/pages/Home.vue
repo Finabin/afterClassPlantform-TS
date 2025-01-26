@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MainPagePopUp :mainpageDialogVisible="mainpageDialogVisible" />
+    <MainPagePopUp :mainpageDialogVisible="mainpageDialogVisible" v-if="mainpageDialogVisible" />
     <LogOutPopUp v-if="logOutPopUpVisible" :popUpClosed="logOutPopUpVisible"
       @custom-event="handleLogOutVisibleChange" />
     <UpdatePasswordPopUp v-if="updatePasswordPopUpVisible" :popUpClosed="updatePasswordPopUpVisible"
@@ -25,8 +25,9 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item disabled="true">当前角色：
-                <span v-if="role === 1">学生</span>
-                <span v-else-if="role === 2">老师</span>
+                <span v-if="role === '1'">学生</span>
+                <span v-else-if="role === '2'">老师</span>
+                <span v-else>管理员</span>
               </el-dropdown-item>
               <el-dropdown-item @click="updatePassword">修改密码</el-dropdown-item>
               <el-dropdown-item @click="logOut">退出登录</el-dropdown-item>
@@ -82,30 +83,38 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import menu from '@/router/menu'
 import { useI18n } from "vue-i18n";
 import MainPagePopUp from '@/components/MainPagePopUp.vue';
-import { useRoute, useRouter } from 'vue-router'
 import LogOutPopUp from '@/components/LogOutPopUp.vue';
 import UpdatePasswordPopUp from '@/components/UpdatePasswordPopUp.vue';
 import useUserInfoStore from '@/stores/user'
+import useMenuIndexStore from '@/stores/menu';
 import { storeToRefs } from "pinia";
 
+const userInfoStore = useUserInfoStore();
+const menuIndexStore = useMenuIndexStore();
+const { nickName, role, avatar } = storeToRefs(userInfoStore);
+const { curMenuIndex } = storeToRefs(menuIndexStore);
 const { locale } = useI18n();
-const router = useRouter()
-const route = useRoute()
-const curRoute = ref('/main')
+const curRoute = ref(curMenuIndex)
 const i18nSwitch = ref(true)
 const logOutPopUpVisible = ref(false)
 const updatePasswordPopUpVisible = ref(false)
 const mainpageDialogVisible = ref(true)
-const userInfoStore = useUserInfoStore();
-const { nickName, role, avatar } = storeToRefs(userInfoStore);
+
+
+onMounted(async () => {
+  if (role.value !== "") {
+    mainpageDialogVisible.value = false
+  }
+})
 
 
 const changeRoute = (path: string) => {
   curRoute.value = path
+  curMenuIndex.value = path
 }
 
 const changeLanguage = () => {

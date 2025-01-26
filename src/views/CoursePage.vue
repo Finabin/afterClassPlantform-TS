@@ -104,7 +104,6 @@
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import {
   rowStyle,
@@ -164,10 +163,10 @@ onMounted(async () => {
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
 
-const handleEdit = (row: TeacherPageData) => {
-  row.status = row.status.toString()
+const handleEdit = (row: CoursePageData) => {
   courseInfoDialogVisible.value = true
-  courseInfo.value = row
+  courseInfo.value.displayStatus = String(row.displayStatus)
+  courseInfo.value.status = String(row.status)
 }
 
 const handleSizeChange = (val: number) => {
@@ -226,6 +225,10 @@ const handleConfirm = async (id: number) => {
   } else {
     ElMessage.error('修改失败')
   }
+}
+
+const handleCheck = (row: CoursePageData) => {
+  router.push(`/course/edit/id=${id}`)
 }
 
 </script>

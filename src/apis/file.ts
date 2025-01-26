@@ -25,13 +25,13 @@ export function getStudentFileAPI(data: getDataInfo) {
 }
 
 export function searchAllFileAPI(data: searchDataInfo) {
-  return request(`/file_manage/admin`, "GET", data);
+  return request(`/file_manage/search/admin`, "GET", data);
 }
 
 export function searchTeacherFileAPI(data: searchDataInfo) {
-  return request(`/file_manage/teacher`, "GET", data);
+  return request(`/file_manage/search/teacher`, "GET", data);
 }
 
 export function searchStudentFileAPI(data: searchDataInfo) {
-  return request(`/file_manage/student`, "GET", data);
+  return request(`/file_manage/search/student`, "GET", data);
 }

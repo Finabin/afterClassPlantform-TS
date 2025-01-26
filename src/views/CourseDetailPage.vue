@@ -114,7 +114,7 @@
 import { ref, onMounted } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { buyCourseAPI, payCourseAPI } from '../apis/main'
 import { getCourseDetailAPI } from '../apis/course'
 import {
@@ -135,14 +135,16 @@ interface TablePageData {
 }
 
 const router = useRouter()
+const route = useRoute()
 const userInfoStore = useUserInfoStore();
 const { id } = storeToRefs(userInfoStore);
 const buyDialogVisible = ref(false)
 const tableData = ref<Array<TablePageData>>([])
+const courseID = route.params.id
 
 onMounted(async () => {
   const data = {
-    id: Number(router.currentRoute.value.params.id)
+    id: Number(courseID)
   }
   const res = await getCourseDetailAPI(data)
   if (res.code === 1) {

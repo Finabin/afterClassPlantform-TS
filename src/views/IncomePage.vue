@@ -159,17 +159,19 @@ const search = async () => {
   }
   let data = {
     type: search_processType.value,
-    nickName: search_nickName.value,
-    applicteTime: search_date.value,
-    teacherName: search_teacherName.value,
+    nickname: search_nickName.value,
+    applictetime: search_date.value,
+    username: search_teacherName.value,
   }
   if (role.value !== '0') {
     data['id'] = Number(id.value)
     res = await searchTeacherIncomeAPI(data)
   } else {
+    console.log(data);
     res = await searchAllIncomeAPI(data)
+    console.log(res);
   }
-  tableData.value = res.data
+  tableData.value = res.data || []
   curPageData.value = tableData.value.slice(0, pageSize.value)
   curPage.value = 1
 }

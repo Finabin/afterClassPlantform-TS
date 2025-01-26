@@ -19,5 +19,5 @@ export const registerAPI = (data: LoginData) => {
 };
 
 export const identifyAPI = (data: IdentifyData) => {
-  return request("/register", "POST", data);
+  return request("/popup", "POST", data);
 };

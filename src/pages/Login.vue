@@ -51,7 +51,7 @@
               <input type="password" placeholder="请再次输入密码" v-model="registerRPassword">
             </div>
             <div class="login-checkbox">
-              <input type="checkbox" class="login-checkbox-input" />
+              <input type="checkbox" class="login-checkbox-input" v-model="agreement" @click="changeAgreement" />
               <label for="agreementCheckbox" class="login-checkbox-text">
                 我已阅读并同意
                 <span>用户协议</span>、
@@ -73,9 +73,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { LoginAPI } from '@/apis/login'
 import useUserInfoStore from "@/stores/user";
+import useMenuIndexStore from '@/stores/menu';
+import { storeToRefs } from "pinia";
 
 const isPasswordLogin = ref(true)
 const isLoginPage = ref(true)
@@ -87,11 +89,24 @@ const registerNickname = ref('')
 const registerPassword = ref('')
 const registerRPassword = ref('')
 const userInfoStore = useUserInfoStore();
+const agreement = ref(false)
 
 const router = useRouter()
-const route = useRoute()
+const menuIndexStore = useMenuIndexStore();
+const { curMenuIndex } = storeToRefs(menuIndexStore);
+
+const changeAgreement = () => {
+  agreement.value = !agreement.value
+}
 
 const toLogin = async () => {
+  // if (!agreement.value) {
+  //   ElMessage({
+  //     message: '请勾选同意协议',
+  //     type: 'warning',
+  //   })
+  //   return
+  // }
   if (isPasswordLogin.value) {
     if (loginNickname.value === '' || loginNPassword.value === '') {
       ElMessage({
@@ -106,14 +121,18 @@ const toLogin = async () => {
     }
     const res = await LoginAPI(data)
     if (res.code === 1) {
-      userInfoStore.$patch({
-        id: 1,
-        nickName: "susie",
-        role: 1,
-        avatar: "",
-        token: "",
-      })
-      router.push('/home')
+      userInfoStore.id = res.data.id
+      userInfoStore.nickName = res.data.nickName
+      userInfoStore.role = res.data.role
+      userInfoStore.avatar = res.data.avatar
+      userInfoStore.token = res.data.token
+      if (userInfoStore.role == "1") {
+        curMenuIndex.value = "/main"
+        router.push('/home')
+      } else {
+        curMenuIndex.value = "/datasource"
+        router.push('/datasource')
+      }
     } else if (res.code === 0) {
       ElMessage({
         message: '账号或密码错误',

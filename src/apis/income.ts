@@ -6,9 +6,9 @@ interface teacherInfo {
 
 interface searchInfo {
   type: string;
-  nickName: string;
-  applicteTime: string;
-  teacherName: string;
+  nickname: string;
+  applictetime: string;
+  username: string;
   id?: number;
 }
 
@@ -31,7 +31,7 @@ export function searchTeacherIncomeAPI(data: searchInfo) {
 }
 
 export function searchAllIncomeAPI(data: searchInfo) {
-  return request(`/income_manage/search`, "GET", data);
+  return request(`/income_manage/search/admin`, "GET", data);
 }
 
 export function withdrawalAPI(data: withdrawalInfo) {

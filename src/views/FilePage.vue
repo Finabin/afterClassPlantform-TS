@@ -27,7 +27,7 @@
           <el-table-column prop="teacherName" label="老师" width="150" />
           <el-table-column prop="courseFile" label="课程文件" width="150">
             <template #default="scope">
-              <span @click="downloadFile(scope.row)" style="color: blue; cursor: pointer;">点我下载</span>
+              <a :href="scope.row.courseFile" target="_blank" style="color: blue; cursor: pointer;">点我下载</a>
             </template>
           </el-table-column>
           <el-table-column prop="fileSize" label="文件大小" width="150">
@@ -131,18 +131,17 @@ const search = async () => {
     data['userId'] = Number(id.value)
   }
   if (role.value === "0") {
-    res = searchAllFileAPI(data)
+    res = await searchAllFileAPI(data)
   } else if (role.value === "1") {
-    res = searchTeacherFileAPI(data)
+    res = await searchTeacherFileAPI(data)
   } else if (role.value === "2") {
-    res = searchStudentFileAPI(data)
+    res = await searchStudentFileAPI(data)
   }
-  console.log(data);
-}
+  console.log(res);
 
-const downloadFile = (row: FilePageData) => {
-  console.log(row.courseFile);
-  ElMessage.success('下载成功!')
+  tableData.value = res.data || []
+  curPageData.value = tableData.value.slice(0, pageSize.value)
+  curPage.value = 1
 }
 
 </script>

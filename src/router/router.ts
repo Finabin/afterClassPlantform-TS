@@ -59,12 +59,12 @@ const routes = [
             component: () => import("@/views/AddCoursePage.vue"),
           },
           {
-            path: "/course/edit",
+            path: "/course/edit/:id",
             name: "编辑课程",
             component: () => import("@/views/EditCoursePage.vue"),
           },
           {
-            path: "/course/detail",
+            path: "/course/detail/:id",
             name: "课程详情",
             component: () => import("@/views/CourseDetailPage.vue"),
           },

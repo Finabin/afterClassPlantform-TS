@@ -4,11 +4,11 @@ const searchProcessTypeOptions = [
     label: "处理类型",
   },
   {
-    value: "1",
+    value: "提现",
     label: "提现",
   },
   {
-    value: "2",
+    value: "收入",
     label: "收入",
   },
 ];
