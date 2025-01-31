@@ -31,6 +31,17 @@
   margin-top: 20px;
   background-color: #fff;
 }
+.filepage-result .filepage-a {
+  color: #1890ff;
+  cursor: pointer;
+  text-decoration: none;
+}
+.filepage-result .filepage-a:hover {
+  color: #0999ff;
+}
+.filepage-result .filepage-a:active {
+  color: #1890ff;
+}
 .filepage-pagination {
   display: flex;
   justify-content: center;

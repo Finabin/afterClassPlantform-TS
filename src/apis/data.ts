@@ -11,3 +11,15 @@ export function getSalesGraphDataAPI() {
 export function getOrdersGraphDataAPI() {
   return request(`/annual_statistics/order`, "GET");
 }
+
+export function getTeacherDataPageInfoAPI() {
+  return request(`/teacher_statistics`, "GET");
+}
+
+export function getTeacherSalesGraphDataAPI() {
+  return request(`/annual_statistics/sales_teacher`, "GET");
+}
+
+export function getTeacherOrdersGraphDataAPI() {
+  return request(`/annual_statistics/order_teacher`, "GET");
+}

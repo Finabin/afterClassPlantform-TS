@@ -29,8 +29,8 @@
               <span v-else style="color: red;">停用</span>
             </template>
           </el-table-column>
-          <el-table-column prop="userName" label="用户名" width="200" />
-          <el-table-column prop="nickName" label="姓名" width="150" />
+          <el-table-column prop="nickName" label="用户名" width="200" />
+          <el-table-column prop="userName" label="姓名" width="150" />
           <el-table-column prop="phone" label="手机号" width="200" />
           <el-table-column prop="introduction" label="简介" width="200">
             <template #default="scope">
@@ -94,8 +94,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import dayjs from 'dayjs'
+import { ref, onMounted, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { searchStatusOptions } from '../static/teacherPageData'
 import {
@@ -108,11 +107,17 @@ import { getAllTeacherInfoAPI, searchAllTeachernfoAPI, updateteacherTPAPI } from
 
 interface TeacherPageData {
   id: number
-  username: string
-  nickname: string
   phone: string
-  buyCourseNum: number
-  registerTime: string
+  totalIncome: number,
+  createTime: string,
+  nickName: string,
+  subject: string,
+  grade: string,
+  takePercent: number,
+  userName: string,
+  studentNum: number,
+  introduction: string,
+  status: number
 }
 
 const search_date = ref('')
@@ -123,9 +128,9 @@ const curPageData = ref<Array<TeacherPageData>>([])
 const pageSize = ref(15)
 const curPage = ref(1)
 const teacherInfo = ref({
-  takePercent: "",
-  status: "",
-  id: ""
+  takePercent: 0,
+  status: 0,
+  id: "0"
 })
 const teacherInfoDialogVisible = ref(false)
 
@@ -135,16 +140,30 @@ onMounted(async () => {
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
 
+watch([search_date, search_name_phone, search_status], async ([newValOne, newValTwo, newValThree]) => {
+  // 检查两个输入框是否同时为空
+  if (newValOne === '' && newValTwo === '' && newValThree === '') {
+    const teacherPageData = await getAllTeacherInfoAPI()
+    tableData.value = teacherPageData.data
+    curPageData.value = tableData.value.slice(0, pageSize.value)
+    curPage.value = 1
+  }
+});
+
 const handleEdit = (row: TeacherPageData) => {
-  row.status = row.status.toString()
+  let data = {
+    id: row.id,
+    takePercent: row.takePercent,
+    status: String(row.status)
+  }
   teacherInfoDialogVisible.value = true
-  teacherInfo.value = row
+  teacherInfo.value = data
 }
 
 const handleConfirm = async () => {
   const data = {
-    teacherId: Number(teacherInfo.value.id),
-    takePercent: Number(teacherInfo.value.takePercent),
+    teacherId: teacherInfo.value.id,
+    takePercent: teacherInfo.value.takePercent,
     status: teacherInfo.value.status
   }
   const res = await updateteacherTPAPI(data)
@@ -177,7 +196,7 @@ const search = async () => {
     return
   }
   let data = {
-    nickName: "",
+    username: "",
     phone: "",
     status: "",
     registerTime: ""
@@ -186,12 +205,12 @@ const search = async () => {
     data.registerTime = search_date.value
   }
   if (search_status.value !== "") {
-    data.status = search_status.value
+    data.status = String(search_status.value)
   }
   if (search_name_phone.value !== "" && regex.test(search_name_phone.value)) {
     data.phone = search_name_phone.value
   } else {
-    data.nickName = search_name_phone.value
+    data.username = search_name_phone.value
   }
   const res = await searchAllTeachernfoAPI(data)
   tableData.value = res.data

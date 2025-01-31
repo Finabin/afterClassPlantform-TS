@@ -74,7 +74,7 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { LoginAPI } from '@/apis/login'
+import { LoginAPI, registerAPI } from '@/apis/login'
 import useUserInfoStore from "@/stores/user";
 import useMenuIndexStore from '@/stores/menu';
 import { storeToRefs } from "pinia";
@@ -116,7 +116,7 @@ const toLogin = async () => {
       return
     }
     const data = {
-      username: loginNickname.value,
+      nickname: loginNickname.value,
       password: loginNPassword.value
     }
     const res = await LoginAPI(data)
@@ -152,7 +152,7 @@ const toLogin = async () => {
   }
 }
 
-const toRegister = () => {
+const toRegister = async () => {
   if (registerNickname.value === '' || registerPassword.value === '' || registerRPassword.value === '') {
     ElMessage({
       message: '账号或密码不能为空',
@@ -174,11 +174,20 @@ const toRegister = () => {
     })
     return
   }
-  ElMessage.success('注册成功')
-  isLoginPage.value = !isLoginPage.value
-  registerNickname.value = ''
-  registerPassword.value = ''
-  registerRPassword.value = ''
+  const data = {
+    nickname: registerNickname.value,
+    password: registerPassword.value
+  }
+  const res = await registerAPI(data)
+  if (res.code === 1) {
+    ElMessage.success('注册成功')
+    isLoginPage.value = !isLoginPage.value
+    registerNickname.value = ''
+    registerPassword.value = ''
+    registerRPassword.value = ''
+  } else {
+    ElMessage.error('注册失败')
+  }
 }
 
 const changeLoginType = (value: number) => {

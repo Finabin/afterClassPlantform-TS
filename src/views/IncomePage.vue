@@ -55,7 +55,7 @@
           <el-table-column prop="teacherName" label="老师" width="200" />
           <el-table-column prop="processType" label="处理类型" width="150">
             <template #default="scope">
-              <span v-if="scope.row.processType === 1" style="color: orange;">提现</span>
+              <span v-if="scope.row.processType === '提现'" style="color: orange;">提现</span>
               <span v-else style="color: aqua;">收入</span>
             </template>
           </el-table-column>
@@ -82,7 +82,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import { searchProcessTypeOptions } from '../static/incomePageData'
@@ -119,7 +119,7 @@ const curPageData = ref<Array<IncomePageData>>([])
 const pageSize = ref(15)
 const curPage = ref(1)
 
-onMounted(async () => {
+const getIncomPageData = async () => {
   let incomePageData
   if (role.value != '2') {
     incomePageData = await getAllIncomeAPI()
@@ -129,9 +129,23 @@ onMounted(async () => {
     }
     incomePageData = await getTeacherIncomeAPI(data)
   }
+  return incomePageData
+}
+
+onMounted(async () => {
+  const incomePageData = await getIncomPageData()
   tableData.value = incomePageData.data
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
+
+watch([search_date, search_processType, search_nickName, search_teacherName], async ([newValOne, newValTwo, newValThree, newValFour]) => {
+  if (newValOne === '' && newValTwo === '' && newValThree === '' && newValFour === '') {
+    const incomePageData = await getIncomPageData()
+    tableData.value = incomePageData.data
+    curPageData.value = tableData.value.slice(0, pageSize.value)
+    curPage.value = 1
+  }
+});
 
 const handleIncomeDialogVisibleChange = (visible: boolean) => {
   IncomeDialogVisible.value = visible
@@ -167,9 +181,7 @@ const search = async () => {
     data['id'] = Number(id.value)
     res = await searchTeacherIncomeAPI(data)
   } else {
-    console.log(data);
     res = await searchAllIncomeAPI(data)
-    console.log(res);
   }
   tableData.value = res.data || []
   curPageData.value = tableData.value.slice(0, pageSize.value)

@@ -6,8 +6,9 @@
   background-color: #fff;
   margin: 20px 0;
 }
-.mainfilterlistitem-container .mainfilterlistitem-img {
-  width: 30%;
+.mainfilterlistitem-container .mainfilterlistitem-img img {
+  width: 200px;
+  height: auto;
 }
 .mainfilterlistitem-container .mainfilterlistitem-courseinfo {
   width: 40%;

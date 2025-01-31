@@ -34,19 +34,19 @@ export function getAllCourseAPI() {
 }
 
 export function getTeacherCourseAPI(data: getInfoData) {
-  return request(`/course_manage/check_course`, "GET", data);
+  return request(`/course_manage/check_course`, "POST", data);
 }
 
 export function searchAllCourseAPI(data: searchInfoData) {
-  return request(`/search/admin`, "GET", data);
+  return request(`/search/admin`, "POST", data);
 }
 
 export function searchTeacherCourseAPI(data: searchInfoData) {
-  return request(`/course_manage/search/teacher`, "GET", data);
+  return request(`/course_manage/search/teacher`, "POST", data);
 }
 
 export function getCourseDetailAPI(data: getInfoData) {
-  return request(`/course_manage/check_course`, "GET", data);
+  return request(`/course_manage/check_course`, "POST", data);
 }
 
 export function updateCourseInfoAPI(data: updateInfoData) {

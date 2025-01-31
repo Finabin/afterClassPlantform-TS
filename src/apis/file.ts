@@ -17,21 +17,21 @@ export function getAllFileAPI() {
 }
 
 export function getTeacherFileAPI(data: getDataInfo) {
-  return request(`/file_manage/teacher`, "GET", data);
+  return request(`/file_manage/teacher`, "POST", data);
 }
 
 export function getStudentFileAPI(data: getDataInfo) {
-  return request(`/file_manage/student`, "GET", data);
+  return request(`/file_manage/student`, "POST", data);
 }
 
 export function searchAllFileAPI(data: searchDataInfo) {
-  return request(`/file_manage/search/admin`, "GET", data);
+  return request(`/file_manage/search/admin`, "POST", data);
 }
 
 export function searchTeacherFileAPI(data: searchDataInfo) {
-  return request(`/file_manage/search/teacher`, "GET", data);
+  return request(`/file_manage/search/teacher`, "POST", data);
 }
 
 export function searchStudentFileAPI(data: searchDataInfo) {
-  return request(`/file_manage/search/student`, "GET", data);
+  return request(`/file_manage/search/student`, "POST", data);
 }

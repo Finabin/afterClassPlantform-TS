@@ -27,7 +27,7 @@
           <el-table-column prop="teacherName" label="老师" width="150" />
           <el-table-column prop="courseFile" label="课程文件" width="150">
             <template #default="scope">
-              <a :href="scope.row.courseFile" target="_blank" style="color: blue; cursor: pointer;">点我下载</a>
+              <a :href="scope.row.courseFile" target="_blank" class="filepage-a">点我下载</a>
             </template>
           </el-table-column>
           <el-table-column prop="fileSize" label="文件大小" width="150">
@@ -48,8 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import dayjs from 'dayjs'
+import { ref, onMounted, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import {
   rowStyle,
@@ -82,7 +81,7 @@ const curPageData = ref<Array<FilePageData>>([])
 const pageSize = ref(15)
 const curPage = ref(1)
 
-onMounted(async () => {
+const getFilePageData = async () => {
   let filePageData
   if (role.value === "0") {
     filePageData = await getAllFileAPI()
@@ -97,9 +96,23 @@ onMounted(async () => {
     }
     filePageData = await getStudentFileAPI(data)
   }
+  return filePageData
+}
+
+onMounted(async () => {
+  const filePageData = await getFilePageData()
   tableData.value = filePageData.data
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
+
+watch([search_date, search_courseSection, search_course], async ([newValOne, newValTwo, newValThree]) => {
+  if (newValOne === '' && newValTwo === '' && newValThree === '') {
+    const filePageData = await getFilePageData()
+    tableData.value = filePageData.data
+    curPageData.value = tableData.value.slice(0, pageSize.value)
+    curPage.value = 1
+  }
+});
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
@@ -114,7 +127,6 @@ const handlePageChange = (val: number) => {
 const indexMethod = (index: number) => {
   return index + 1 + (curPage.value - 1) * pageSize.value
 }
-
 
 const search = async () => {
   if (search_date.value === "" && search_courseSection.value === "" && search_course.value === "") {
@@ -137,8 +149,6 @@ const search = async () => {
   } else if (role.value === "2") {
     res = await searchStudentFileAPI(data)
   }
-  console.log(res);
-
   tableData.value = res.data || []
   curPageData.value = tableData.value.slice(0, pageSize.value)
   curPage.value = 1

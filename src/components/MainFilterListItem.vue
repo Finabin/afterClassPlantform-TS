@@ -1,7 +1,7 @@
 <template>
     <div @click="toCourseDetail(id)" class="mainfilterlistitem-container">
         <div class="mainfilterlistitem-img">
-            <img :src=props.courseData.courseImg alt="">
+            <img :src=props.courseData.cover alt="">
         </div>
         <div class="mainfilterlistitem-courseinfo">
             <div class="mainfilterlistitem-courseinfo-name">{{ props.courseData.courseName }}</div>
@@ -9,7 +9,7 @@
         </div>
         <div class="mainfilterlistitem-coursesold">
             <div class="mainfilterlistitem-coursesold-price">￥{{ props.courseData.price }}</div>
-            <div v-if="props.courseData.courseSold" class="mainfilterlistitem-coursesold-soldcount">已售{{
+            <div v-if="props.courseData.sellNum" class="mainfilterlistitem-coursesold-soldcount">已售{{
                 props.courseData.sellNum }}套</div>
         </div>
     </div>

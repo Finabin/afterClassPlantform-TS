@@ -106,7 +106,7 @@ const mainpageDialogVisible = ref(true)
 
 
 onMounted(async () => {
-  if (role.value !== "") {
+  if (role.value) {
     mainpageDialogVisible.value = false
   }
 })

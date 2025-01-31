@@ -8,7 +8,16 @@
       <div class="personinfo-container">
         <div class="personinfo-update-form" v-if="isUpdate">
           <div class="personinfo-row">
-            <el-avatar :size="100" :src="circleUrl" />
+            <div>
+              <el-avatar :size="100" :src="circleUrl" />
+            </div>
+            <div class="personinfo-upload">
+              <el-upload action="http://localhost:8080/system/upload" :show-file-list="false"
+                :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+                <div class="personinfo-upload-btn">点击修改</div>
+              </el-upload>
+              <div class="personinfo-upload-tip">支持.jpg.png等类型文件，2M以内</div>
+            </div>
           </div>
           <div class="personinfo-row">
             <div class="personinfo-single">
@@ -19,7 +28,7 @@
             <div class="personinfo-single">
               <span class="personinfo-require">*</span>
               <span class="personinfo-title">性别:</span>
-              <el-select v-model="update_info.sex" placeholder="请选择" size="large"
+              <el-select v-model="update_info.gender" placeholder="请选择" size="large"
                 style="width: 240px; margin-right: 20px">
                 <el-option v-for="item in sexOptions" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
@@ -57,7 +66,7 @@
             <div class="personinfo-single">
               <span class="personinfo-require">*</span>
               <span class="personinfo-title">简介:</span>
-              <el-input v-model="update_info.introduce" style="width: 500px" :rows="4" type="textarea"
+              <el-input v-model="update_info.introduction" style="width: 500px" :rows="4" type="textarea"
                 placeholder="请输入简介，不超过200字" />
             </div>
           </div>
@@ -80,7 +89,8 @@
             <div class="personinfo-origin-single">
               <span class="personinfo-origin-require">*</span>
               <span class="personinfo-origin-title">性别:</span>
-              <span>{{ origin_info.sex }}</span>
+              <span v-if="origin_info.gender === 1">男</span>
+              <span v-else>女</span>
             </div>
           </div>
           <div class="personinfo-origin-row">
@@ -111,7 +121,7 @@
             <div class="personinfo-origin-last-single">
               <span class="personinfo-origin-require">*</span>
               <span class="personinfo-origin-title">简介:</span>
-              <span>{{ origin_info.introduce }}</span>
+              <span>{{ origin_info.introduction }}</span>
             </div>
           </div>
         </div>
@@ -132,34 +142,25 @@ import { ElMessage } from 'element-plus'
 
 const userInfoStore = useUserInfoStore();
 const { id } = storeToRefs(userInfoStore);
-const circleUrl = ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png')
+const circleUrl = ref('')
 const isUpdate = ref(false)
 const origin_info = ref({
   nickname: '',
-  sex: '',
+  gender: -1,
   username: '',
   phone: '',
   grade: '',
   subject: '',
-  introduce: ''
+  introduction: ''
 })
 const update_info = ref({
   nickname: '',
-  sex: {
-    value: '',
-    label: ''
-  },
+  gender: -1,
   username: '',
   phone: '',
-  grade: {
-    value: '',
-    label: ''
-  },
-  subject: {
-    value: '',
-    label: ''
-  },
-  introduce: ''
+  grade: [],
+  subject: [],
+  introduction: ''
 })
 
 onMounted(async () => {
@@ -168,51 +169,77 @@ onMounted(async () => {
   }
   const res = await getPersonalInfoAPI(data)
   if (res.code === 1) {
-    origin_info.value = res.data
+    origin_info.value = res.data[0]
+    circleUrl.value = res.data[0].avatar
   }
 })
 
+const handleAvatarSuccess: UploadProps['onSuccess'] = (
+  response,
+  uploadFile
+) => {
+  circleUrl.value = URL.createObjectURL(uploadFile.raw!)
+  console.log(response)
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  // if (rawFile.type !== 'image/jpeg') {
+  //   ElMessage.error('Avatar picture must be JPG format!')
+  //   return false
+  // } 
+  // if (rawFile.size / 1024 / 1024 > 2) {
+  //   ElMessage.error('Avatar picture size can not exceed 2MB!')
+  //   return false
+  // }
+  return true
+}
+
 const updatePersonInfo = () => {
   isUpdate.value = true
-  update_info.value.grade = {
-    value: origin_info.value.grade,
-    label: origin_info.value.grade
+  let grade
+  if (!origin_info.value.grade) {
+    grade = []
+  } else {
+    grade = origin_info.value.grade.split(" ")
   }
-  update_info.value.subject = {
-    value: origin_info.value.subject,
-    label: origin_info.value.subject
+  console.log(grade);
+
+  let subject
+  if (!origin_info.value.subject) {
+    subject = []
+  } else {
+    subject = origin_info.value.subject.split(" ")
   }
+  update_info.value.grade = grade
+  update_info.value.subject = subject
   update_info.value.nickname = origin_info.value.nickname
   update_info.value.username = origin_info.value.username
   update_info.value.phone = origin_info.value.phone
-  update_info.value.introduce = origin_info.value.introduce
-  if (origin_info.value.sex === '男') {
-    update_info.value.sex = {
-      value: '0',
-      label: '男'
-    }
-  } else {
-    update_info.value.sex = {
-      value: '1',
-      label: '女'
-    }
-  }
+  update_info.value.introduction = origin_info.value.introduction
+  update_info.value.gender = origin_info.value.gender
 }
 
 const savePersonInfo = async () => {
+  let grade = update_info.value.grade.join(" ")
+  let subject = update_info.value.subject.join(" ")
   const data = {
     id: Number(id.value),
     nickname: update_info.value.nickname,
-    gender: Number(update_info.value.sex.value),
+    gender: update_info.value.gender,
     username: update_info.value.username,
     phone: update_info.value.phone,
-    grade: update_info.value.grade.label,
-    subject: update_info.value.subject.label,
-    introduce: update_info.value.introduce
+    grade: grade,
+    subject: subject,
+    introduction: update_info.value.introduction,
+    avatar: circleUrl.value
   }
+  console.log(data);
+
   const res = await updatePersonalInfoAPI(data)
   if (res.code === 1) {
     isUpdate.value = false
+    origin_info.value = data
+    ElMessage.success("修改成功!")
   } else {
     ElMessage.error("修改失败!")
   }

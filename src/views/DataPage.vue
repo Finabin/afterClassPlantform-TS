@@ -140,9 +140,11 @@
 
 <script lang="ts" setup>
 import { ref, onMounted } from 'vue'
-import { getDataPageInfoAPI } from '../apis/data'
+import { getDataPageInfoAPI, getTeacherDataPageInfoAPI } from '../apis/data'
 import SalesGraph from '../components/SalesGraph.vue'
 import OrdersGraph from '../components/OrdersGraph.vue'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
 
 interface DataInfo {
   ordersToday: number, //今日订单数
@@ -165,6 +167,8 @@ interface DataInfo {
   }
 }
 
+const userInfoStore = useUserInfoStore();
+const { id, role } = storeToRefs(userInfoStore);
 const dataInfo = ref<DataInfo>({
   ordersToday: 0,
   salesToday: 0,
@@ -185,9 +189,15 @@ const dataInfo = ref<DataInfo>({
 })
 
 onMounted(async () => {
-  const res = await getDataPageInfoAPI()
-  console.log(res);
-
+  let res
+  if (role.value === '2') {
+    const data = {
+      id: id.value
+    }
+    res = await getTeacherDataPageInfoAPI(data)
+  } else {
+    res = await getDataPageInfoAPI()
+  }
   dataInfo.value = res.data
 })
 </script>

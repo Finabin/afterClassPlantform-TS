@@ -80,7 +80,7 @@ import { getMainPageDataAPI, getGoodSellingDataAPI, getSearchDataAPI } from '../
 
 interface MainPageData {
   id: number,
-  courseImg: string,
+  cover: string,
   courseName: string
   introduction: string,
   price: number,
@@ -101,8 +101,7 @@ const curPage = ref(1)
 onMounted(async () => {
   const recommendList = await getMainPageDataAPI()
   const courseGoodSoldList = await getGoodSellingDataAPI()
-  console.log(recommendList);
-
+  console.log(courseGoodSoldList);
   recommendData.value = recommendList.data
   bestSellingData.value = courseGoodSoldList.data
 })

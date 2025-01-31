@@ -4,12 +4,24 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
-import { getOrdersGraphDataAPI } from '@/apis/data'
+import { getOrdersGraphDataAPI, getTeacherOrdersGraphDataAPI } from '@/apis/data'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
 
+const userInfoStore = useUserInfoStore();
+const { id, role } = storeToRefs(userInfoStore);
 const data = ref([])
 
 onMounted(async () => {
-  const res = await getOrdersGraphDataAPI()
+  let res
+  if (role.value === '2') {
+    const data = {
+      id: id.value
+    }
+    res = await getTeacherOrdersGraphDataAPI(data)
+  } else {
+    res = await getOrdersGraphDataAPI()
+  }
   data.value = res.data
 })
 

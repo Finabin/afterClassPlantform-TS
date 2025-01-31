@@ -23,15 +23,15 @@ export function getAllIncomeAPI() {
 }
 
 export function getTeacherIncomeAPI(data: teacherInfo) {
-  return request(`/income_manage/teacher`, "GET", data);
+  return request(`/income_manage/teacher`, "POST", data);
 }
 
 export function searchTeacherIncomeAPI(data: searchInfo) {
-  return request(`/income_manage/search/teacher`, "GET", data);
+  return request(`/income_manage/search/teacher`, "POST", data);
 }
 
 export function searchAllIncomeAPI(data: searchInfo) {
-  return request(`/income_manage/search/admin`, "GET", data);
+  return request(`/income_manage/search/admin`, "POST", data);
 }
 
 export function withdrawalAPI(data: withdrawalInfo) {

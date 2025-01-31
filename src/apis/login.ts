@@ -1,7 +1,7 @@
 import request from "@/utils/request";
 
 interface LoginData {
-  username: string;
+  nickname: string;
   password: string;
 }
 

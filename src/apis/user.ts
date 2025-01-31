@@ -45,7 +45,7 @@ export const getAllStudentInfoAPI = () => {
 };
 
 export const searchAllStudentInfoAPI = (data: studentSearch) => {
-  return request("/student_manage/admin/search", "GET", data);
+  return request("/student_manage/admin/search", "POST", data);
 };
 
 export const getAllTeacherInfoAPI = () => {
@@ -53,15 +53,15 @@ export const getAllTeacherInfoAPI = () => {
 };
 
 export const searchAllTeachernfoAPI = (data: teacherSearch) => {
-  return request("/teacher_manage/search", "GET", data);
+  return request("/teacher_manage/search", "POST", data);
 };
 
 export const getTStudentInfoAPI = (data: studentSearchT) => {
-  return request("/student_manage/teacher", "GET", data);
+  return request("/student_manage/teacher", "POST", data);
 };
 
 export const searchTStudentInfoAPI = (data: studentSearchT) => {
-  return request("/student_manage/teacher/search", "GET", data);
+  return request("/student_manage/teacher/search", "POST", data);
 };
 
 export const updateteacherTPAPI = (data: teacherTPInfo) => {
@@ -69,7 +69,7 @@ export const updateteacherTPAPI = (data: teacherTPInfo) => {
 };
 
 export const getPersonalInfoAPI = (data: personInfo) => {
-  return request("/information", "GET", data);
+  return request("/information", "POST", data);
 };
 
 export const updatePersonalInfoAPI = (data: personInfo) => {

@@ -23,7 +23,7 @@ const props = defineProps({
   }
 })
 const userInfoStore = useUserInfoStore();
-const { id } = storeToRefs(userInfoStore);
+const { id, role } = storeToRefs(userInfoStore);
 const mainpageDialogVisible = ref(props.mainpageDialogVisible)
 
 const chooseIdentity = async (iden: number) => {
@@ -37,6 +37,7 @@ const chooseIdentity = async (iden: number) => {
       message: '身份选择成功',
       type: 'success',
     })
+    role.value = String(iden)
     mainpageDialogVisible.value = false
     emit('mainpageDialogVisible', false)
   } else {

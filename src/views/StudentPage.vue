@@ -23,7 +23,7 @@
           <el-table-column prop="userName" label="姓名" width="250" />
           <el-table-column prop="phone" label="手机号" width="250" />
           <el-table-column prop="buyCourseNum" label="已购课程数" width="215" />
-          <el-table-column prop="registerTime" label="注册时间" width="250" />
+          <el-table-column prop="createTime" label="注册时间" width="250" />
         </el-table>
       </div>
       <div class="studentpage-pagination">
@@ -36,7 +36,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import dayjs from 'dayjs'
 import { ElMessage } from 'element-plus'
 import {
@@ -55,7 +55,7 @@ interface StudentPageData {
   nickname: string
   phone: string
   buyCourseNum: number
-  registerTime: string
+  createTime: string
 }
 
 const userInfoStore = useUserInfoStore();
@@ -67,7 +67,7 @@ const curPageData = ref<Array<StudentPageData>>([])
 const pageSize = ref(15)
 const curPage = ref(1)
 
-onMounted(async () => {
+const getStudentPageData = async () => {
   let studentPageData
   if (role.value === '0') {
     studentPageData = await getAllStudentInfoAPI()
@@ -77,9 +77,24 @@ onMounted(async () => {
     }
     studentPageData = await getTStudentInfoAPI(data)
   }
+  return studentPageData
+}
+
+onMounted(async () => {
+  const studentPageData = await getStudentPageData()
   tableData.value = studentPageData.data
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
+
+watch([search_date, search_name_phone], async ([newValOne, newValTwo]) => {
+  // 检查两个输入框是否同时为空
+  if (newValOne === '' && newValTwo === '') {
+    const studentPageData = await getStudentPageData()
+    tableData.value = studentPageData.data
+    curPageData.value = tableData.value.slice(0, pageSize.value)
+    curPage.value = 1
+  }
+});
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val

@@ -69,6 +69,19 @@
   justify-items: center;
   margin: 20px 0;
 }
+.personinfo-container .personinfo-update-form .personinfo-row .personinfo-upload {
+  margin: 0 30px;
+}
+.personinfo-container .personinfo-update-form .personinfo-row .personinfo-upload .personinfo-upload-btn {
+  color: #1890ff;
+  cursor: pointer;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+.personinfo-container .personinfo-update-form .personinfo-row .personinfo-upload .personinfo-upload-tip {
+  color: #d2cfcf;
+  font-size: 10px;
+}
 .personinfo-container .personinfo-update-form .personinfo-row .personinfo-single {
   margin: 0 50px;
 }

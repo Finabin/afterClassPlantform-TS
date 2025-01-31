@@ -54,8 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import dayjs from 'dayjs'
+import { ref, onMounted, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { orderState } from '../static/orderPageData'
 import {
@@ -93,7 +92,7 @@ const curPageData = ref<Array<OrderPageData>>([])
 const pageSize = ref(15)
 const curPage = ref(1)
 
-onMounted(async () => {
+const getOrderPageData = async () => {
   let orderPageData
   if (role.value == '0') {
     orderPageData = await getAllOrderAPI()
@@ -108,9 +107,23 @@ onMounted(async () => {
     }
     orderPageData = await getStudentOrderAPI(data)
   }
+  return orderPageData
+}
+
+onMounted(async () => {
+  const orderPageData = await getOrderPageData()
   tableData.value = orderPageData.data
   curPageData.value = tableData.value.slice(0, pageSize.value)
 })
+
+watch([search_date, search_buyer, search_status, search_orderNo, search_course], async ([newValOne, newValTwo, newValThree, newValFour, newValFive]) => {
+  if (newValOne === '' && newValTwo === '' && newValThree === '' && newValFour === '' && newValFive === '') {
+    const orderPageData = await getOrderPageData()
+    tableData.value = orderPageData.data
+    curPageData.value = tableData.value.slice(0, pageSize.value)
+    curPage.value = 1
+  }
+});
 
 const handleSizeChange = (val: number) => {
   pageSize.value = val
@@ -127,7 +140,7 @@ const indexMethod = (index: number) => {
 }
 
 const search = async () => {
-  if (search_date.value === "" && search_status.value === "" && search_course.value === "" && search_buyer.value === "" && search_ordernumber.value === "") {
+  if (search_date.value === "" && search_status.value === "" && search_course.value === "" && search_buyer.value === "" && search_orderNo.value === "") {
     ElMessage.warning('请输入搜索条件!')
     return
   }
@@ -142,8 +155,10 @@ const search = async () => {
   if (role.value == '0') {
     res = await searchAllOrderAPI(data)
   } else if (role.value == '1') {
+    data["id"] = Number(id.value)
     res = await searchTeacherOrderAPI(data)
   } else if (role.value == '2') {
+    data["id"] = Number(id.value)
     res = await searchStudentOrderAPI(data)
   }
   tableData.value = res.data || []
