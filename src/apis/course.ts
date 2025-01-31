@@ -38,7 +38,7 @@ export function getTeacherCourseAPI(data: getInfoData) {
 }
 
 export function searchAllCourseAPI(data: searchInfoData) {
-  return request(`/search/admin`, "POST", data);
+  return request(`/course_manage/search/admin`, "POST", data);
 }
 
 export function searchTeacherCourseAPI(data: searchInfoData) {
@@ -59,4 +59,8 @@ export function updateCatalogStatusAPI(data: updateCatalogInfoData) {
 
 export function addCatalogAPI(data: addCatalogInfoData) {
   return request(`/course_manage/insert_catalog`, "PUT", data);
+}
+
+export function updateCourseAPI(data: any) {
+  return request(`/course_manage/update_course`, "PUT", data);
 }

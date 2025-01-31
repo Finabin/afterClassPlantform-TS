@@ -127,6 +127,17 @@
   font-weight: bold;
   border-bottom: 1px solid #000;
 }
+.coursedetailpage-main .coursedetailpage-catalog .coursedetailpage-catalog-table .file-a {
+  color: #1890ff;
+  cursor: pointer;
+  text-decoration: none;
+}
+.coursedetailpage-main .coursedetailpage-catalog .coursedetailpage-catalog-table .file-a:hover {
+  color: #0999ff;
+}
+.coursedetailpage-main .coursedetailpage-catalog .coursedetailpage-catalog-table .file-a:active {
+  color: #1890ff;
+}
 .coursedetailpage-result {
   margin-top: 20px;
   background-color: #fff;

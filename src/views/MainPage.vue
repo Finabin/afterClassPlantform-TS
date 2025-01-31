@@ -71,8 +71,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue'
-import dayjs from 'dayjs'
+import { ref, onMounted, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import MainFilterListItem from '../components/MainFilterListItem.vue'
 import { gradeOptions, subjectOptions, salesRange, classHour } from '../static/mainPageData'
@@ -92,7 +91,7 @@ const search_classHour = ref('')
 const search_grade = ref('')
 const search_salesRange = ref('')
 const search_keyword = ref('')
-const search_data = ref<Array<MainPageData>>([])
+const tableData = ref<Array<MainPageData>>([])
 const recommendData = ref<Array<MainPageData>>([])
 const bestSellingData = ref<Array<MainPageData>>([])
 const pageSize = ref(4)
@@ -101,10 +100,20 @@ const curPage = ref(1)
 onMounted(async () => {
   const recommendList = await getMainPageDataAPI()
   const courseGoodSoldList = await getGoodSellingDataAPI()
-  console.log(courseGoodSoldList);
-  recommendData.value = recommendList.data
+  tableData.value = recommendList.data
+  recommendData.value = tableData.value.slice(0, pageSize.value)
   bestSellingData.value = courseGoodSoldList.data
 })
+
+watch([search_subject, search_classHour, search_grade, search_salesRange, search_keyword], async ([newValOne, newValTwo, newValThree, newValFour, newValFive]) => {
+  // 检查两个输入框是否同时为空
+  if (newValOne === '' && newValTwo === '' && newValThree === '' && newValFour === '' && newValFive === '') {
+    const coursePageData = await getMainPageDataAPI()
+    tableData.value = coursePageData.data
+    recommendData.value = tableData.value.slice(0, pageSize.value)
+    curPage.value = 1
+  }
+});
 
 const reset = () => {
   search_subject.value = ''
@@ -157,7 +166,7 @@ const search = async () => {
     }
   }
   const res = await getSearchDataAPI(data)
-  search_data.value = res.data
+  search_data.value = res.data || []
   recommendData.value = search_data.value.slice(0, pageSize.value)
 }
 

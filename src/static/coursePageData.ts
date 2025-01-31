@@ -4,15 +4,15 @@ const courseStatusOptions = [
     label: "课程状态",
   },
   {
-    value: 0,
+    value: "未开课",
     label: "未开课",
   },
   {
-    value: 1,
+    value: "开课中",
     label: "开课中",
   },
   {
-    value: 2,
+    value: "已结课",
     label: "已结课",
   },
 ];

@@ -52,6 +52,18 @@
 .addcoursepage-main .addcoursepage-main-content .addcoursepage-main-content-form .addcoursepage-main-content-form-single .addcoursepage-main-content-form-single-input span {
   margin: 0 10px;
 }
+.addcoursepage-main .addcoursepage-dialog-row {
+  margin: 20px 40px;
+}
+.addcoursepage-main .addcoursepage-dialog-row .addcoursepage-dialog-span-require {
+  color: red;
+}
+.addcoursepage-main .addcoursepage-dialog-row .addcoursepage-dialog-span-symbol {
+  margin-left: 15px;
+}
+.addcoursepage-main .addcoursepage-dialog-row .addcoursepage-dialog-span-text {
+  margin-right: 20px;
+}
 .addcoursepage-main .addcoursepage-footer {
   display: flex;
   justify-content: center;

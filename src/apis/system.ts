@@ -1,5 +1,5 @@
 import request from "@/utils/request";
 
-export function getTeacherCourseAPI(data: any) {
+export function uploadFileAPI(data: any) {
   return request(`/upload`, "POST", data);
 }

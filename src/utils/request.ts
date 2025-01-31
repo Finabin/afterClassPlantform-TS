@@ -31,8 +31,9 @@ export default function request(
     }
     defaultHeaders["token"] = token.value;
   }
-  console.log(token);
-
+  if (url.includes("upload")) {
+    defaultHeaders["Content-Type"] = "multipart/form-data";
+  }
   return new Promise((resolve, reject) => {
     axios({
       url: `${BACKEND_BASE_URL}${url}`,

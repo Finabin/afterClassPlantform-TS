@@ -1,7 +1,7 @@
 <template>
     <div @click="toCourseDetail(id)" class="mainfilterlistitem-container">
         <div class="mainfilterlistitem-img">
-            <img :src=props.courseData.cover alt="">
+            <img :src=props.courseData.cover alt="课程封面">
         </div>
         <div class="mainfilterlistitem-courseinfo">
             <div class="mainfilterlistitem-courseinfo-name">{{ props.courseData.courseName }}</div>
@@ -31,7 +31,7 @@ const id = ref(props.courseData.id)
 
 const toCourseDetail = (id: number) => {
     console.log(id)
-    router.push(`/course/detail/id=${id}`)
+    router.push(`/course/detail/${id}`)
 }
 </script>
 

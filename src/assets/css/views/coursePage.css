@@ -35,3 +35,25 @@
   align-items: center;
   margin-top: 20px;
 }
+.coursepage-dialog-row {
+  margin: 20px 40px;
+}
+.coursepage-dialog-row .coursepage-dialog-span-require {
+  color: red;
+}
+.coursepage-dialog-row .coursepage-dialog-span-symbol {
+  margin-left: 15px;
+}
+.coursepage-dialog-row .coursepage-dialog-span-text {
+  margin-right: 20px;
+}
+.coursepage-dialog-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.coursepage-dialog-footer button {
+  width: 120px;
+  height: 38px;
+  margin: 0 50px;
+}
