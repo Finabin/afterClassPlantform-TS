@@ -7,7 +7,6 @@ import AutoImport from "unplugin-auto-import/vite";
 import Components from "unplugin-vue-components/vite";
 import { ElementPlusResolver } from "unplugin-vue-components/resolvers";
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
@@ -27,9 +26,8 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       less: {
-        math: "always", // 括号内才使用数学计算
+        math: "always",
         globalVars: {
-          // 全局变量
           mainColor: "red",
         },
         javascriptEnabled: true,
