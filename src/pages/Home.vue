@@ -42,7 +42,7 @@
       <el-aside width="200px" style="background-color: #fff;">
         <el-scrollbar>
           <el-menu :router="true" :default-active="curRoute">
-            <template v-for="(item, index) in menu" :key="index">
+            <template v-for="(item, index) in roleMenu" :key="index">
               <!-- 如果有子菜单，则使用el-sub-menu -->
               <el-sub-menu v-if="item.children && item.children.length > 0" :index="item.path || ''">
                 <template #title>
@@ -103,9 +103,22 @@ const i18nSwitch = ref(true)
 const logOutPopUpVisible = ref(false)
 const updatePasswordPopUpVisible = ref(false)
 const mainpageDialogVisible = ref(true)
+const roleMenu = ref()
 
+function filterMenuByRole(menu: any, role: string) {
+  return menu.filter((item: any) => {
+    if (item.auth.includes(role)) {
+      if (item.children && item.children.length > 0) {
+        item.children = filterMenuByRole(item.children, role);
+      }
+      return true;
+    }
+    return false;
+  });
+}
 
 onMounted(async () => {
+  roleMenu.value = filterMenuByRole(menu, role.value);
   if (role.value) {
     mainpageDialogVisible.value = false
   }

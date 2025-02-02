@@ -84,7 +84,7 @@
       <span class="coursepage-dialog-span-text">展示状态：</span>
       <el-radio-group v-model="courseInfo.displayStatus">
         <el-radio value="已上架">已上架</el-radio>
-        <el-radio value="已下架">已下架</el-radio>
+        <el-radio value="未上架">已下架</el-radio>
       </el-radio-group>
     </div>
     <div class="coursepage-dialog-row">
@@ -159,7 +159,7 @@ const courseInfoDialogVisible = ref(false)
 
 const getCoursePageData = async () => {
   let coursePageData
-  if (role.value == "1") {
+  if (role.value == "2") {
     const data = {
       id: Number(id.value),
     }

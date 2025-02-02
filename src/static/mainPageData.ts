@@ -1,5 +1,9 @@
 const gradeOptions = [
   {
+    value: "",
+    label: "请选择年级",
+  },
+  {
     value: "一年级",
     label: "一年级",
   },
@@ -51,6 +55,10 @@ const gradeOptions = [
 
 const subjectOptions = [
   {
+    value: "",
+    label: "请选择科目",
+  },
+  {
     value: "语文",
     label: "语文",
   },
@@ -90,6 +98,10 @@ const subjectOptions = [
 
 const salesRange = [
   {
+    value: "",
+    label: "请选择销量范围",
+  },
+  {
     value: "1",
     label: "0-50",
   },
@@ -112,6 +124,10 @@ const salesRange = [
 ];
 
 const classHour = [
+  {
+    value: "",
+    label: "请选择课时",
+  },
   {
     value: "1",
     label: "5-10",

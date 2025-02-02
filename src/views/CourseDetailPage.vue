@@ -12,7 +12,7 @@
         <div class="coursedetailpage-basicinfo-content">
           <div class="coursedetailpage-basicinfo-content-row">
             <div class="coursedetailpage-basicinfo-content-img">
-              <img src="" alt="">
+              <img :src="pageData!.courseCover" alt="课程封面" style="width: 250px; height: auto;" />
             </div>
             <div class="coursedetailpage-basicinfo-content-info">
               <div class="coursedetailpage-basicinfo-content-info-single">
@@ -179,11 +179,6 @@ const indexMethod = (index: number) => {
 
 const goBack = () => {
   router.go(-1)
-}
-
-const downloadFile = (id: number) => {
-  console.log(id)
-  ElMessage.success('试看文件下载成功！')
 }
 
 const handleConfirm = async () => {

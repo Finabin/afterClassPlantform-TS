@@ -37,7 +37,7 @@
           </div>
           <div class="mainpage-selectarea-single">
             <div class="mainpage-selectarea-single-title">关键词</div>
-            <el-input v-model="search_keyword" placeholder="请输入关键词" style="width:240px; height: 38px;" />
+            <el-input v-model="search_keyword" placeholder="请输入姓名、用户名" style="width:240px; height: 38px;" />
           </div>
           <div class="mainpage-selectarea-single">
             <el-button type="primary" @click="search" class="mainpage-selectarea-single-button-search"><el-icon
@@ -165,9 +165,16 @@ const search = async () => {
       data.sellNum = [501]
     }
   }
+  console.log(data);
   const res = await getSearchDataAPI(data)
-  search_data.value = res.data || []
-  recommendData.value = search_data.value.slice(0, pageSize.value)
+  console.log(res);
+  if (res.code === 1) {
+    tableData.value = res.data || []
+  } else {
+    tableData.value = []
+    ElMessage.error('不存在相关课程!')
+  }
+  recommendData.value = tableData.value.slice(0, pageSize.value)
 }
 
 </script>

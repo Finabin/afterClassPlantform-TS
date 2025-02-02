@@ -82,8 +82,8 @@
             <el-table-column prop="beginTime" label="开课时间" width="180" />
             <el-table-column prop="file" label="课程文件" width="180">
               <template #default="scope">
-                <el-upload :show-file-list="false" :http-request="handleUpload(scope.row)">
-                  <div class="personinfo-upload-btn">点我上传</div>
+                <el-upload :show-file-list="false" :http-request="handleUpload" :limit="1">
+                  <div class="personinfo-upload-btn" @click="recordIndex(scope.$index)">点我上传</div>
                 </el-upload>
               </template>
             </el-table-column>
@@ -179,10 +179,11 @@ import { uploadFileAPI } from '../apis/system'
 
 interface CourseCatalogInfo {
   catalogName: string,
+  beginTime: string,
   file?: string,
   id?: number,
-  beginTime: string,
-  catalogStatus?: string
+  catalogStatus?: string,
+  filesize?: number
 }
 interface CourseInfoData {
   catalog: Array<CourseCatalogInfo>,
@@ -220,6 +221,7 @@ const courseAddInfo = ref({
   catalogName: "",
   beginTime: ""
 })
+const uploadFileIndex = ref(-1)
 
 onMounted(async () => {
   const data = {
@@ -284,8 +286,24 @@ const changeStatusConfirm = async () => {
   }
 }
 
-const handleUpload = (row: CourseCatalogInfo) => {
+const recordIndex = (index: number) => {
+  uploadFileIndex.value = index
+}
 
+const handleUpload = async ({ file }: { file: File; }) => {
+  const formData = new FormData()
+  formData.append('image', file)
+  const res = await uploadFileAPI(formData)
+  if (res.code === 1) {
+    ElMessage.success({
+      message: '上传成功',
+      type: 'success',
+    })
+    courseInfo.value.catalog[uploadFileIndex.value].file = res.data
+    courseInfo.value.catalog[uploadFileIndex.value].filesize = Number((file.size / 1024 / 1024).toFixed(2))
+  } else {
+    ElMessage.error('上传失败')
+  }
 }
 
 const handleAddCatalogConfirm = async () => {
@@ -304,7 +322,7 @@ const handleAddCatalogConfirm = async () => {
   const res = await addCatalogAPI(data)
   if (res.code === 1) {
     courseInfo.value!.catalog.push({
-      id: res.data.id,
+      id: res.data,
       catalogStatus: '未开课',
       catalogName: courseAddInfo.value.catalogName,
       beginTime: courseAddInfo.value.beginTime
@@ -328,7 +346,7 @@ const indexMethod = (index: number) => {
 
 const cancelAddCourse = () => {
   courseInfo.value = {}
-  router.push('/course')
+  router.push('/courseList')
 }
 
 const handleEditCourse = async () => {
@@ -349,7 +367,7 @@ const handleEditCourse = async () => {
       message: '更新成功',
       type: 'success',
     })
-    router.push('/coursePage')
+    router.push('/courseList')
   } else {
     ElMessage({
       message: '更新失败',
@@ -359,7 +377,7 @@ const handleEditCourse = async () => {
 }
 
 const toCoursePage = () => {
-  router.push('/course')
+  router.push('/courseList')
 }
 
 </script>

@@ -61,6 +61,10 @@ export function addCatalogAPI(data: addCatalogInfoData) {
   return request(`/course_manage/insert_catalog`, "PUT", data);
 }
 
+export function addCourseAPI(data: any) {
+  return request(`/course_manage/insert_course`, "PUT", data);
+}
+
 export function updateCourseAPI(data: any) {
   return request(`/course_manage/update_course`, "PUT", data);
 }

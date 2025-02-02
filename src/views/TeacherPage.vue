@@ -54,7 +54,7 @@
           <el-table-column prop="createTime" label="创建时间" width="250" />
           <el-table-column fixed="right" label="操作" min-width="120">
             <template #default="scope">
-              <el-button link type="primary" size="small" @click="handleEdit(scope.row)">修改</el-button>
+              <el-button link type="primary" size="small" @click="handleEdit(scope.row, scope.$index)">修改</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -71,7 +71,7 @@
     <div class="teacherpage-dialog-row">
       <span class="teacherpage-dialog-span-require">*</span>
       <span class="teacherpage-dialog-span-text">抽成比：</span>
-      <el-input v-model="teacherInfo.takePercent" placeholder="请输入" style="width: 120px;" />
+      <el-input v-model.number="teacherInfo.takePercent" placeholder="请输入" style="width: 120px;" />
       <span class="teacherpage-dialog-span-symbol">%</span>
     </div>
     <div class="teacherpage-dialog-row">
@@ -129,8 +129,9 @@ const pageSize = ref(15)
 const curPage = ref(1)
 const teacherInfo = ref({
   takePercent: 0,
-  status: 0,
-  id: "0"
+  status: "0",
+  id: "0",
+  index: 0
 })
 const teacherInfoDialogVisible = ref(false)
 
@@ -150,9 +151,10 @@ watch([search_date, search_name_phone, search_status], async ([newValOne, newVal
   }
 });
 
-const handleEdit = (row: TeacherPageData) => {
+const handleEdit = (row: TeacherPageData, index: number) => {
   let data = {
     id: row.id,
+    index: index,
     takePercent: row.takePercent,
     status: String(row.status)
   }
@@ -160,15 +162,28 @@ const handleEdit = (row: TeacherPageData) => {
   teacherInfo.value = data
 }
 
+const checkValid = () => {
+  if (teacherInfo.value.takePercent < 0 || teacherInfo.value.takePercent > 100) {
+    ElMessage.error('请输入0-100之间的数字')
+    return false
+  }
+  return true
+}
+
 const handleConfirm = async () => {
+  if (!checkValid()) {
+    return
+  }
   const data = {
     teacherId: teacherInfo.value.id,
     takePercent: teacherInfo.value.takePercent,
     status: teacherInfo.value.status
   }
   const res = await updateteacherTPAPI(data)
-  if (res === 1) {
+  if (res.code === 1) {
     ElMessage.success('修改成功！')
+    tableData.value[teacherInfo.value.index].takePercent = teacherInfo.value.takePercent
+    tableData.value[teacherInfo.value.index].status = Number(teacherInfo.value.status)
     teacherInfoDialogVisible.value = false
   } else {
     ElMessage.error('修改失败！')

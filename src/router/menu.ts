@@ -21,6 +21,7 @@ const menu = [
     meta: {
       title: "数据看板",
     },
+    auth: ["0", "2"],
   },
   {
     id: 2,
@@ -31,6 +32,7 @@ const menu = [
     meta: {
       title: "首页",
     },
+    auth: ["0", "1", "2"],
   },
   {
     id: 3,
@@ -40,6 +42,7 @@ const menu = [
     meta: {
       title: "用户管理",
     },
+    auth: ["0", "2"],
     children: [
       {
         id: 31,
@@ -50,6 +53,7 @@ const menu = [
         meta: {
           title: "学生管理",
         },
+        auth: ["0", "2"],
       },
       {
         id: 32,
@@ -60,6 +64,7 @@ const menu = [
         meta: {
           title: "教师管理",
         },
+        auth: ["0"],
       },
     ],
   },
@@ -72,6 +77,7 @@ const menu = [
     meta: {
       title: "课程管理",
     },
+    auth: ["0", "2"],
   },
   {
     id: 5,
@@ -82,6 +88,7 @@ const menu = [
     meta: {
       title: "订单管理",
     },
+    auth: ["0", "1", "2"],
   },
   {
     id: 6,
@@ -92,6 +99,7 @@ const menu = [
     meta: {
       title: "文件管理",
     },
+    auth: ["0", "1", "2"],
   },
 
   {
@@ -103,6 +111,7 @@ const menu = [
     meta: {
       title: "收入管理",
     },
+    auth: ["0", "2"],
   },
   {
     id: 8,
@@ -113,6 +122,7 @@ const menu = [
     meta: {
       title: "个人信息",
     },
+    auth: ["0", "1", "2"],
   },
 ];
 

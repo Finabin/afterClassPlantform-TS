@@ -12,8 +12,8 @@
               <el-avatar :size="100" :src="circleUrl" />
             </div>
             <div class="personinfo-upload">
-              <el-upload action="http://localhost:8080/system/upload" :show-file-list="false"
-                :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
+              <el-upload :http-request="uploadAvatar" :show-file-list="false" :limit="1"
+                :before-upload="beforeAvatarUpload">
                 <div class="personinfo-upload-btn">点击修改</div>
               </el-upload>
               <div class="personinfo-upload-tip">支持.jpg.png等类型文件，2M以内</div>
@@ -135,6 +135,7 @@
 import { ref, onMounted } from 'vue'
 import { sexOptions, gradeOptions, subjectOptions } from '../static/personInfoData'
 import { getPersonalInfoAPI, updatePersonalInfoAPI } from '../apis/user'
+import { uploadFileAPI } from '@/apis/system'
 import useUserInfoStore from '@/stores/user'
 import { storeToRefs } from "pinia";
 import { ElMessage } from 'element-plus'
@@ -174,23 +175,23 @@ onMounted(async () => {
   }
 })
 
-const handleAvatarSuccess: UploadProps['onSuccess'] = (
-  response,
-  uploadFile
-) => {
-  circleUrl.value = URL.createObjectURL(uploadFile.raw!)
-  console.log(response)
+const uploadAvatar = async ({ file }: any) => {
+  const formData = new FormData()
+  formData.append('image', file)
+  const res = await uploadFileAPI(formData)
+  if (res.code === 1) {
+    circleUrl.value = res.data
+    ElMessage.success('上传成功')
+  } else {
+    ElMessage.error('上传失败')
+  }
 }
 
 const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
-  // if (rawFile.type !== 'image/jpeg') {
-  //   ElMessage.error('Avatar picture must be JPG format!')
-  //   return false
-  // } 
-  // if (rawFile.size / 1024 / 1024 > 2) {
-  //   ElMessage.error('Avatar picture size can not exceed 2MB!')
-  //   return false
-  // }
+  if (rawFile.size / 1024 / 1024 > 2) {
+    ElMessage.error('头像图片大小需小于2MB!')
+    return false
+  }
   return true
 }
 
@@ -202,8 +203,6 @@ const updatePersonInfo = () => {
   } else {
     grade = origin_info.value.grade.split(" ")
   }
-  console.log(grade);
-
   let subject
   if (!origin_info.value.subject) {
     subject = []
@@ -219,7 +218,38 @@ const updatePersonInfo = () => {
   update_info.value.gender = origin_info.value.gender
 }
 
+const checkValid = () => {
+  if (!update_info.value.nickname) {
+    ElMessage.error("昵称不能为空!")
+    return false
+  }
+  if (!update_info.value.username) {
+    ElMessage.error("用户名不能为空!")
+    return false
+  }
+  if (!update_info.value.phone) {
+    ElMessage.error("手机号不能为空!")
+    return false
+  }
+  if (!update_info.value.grade.length) {
+    ElMessage.error("年级不能为空!")
+    return false
+  }
+  if (!update_info.value.subject.length) {
+    ElMessage.error("科目不能为空!")
+    return false
+  }
+  if (!update_info.value.introduction) {
+    ElMessage.error("简介不能为空!")
+    return false
+  }
+  return true
+}
+
 const savePersonInfo = async () => {
+  if (!checkValid()) {
+    return
+  }
   let grade = update_info.value.grade.join(" ")
   let subject = update_info.value.subject.join(" ")
   const data = {
@@ -233,8 +263,6 @@ const savePersonInfo = async () => {
     introduction: update_info.value.introduction,
     avatar: circleUrl.value
   }
-  console.log(data);
-
   const res = await updatePersonalInfoAPI(data)
   if (res.code === 1) {
     isUpdate.value = false

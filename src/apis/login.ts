@@ -1,8 +1,9 @@
 import request from "@/utils/request";
 
 interface LoginData {
-  nickname: string;
   password: string;
+  nickname?: string;
+  phone?: string;
 }
 
 interface IdentifyData {
@@ -12,6 +13,10 @@ interface IdentifyData {
 
 export const LoginAPI = (data: LoginData) => {
   return request("/login", "POST", data);
+};
+
+export const LoginByPhoneAPI = (data: LoginData) => {
+  return request("/login/byPhone", "POST", data);
 };
 
 export const registerAPI = (data: LoginData) => {

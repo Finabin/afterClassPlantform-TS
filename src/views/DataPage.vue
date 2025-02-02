@@ -11,7 +11,7 @@
               今日订单数
             </div>
             <div class="datapage-main-top-single-left-data">
-              {{ dataInfo.ordersToday }}
+              {{ dataInfo.ordersToday || 0 }}
             </div>
           </div>
           <div class="datapage-main-top-single-right">
@@ -24,7 +24,7 @@
               今日销售额
             </div>
             <div class="datapage-main-top-single-left-data">
-              ￥{{ dataInfo.salesToday }}
+              ￥{{ dataInfo.salesToday || 0 }}
             </div>
           </div>
           <div class="datapage-main-top-single-right">
@@ -37,7 +37,7 @@
               昨日销售额
             </div>
             <div class="datapage-main-top-single-left-data">
-              ￥{{ dataInfo.salesYes }}
+              ￥{{ dataInfo.salesYes || 0 }}
             </div>
           </div>
           <div class="datapage-main-top-single-right">
@@ -50,7 +50,7 @@
               近七日销售额
             </div>
             <div class="datapage-main-top-single-left-data">
-              ￥{{ dataInfo.salesWeek }}
+              ￥{{ dataInfo.salesWeek || 0 }}
             </div>
           </div>
           <div class="datapage-main-top-single-right">
@@ -64,25 +64,25 @@
           <div class="datapage-main-middle-single-content">
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
-                {{ dataInfo.courseData.courseAll }}
+                {{ dataInfo.courseData.courseOn }}
               </div>
               <div class="datapage-main-middle-single-content-single-title">已上架</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
-                {{ dataInfo.courseData.courseOn }}
+                {{ dataInfo.courseData.courseDown }}
               </div>
               <div class="datapage-main-middle-single-content-single-data-title">已下架</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
-                {{ dataInfo.courseData.courseDown }}
+                {{ dataInfo.courseData.courseOver }}
               </div>
               <div class="datapage-main-middle-single-content-single-data-title">已结课</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
-                {{ dataInfo.courseData.courseOver }}
+                {{ dataInfo.courseData.courseAll }}
               </div>
               <div class="datapage-main-middle-single-content-single-data-title">全部课程</div>
             </div>
@@ -93,25 +93,25 @@
           <div class="datapage-main-middle-single-content">
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
-                {{ dataInfo.userData.userAll }}
+                {{ dataInfo.userData.newUserToday }}
               </div>
               <div class="datapage-main-middle-single-content-single-title">今日新增</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
-                {{ dataInfo.userData.newUserToday }}
+                {{ dataInfo.userData.newUserYesterday }}
               </div>
               <div class="datapage-main-middle-single-content-single-data-title">昨日新增</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
-                {{ dataInfo.userData.newUserYesterday }}
+                {{ dataInfo.userData.newUserMonth }}
               </div>
               <div class="datapage-main-middle-single-content-single-data-title">本月新增</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
-                {{ dataInfo.userData.newUserMonth }}
+                {{ dataInfo.userData.userAll }}
               </div>
               <div class="datapage-main-middle-single-content-single-data-title">全部用户</div>
             </div>
@@ -192,7 +192,7 @@ onMounted(async () => {
   let res
   if (role.value === '2') {
     const data = {
-      id: id.value
+      id: Number(id.value)
     }
     res = await getTeacherDataPageInfoAPI(data)
   } else {

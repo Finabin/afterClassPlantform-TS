@@ -38,14 +38,14 @@
           <div class="addcoursepage-main-content-form-single">
             <div class="addcoursepage-main-content-form-single-title"><span>*</span>课程价格：</div>
             <div class="addcoursepage-main-content-form-single-input">
-              <el-input placeholder="请输入" v-model="courseInfo.price" style="width: 240px; height: 38px;" />
+              <el-input placeholder="请输入" v-model.number="courseInfo.price" style="width: 240px; height: 38px;" />
               <span>元</span>
             </div>
           </div>
           <div class="addcoursepage-main-content-form-single">
             <div class="addcoursepage-main-content-form-single-title"><span>*</span>课时：</div>
             <div>
-              <el-input placeholder="请输入" v-model="courseInfo.courseTime" style="width: 240px; height: 38px;" />
+              <el-input placeholder="请输入" v-model.number="courseInfo.courseTime" style="width: 240px; height: 38px;" />
             </div>
           </div>
           <div class="addcoursepage-main-content-form-single">
@@ -82,8 +82,8 @@
             <el-table-column prop="beginTime" label="开课时间" width="180" />
             <el-table-column prop="file" label="课程文件" width="180">
               <template #default="scope">
-                <el-upload :show-file-list="false" :http-request="handleUpload(scope.row)">
-                  <div class="personinfo-upload-btn">点我上传</div>
+                <el-upload :show-file-list="false" :http-request="handleUpload" :limit="1">
+                  <div class="personinfo-upload-btn" @click="recordIndex(scope.$index)">点我上传</div>
                 </el-upload>
               </template>
             </el-table-column>
@@ -104,7 +104,8 @@
           课程详情
         </div>
         <div class="addcoursepage-main-content-textarea">
-          <el-input v-model="textarea" style="width: 800px" :rows="5" type="textarea" placeholder="最多150字" />
+          <el-input v-model="courseInfo.courseIntro" style="width: 800px" :rows="5" type="textarea"
+            placeholder="最多150字" />
         </div>
       </div>
       <div class="addcoursepage-footer">
@@ -169,7 +170,7 @@ import { Plus } from '@element-plus/icons-vue'
 import type { UploadProps } from 'element-plus'
 import { courseClassificationOptions } from '../static/coursePageData'
 import { gradeOptions } from '@/static/mainPageData'
-import { updateCatalogStatusAPI } from '../apis/course'
+import { updateCatalogStatusAPI, addCourseAPI } from '../apis/course'
 import { uploadFileAPI } from '../apis/system'
 import {
   rowStyle,
@@ -177,12 +178,16 @@ import {
   headerRowStyle,
   headerCellStyle,
 } from '../public/tableStyle'
+import useUserInfoStore from '@/stores/user'
+import { storeToRefs } from "pinia";
+
 
 interface CourseCatalogInfo {
   catalogName: string,
   file: string,
   beginTime: string,
   catalogStatus: string,
+  filesize: string,
   id?: number,
 }
 interface CourseInfoData {
@@ -191,14 +196,15 @@ interface CourseInfoData {
   courseName: string,
   grade: string,
   courseClassification: string,
-  price: number,
-  courseTime: number,
+  price: string,
+  courseTime: string,
   courseCover: string,
   courseIntro: string
 }
 
 const router = useRouter()
-
+const userInfoStore = useUserInfoStore();
+const { id } = storeToRefs(userInfoStore);
 const courseStatusDialogVisible = ref(false)
 const addCatalogDialogVisible = ref(false)
 const courseInfo = ref<CourseInfoData>({
@@ -207,19 +213,21 @@ const courseInfo = ref<CourseInfoData>({
   courseName: "",
   grade: "",
   courseClassification: "",
-  price: 0,
-  courseTime: 0,
+  price: '',
+  courseTime: '',
   courseCover: "",
   courseIntro: ""
 })
-const textarea = ref('')
 const courseEditInfo = ref({
-  status: ""
+  id: 0,
+  status: "",
+  catalogIndex: -1
 })
 const courseAddInfo = ref({
   catalogName: "",
   beginTime: ""
 })
+const uploadFileIndex = ref(-1)
 
 const handleEdit = (row: CourseCatalogInfo) => {
   if (!row.file || row.file === '') {
@@ -242,6 +250,7 @@ const changeStatusConfirm = async () => {
   }
   const res = await updateCatalogStatusAPI(data)
   if (res.code === 1) {
+    courseInfo.value.catalog[courseEditInfo.value.catalogIndex].catalogStatus = courseEditInfo.value.status
     courseStatusDialogVisible.value = false
     ElMessage({
       message: '修改成功',
@@ -255,8 +264,24 @@ const changeStatusConfirm = async () => {
   }
 }
 
-const handleUpload = (id: number) => {
+const recordIndex = (index: number) => {
+  uploadFileIndex.value = index
+}
 
+const handleUpload = async ({ file }: { file: File; }) => {
+  const formData = new FormData()
+  formData.append('image', file)
+  const res = await uploadFileAPI(formData)
+  if (res.code === 1) {
+    ElMessage.success({
+      message: '上传成功',
+      type: 'success',
+    })
+    courseInfo.value.catalog[uploadFileIndex.value].file = res.data
+    courseInfo.value.catalog[uploadFileIndex.value].filesize = Number((file.size / 1024 / 1024).toFixed(2))
+  } else {
+    ElMessage.error('上传失败')
+  }
 }
 
 const uploadCover = async ({ file }: { file: File; }) => {
@@ -291,9 +316,14 @@ const handleAddCatalogConfirm = async () => {
     catalogName: courseAddInfo.value.catalogName,
     beginTime: courseAddInfo.value.beginTime,
     file: "",
+    filesize: "",
     catalogStatus: "未开始"
   })
   addCatalogDialogVisible.value = false
+  courseAddInfo.value = {
+    catalogName: "",
+    beginTime: ""
+  }
 }
 
 const indexMethod = (index: number) => {
@@ -302,19 +332,54 @@ const indexMethod = (index: number) => {
 
 const cancelAddCourse = () => {
   courseInfo.value = {}
-  router.push('/course')
+  router.push('/courseList')
 }
 
-const handleAddCourse = () => {
-  ElMessage({
-    message: '添加成功',
-    type: 'success',
-  })
-  router.push('/coursePage')
+const handleAddCourse = async () => {
+  if (courseInfo.value.courseName == '' || courseInfo.value.grade == '' || courseInfo.value.courseClassification == '' || courseInfo.value.price == 0 || courseInfo.value.courseTime == 0 || courseInfo.value.courseCover == '' || courseInfo.value.courseIntro == '') {
+    ElMessage({
+      message: '请填写完整信息',
+      type: 'error',
+    })
+    return
+  }
+  if (courseInfo.value.catalog.length < 5) {
+    ElMessage({
+      message: '请添加至少5个章节',
+      type: 'warning',
+    })
+    return
+  }
+  const data = {
+    teacherId: id.value,
+    courseName: courseInfo.value.courseName,
+    grade: courseInfo.value.grade,
+    courseClassification: courseInfo.value.courseClassification,
+    price: courseInfo.value.price,
+    courseTime: courseInfo.value.courseTime,
+    courseCover: courseInfo.value.courseCover,
+    courseIntro: courseInfo.value.courseIntro,
+    catalog: courseInfo.value.catalog
+  }
+  console.log(data);
+  const res = await addCourseAPI(data)
+  if (res.code === 1) {
+    courseInfo.value = {}
+    ElMessage({
+      message: '添加成功',
+      type: 'success',
+    })
+    router.push('/courseList')
+  } else {
+    ElMessage({
+      message: '添加失败',
+      type: 'error',
+    })
+  }
 }
 
 const toCoursePage = () => {
-  router.push('/course')
+  router.push('/courseList')
 }
 
 </script>

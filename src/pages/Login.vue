@@ -74,7 +74,7 @@
 import { ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useRouter } from 'vue-router'
-import { LoginAPI, registerAPI } from '@/apis/login'
+import { LoginAPI, registerAPI, LoginByPhoneAPI } from '@/apis/login'
 import useUserInfoStore from "@/stores/user";
 import useMenuIndexStore from '@/stores/menu';
 import { storeToRefs } from "pinia";
@@ -148,7 +148,34 @@ const toLogin = async () => {
       })
       return
     }
-    router.push('/home')
+    const data = {
+      phone: loginPhone.value,
+      password: loginPPassword.value
+    }
+    console.log(data);
+
+    const res = await LoginByPhoneAPI(data)
+    console.log(res);
+
+    if (res.code === 1) {
+      userInfoStore.id = res.data.id
+      userInfoStore.nickName = res.data.nickName
+      userInfoStore.role = res.data.role
+      userInfoStore.avatar = res.data.avatar
+      userInfoStore.token = res.data.token
+      if (userInfoStore.role == "1") {
+        curMenuIndex.value = "/main"
+        router.push('/home')
+      } else {
+        curMenuIndex.value = "/datasource"
+        router.push('/datasource')
+      }
+    } else if (res.code === 0) {
+      ElMessage({
+        message: '账号或密码错误',
+        type: 'error',
+      })
+    }
   }
 }
 

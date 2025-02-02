@@ -43,7 +43,7 @@ import { updatePwdAPI } from '@/apis/main'
 import { ElMessage } from 'element-plus'
 
 const userInfoStore = useUserInfoStore();
-const { id } = storeToRefs(userInfoStore);
+const { id, nickName } = storeToRefs(userInfoStore);
 const props = defineProps({
   popUpClosed: {
     type: Boolean,
@@ -53,7 +53,6 @@ const props = defineProps({
 const emit = defineEmits(['custom-event']);
 
 const popUpClosed = ref(props.popUpClosed);
-const nickName = ref('');
 const newPassword = ref('');
 const confirmPassword = ref('');
 
@@ -62,7 +61,26 @@ function emitEvent() {
   emit('custom-event', false);
 }
 
+const checkValid = () => {
+  if (newPassword.value === '' || confirmPassword.value === '') {
+    ElMessage({
+      message: '密码不能为空',
+      type: 'error'
+    })
+    return false;
+  }
+  if (newPassword.value !== confirmPassword.value) {
+    ElMessage({
+      message: '两次密码不一致',
+      type: 'error'
+    })
+    return false;
+  }
+  return true;
+}
+
 const updatePassword = async () => {
+  if (!checkValid()) return;
   const data = {
     id: Number(id.value),
     password: newPassword.value,
