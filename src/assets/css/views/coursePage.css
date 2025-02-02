@@ -1,6 +1,7 @@
 .coursepage-view {
+  height: 100vh;
+  overflow: hidden;
   background-color: #f5f5f5;
-  margin: 20px;
 }
 .coursepage-header {
   border: 1px solid #ccc;

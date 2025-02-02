@@ -30,3 +30,8 @@
   align-items: center;
   justify-content: center;
 }
+.updatepwd-popup .updatepwd-popup-footer button {
+  width: 120px;
+  height: 38px;
+  margin: 0 50px;
+}

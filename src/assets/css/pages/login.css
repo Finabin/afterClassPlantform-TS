@@ -4,7 +4,7 @@
   top: 50%;
   transform: translate(-50%, -50%);
   width: 800px;
-  height: 450px;
+  height: 420px;
   display: flex;
   flex-direction: column;
   border: 1px solid #ccc;
@@ -43,26 +43,56 @@
   flex-direction: row;
 }
 .login-container .login-box .login-wechat-qr {
+  position: relative;
   width: 300px;
-  height: 400px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border-right: 1px solid #ccc;
 }
 .login-container .login-box .login-wechat-qr div:nth-child(1) {
   font-size: 24px;
   font-weight: bold;
-  margin: 20px 0;
+  margin-top: 10px;
 }
 .login-container .login-box .login-wechat-qr div:nth-child(2) {
+  margin-top: 20px;
   width: 150px;
   height: 150px;
-  border: 1px solid #000;
+}
+.login-container .login-box .login-wechat-qr::before {
+  top: 0;
+  /* 放置在顶部 */
+  content: '';
+  position: absolute;
+  right: -1px;
+  /* 调整位置以完全遮挡边框 */
+  width: 50px;
+  /* 遮挡块的宽度 */
+  height: 20px;
+  /* 遮挡块的高度 */
+  background-color: white;
+  /* 背景颜色应与容器背景相同 */
+}
+.login-container .login-box .login-wechat-qr::after {
+  bottom: 0;
+  /* 放置在底部 */
+  content: '';
+  position: absolute;
+  right: -1px;
+  /* 调整位置以完全遮挡边框 */
+  width: 50px;
+  /* 遮挡块的宽度 */
+  height: 20px;
+  /* 遮挡块的高度 */
+  background-color: white;
+  /* 背景颜色应与容器背景相同 */
 }
 .login-container .login-box .login-form {
   width: 500px;
-  height: 400px;
+  height: 350px;
   align-items: center;
   justify-content: center;
 }
@@ -87,11 +117,51 @@
 .login-container .login-box .login-form .login-input {
   display: flex;
   flex-direction: column;
+  margin-left: 60px;
 }
 .login-container .login-box .login-form .login-input div:nth-child(1) {
   display: flex;
   flex-direction: column;
-  margin: 0 60px;
+  width: 350px;
+}
+.login-container .login-box .login-form .login-input div:nth-child(1) div {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  /* 确保包含所有子元素 */
+}
+.login-container .login-box .login-form .login-input div:nth-child(1) .login-phone-prefix,
+.login-container .login-box .login-form .login-input div:nth-child(1) .login-phone-input {
+  height: 48px;
+  border: none;
+  border-bottom: 1px solid #000;
+  margin: 10px 0;
+  box-sizing: border-box;
+  /* 确保padding和border被包含在元素的总宽度内 */
+}
+.login-container .login-box .login-form .login-input div:nth-child(1) .login-phone-prefix {
+  width: 40px;
+  /* 设置前缀输入框的宽度 */
+  padding-left: 10px;
+  /* 如果需要一些内边距 */
+  text-align: center;
+  /* 居中文本 */
+  background-color: #ffffff;
+  /* 可选：背景颜色以区分其他输入框 */
+  border-right: none;
+  /* 移除右侧边框 */
+  pointer-events: none;
+  /* 禁用点击事件，因为它是disabled状态 */
+}
+.login-container .login-box .login-form .login-input div:nth-child(1) .login-phone-input {
+  flex-grow: 1;
+  /* 让它占据剩余的空间 */
+  border-left: none;
+  /* 移除左侧边框 */
+}
+.login-container .login-box .login-form .login-input div:nth-child(1) .login-phone-input:focus {
+  outline: none;
+  border-bottom: 1px solid orange;
 }
 .login-container .login-box .login-form .login-input div:nth-child(1) input {
   width: 350px;
@@ -108,7 +178,6 @@
   display: flex;
   flex-direction: row;
   font-size: 14px;
-  margin: 0 60px;
 }
 .login-container .login-box .login-form .login-input div:nth-child(2) input {
   margin-right: 5px;
@@ -119,6 +188,10 @@
 .login-container .login-box .login-form .login-input div:nth-child(2) label span:hover {
   cursor: pointer;
   color: #e3b96b;
+}
+.login-container .login-box .login-form .login-input .login-checkbox input.checked {
+  color: #999;
+  background-color: #fff;
 }
 .login-container .login-box .login-form .register-input {
   display: flex;

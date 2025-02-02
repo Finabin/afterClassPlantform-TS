@@ -10,7 +10,12 @@
       <div class="login-box">
         <div class="login-wechat-qr">
           <div>扫码登录</div>
-          <div class="qr-code"></div>
+          <div class="qr-code">
+            <img src="../assets/images/qrcode.png" alt="" style="width: 150px; height: auto;">
+          </div>
+          <div>
+            <img src="../assets/images/wechat.png" alt="" style="width: 30px; height: auto;">
+          </div>
         </div>
         <div class="login-form" v-if="isLoginPage">
           <div class="login-type">
@@ -23,11 +28,14 @@
               <input type="password" placeholder="请输入密码" v-model="loginNPassword">
             </div>
             <div v-else>
-              <input type="text" placeholder="请输入手机号" v-model="loginPhone">
+              <div>
+                <input type="text" placeholder="+86" class="login-phone-prefix" disabled>
+                <input type="text" placeholder="请输入手机号" v-model="loginPhone" class="login-phone-input">
+              </div>
               <input type="password" placeholder="请输入密码" v-model="loginPPassword">
             </div>
             <div class="login-checkbox">
-              <input type="checkbox" class="login-checkbox-input" />
+              <input type="checkbox" class="login-checkbox-input" v-model="agreement" />
               <label for="agreementCheckbox" class="login-checkbox-text">
                 我已阅读并同意
                 <span>用户协议</span>、
@@ -51,7 +59,7 @@
               <input type="password" placeholder="请再次输入密码" v-model="registerRPassword">
             </div>
             <div class="login-checkbox">
-              <input type="checkbox" class="login-checkbox-input" v-model="agreement" @click="changeAgreement" />
+              <input type="checkbox" class="login-checkbox-input" v-model="agreement" />
               <label for="agreementCheckbox" class="login-checkbox-text">
                 我已阅读并同意
                 <span>用户协议</span>、
@@ -95,18 +103,14 @@ const router = useRouter()
 const menuIndexStore = useMenuIndexStore();
 const { curMenuIndex } = storeToRefs(menuIndexStore);
 
-const changeAgreement = () => {
-  agreement.value = !agreement.value
-}
-
 const toLogin = async () => {
-  // if (!agreement.value) {
-  //   ElMessage({
-  //     message: '请勾选同意协议',
-  //     type: 'warning',
-  //   })
-  //   return
-  // }
+  if (!agreement.value) {
+    ElMessage({
+      message: '请勾选同意协议',
+      type: 'warning',
+    })
+    return
+  }
   if (isPasswordLogin.value) {
     if (loginNickname.value === '' || loginNPassword.value === '') {
       ElMessage({

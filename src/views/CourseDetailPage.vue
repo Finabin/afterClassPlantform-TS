@@ -2,11 +2,13 @@
   <el-main class="coursedetailpage-view">
     <div class="coursedetailpage-header">
       <span class="coursedetailpage-header-title" @click="goBack">首页</span>
-      <span>&nbsp;/&nbsp;课程详情</span>
+      <span class="addcoursepage-header-span-mid"> / </span>
+      <span>课程详情</span>
     </div>
     <div class="coursedetailpage-main">
       <div class="coursedetailpage-basicinfo">
         <div class="coursedetailpage-basicinfo-title">
+          <div class="datapage-main-middle-single-symbol"></div>
           基础信息
         </div>
         <div class="coursedetailpage-basicinfo-content">
@@ -38,7 +40,8 @@
               </div>
               <div class="coursedetailpage-basicinfo-content-info-single">
                 <div class="coursedetailpage-basicinfo-content-info-single-require">*</div>
-                <div class="coursedetailpage-basicinfo-content-info-single-label">课时:</div>
+                <div class="coursedetailpage-basicinfo-content-info-single-label">课<span
+                    style="color: transparent; user-select: none;">课时</span>时:</div>
                 <div class="coursedetailpage-basicinfo-content-info-single-data">
                   {{ pageData!.courseTime }}
                 </div>
@@ -59,11 +62,11 @@
                 <div class="coursedetailpage-basicinfo-content-money">￥{{ pageData!.price }}</div>
               </div>
               <div class="coursedetailpage-basicinfo-content-symbol">
-                <span>￥</span>
+                <img src="../assets/images/money.png" alt="" style="width: 75px;height: auto;">
               </div>
               <div class="coursedetailpage-basicinfo-content-button">
                 <el-button type="primary" @click="buyDialogVisible = true"
-                  style="width: 120px; height: 75px; background: #FF9900; color: #fff; border-radius: 10px; font-size: 18px;">去购买</el-button>
+                  style="width: 100px; height: 60px; background: #1890ff; color: #fff; border-radius: 10px; font-size: 18px; padding: 20px">去购买</el-button>
               </div>
             </div>
           </div>
@@ -72,9 +75,10 @@
 
       <div class="coursedetailpage-catalog">
         <div class="coursedetailpage-catalog-title">
+          <div class="datapage-main-middle-single-symbol"></div>
           基础信息
         </div>
-        <div class="coursedetailpage-catalog-table">
+        <div class="addcoursepage-main-content-table">
           <el-table :data="pageData!.catalog" :row-style="rowStyle" :cell-style="cellStyle"
             :header-row-style="headerRowStyle" :header-cell-style="headerCellStyle" border>
             <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />

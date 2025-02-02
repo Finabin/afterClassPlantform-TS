@@ -15,7 +15,7 @@
             </div>
           </div>
           <div class="datapage-main-top-single-right">
-            <img src="" alt="">
+            <img src="../assets/images/order.png" alt="" style="width: 80px; height: auto">
           </div>
         </div>
         <div class="datapage-main-top-single">
@@ -28,7 +28,7 @@
             </div>
           </div>
           <div class="datapage-main-top-single-right">
-            <img src="" alt="">
+            <img src="../assets/images/money.png" alt="" style="width: 80px; height: auto">
           </div>
         </div>
         <div class="datapage-main-top-single">
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="datapage-main-top-single-right">
-            <img src="" alt="">
+            <img src="../assets/images/money.png" alt="" style="width: 80px; height: auto">
           </div>
         </div>
         <div class="datapage-main-top-single">
@@ -54,13 +54,16 @@
             </div>
           </div>
           <div class="datapage-main-top-single-right">
-            <img src="" alt="">
+            <img src="../assets/images/money.png" alt="" style="width: 80px; height: auto">
           </div>
         </div>
       </div>
       <div class="datapage-main-middle">
         <div class="datapage-main-middle-single">
-          <div class="datapage-main-middle-single-label">课程总览</div>
+          <div class="datapage-main-middle-single-label">
+            <div class="datapage-main-middle-single-symbol"></div>
+            课程总览
+          </div>
           <div class="datapage-main-middle-single-content">
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
@@ -72,24 +75,27 @@
               <div class="datapage-main-middle-single-content-single-data">
                 {{ dataInfo.courseData.courseDown }}
               </div>
-              <div class="datapage-main-middle-single-content-single-data-title">已下架</div>
+              <div class="datapage-main-middle-single-content-single-title">已下架</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
                 {{ dataInfo.courseData.courseOver }}
               </div>
-              <div class="datapage-main-middle-single-content-single-data-title">已结课</div>
+              <div class="datapage-main-middle-single-content-single-title">已结课</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
                 {{ dataInfo.courseData.courseAll }}
               </div>
-              <div class="datapage-main-middle-single-content-single-data-title">全部课程</div>
+              <div class="datapage-main-middle-single-content-single-title">全部课程</div>
             </div>
           </div>
         </div>
         <div class="datapage-main-middle-single">
-          <div class="datapage-main-middle-single-label">用户总览</div>
+          <div class="datapage-main-middle-single-label">
+            <div class="datapage-main-middle-single-symbol"></div>
+            用户总览
+          </div>
           <div class="datapage-main-middle-single-content">
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
@@ -101,25 +107,26 @@
               <div class="datapage-main-middle-single-content-single-data">
                 {{ dataInfo.userData.newUserYesterday }}
               </div>
-              <div class="datapage-main-middle-single-content-single-data-title">昨日新增</div>
+              <div class="datapage-main-middle-single-content-single-title">昨日新增</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
                 {{ dataInfo.userData.newUserMonth }}
               </div>
-              <div class="datapage-main-middle-single-content-single-data-title">本月新增</div>
+              <div class="datapage-main-middle-single-content-single-title">本月新增</div>
             </div>
             <div class="datapage-main-middle-single-content-single">
               <div class="datapage-main-middle-single-content-single-data">
                 {{ dataInfo.userData.userAll }}
               </div>
-              <div class="datapage-main-middle-single-content-single-data-title">全部用户</div>
+              <div class="datapage-main-middle-single-content-single-title">全部用户</div>
             </div>
           </div>
         </div>
       </div>
       <div class="datapage-main-map">
         <div class="datapage-main-map-label">
+          <div class="datapage-main-middle-single-symbol"></div>
           订单统计
         </div>
         <div class="datapage-main-map-data">
@@ -128,6 +135,7 @@
       </div>
       <div class="datapage-main-map">
         <div class="datapage-main-map-label">
+          <div class="datapage-main-middle-single-symbol"></div>
           销售统计
         </div>
         <div class="datapage-main-map-data">

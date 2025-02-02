@@ -22,7 +22,7 @@
           :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />
           <el-table-column prop="id" label="编号" width="150" v-if="false" />
-          <el-table-column prop="courseName" label="课程名称" width="250" />
+          <el-table-column prop="courseName" label="课程名称" width="280" />
           <el-table-column prop="courseSection" label="课程小节" width="250" />
           <el-table-column prop="teacherName" label="老师" width="150" />
           <el-table-column prop="courseFile" label="课程文件" width="150">
@@ -32,10 +32,10 @@
           </el-table-column>
           <el-table-column prop="fileSize" label="文件大小" width="150">
             <template #default="scope">
-              <span>{{ scope.row.fileSize }}MB</span>
+              <span>{{ scope.row.fileSize || 0 }}MB</span>
             </template>
           </el-table-column>
-          <el-table-column prop="beginTime" label="开课时间" width="265" />
+          <el-table-column prop="beginTime" label="开课时间" width="272" />
         </el-table>
       </div>
       <div class="filepage-pagination">

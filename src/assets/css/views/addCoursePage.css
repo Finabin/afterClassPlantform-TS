@@ -1,6 +1,5 @@
 .addcoursepage-view {
   background-color: #f5f5f5;
-  margin: 20px;
 }
 .addcoursepage-header {
   border: 1px solid #ccc;
@@ -18,6 +17,9 @@
   cursor: pointer;
   color: #1890ff;
 }
+.addcoursepage-header .addcoursepage-header-span-mid {
+  margin: 0 10px;
+}
 .addcoursepage-main {
   margin: 20px 0;
 }
@@ -28,14 +30,26 @@
   background-color: #fff;
   margin: 20px 0;
   border-radius: 10px;
-  padding: 20px;
 }
 .addcoursepage-main .addcoursepage-main-content .addcoursepage-main-content-label {
   font-size: 18px;
   font-weight: bold;
   border-bottom: 1px solid #000;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: row;
+}
+.addcoursepage-main .addcoursepage-main-content .addcoursepage-main-content-label .datapage-main-middle-single-symbol {
+  width: 8px;
+  border-radius: 20px;
+  background-color: #1890ff;
+  margin-right: 5px;
+}
+.addcoursepage-main .addcoursepage-main-content .addcoursepage-main-content-table {
+  padding: 15px 20px;
 }
 .addcoursepage-main .addcoursepage-main-content .addcoursepage-main-content-form {
+  padding: 10px 10px;
   margin-top: 40px;
 }
 .addcoursepage-main .addcoursepage-main-content .addcoursepage-main-content-form .addcoursepage-main-content-form-single {

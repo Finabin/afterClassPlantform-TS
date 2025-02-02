@@ -23,7 +23,7 @@
 .incomepage-income-data .incomepage-income-data-myincome {
   width: 360px;
   height: 120px;
-  background-color: #ccc;
+  background-color: #D7D7D7;
   display: flex;
   flex-direction: row;
   border-radius: 15px;
@@ -64,7 +64,7 @@
 .incomepage-income-data .incomepage-income-data-mybalance {
   width: 480px;
   height: 120px;
-  background-color: #ccc;
+  background-color: #D7D7D7;
   display: flex;
   flex-direction: row;
   border-radius: 15px;

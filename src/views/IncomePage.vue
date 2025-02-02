@@ -4,27 +4,27 @@
       收入管理
     </div>
     <div class="incomepage-main">
-      <div class="incomepage-income-data" v-if="role === '1'">
+      <div class="incomepage-income-data" v-if="role === '2'">
         <div class="incomepage-income-data-myincome">
           <div class="incomepage-income-data-display">
             <div class="incomepage-income-data-title">我的收入</div>
-            <div class="incomepage-income-data-money">￥{{ incomePageData.personalIncomeData.income }}</div>
+            <div class="incomepage-income-data-money">￥{{ totalIncome }}</div>
           </div>
           <div class="incomepage-income-data-symbol">
-            <span>￥</span>
+            <img src="../assets/images/money.png" alt="" style="width: 80px;height: auto;">
           </div>
         </div>
         <div class="incomepage-income-data-mybalance">
           <div class="incomepage-income-data-display">
             <div class="incomepage-income-data-title">我的余额</div>
-            <div class="incomepage-income-data-money">￥{{ incomePageData.personalIncomeData.balance }}</div>
+            <div class="incomepage-income-data-money">￥{{ balance }}</div>
           </div>
           <div class="incomepage-income-data-symbol">
-            <span>￥</span>
+            <img src="../assets/images/money.png" alt="" style="width: 80px;height: auto;">
           </div>
           <div class="incomepage-income-data-button">
             <el-button type="primary" @click="IncomeDialogVisible = true"
-              style="width: 120px; height: 75px; background: #FF9900; color: #fff; border-radius: 10px; font-size: 18px;">去提现</el-button>
+              style="width: 120px; height: 75px; background: #1890ff; color: #fff; border-radius: 10px; font-size: 18px;">去提现</el-button>
           </div>
         </div>
       </div>
@@ -51,22 +51,22 @@
           :header-cell-style="headerCellStyle" border>
           <el-table-column label=" 序号" type="index" :index="indexMethod" width="150" />
           <el-table-column prop="id" label="编号" width="150" v-if="false" />
-          <el-table-column prop="nickName" label="用户名" width="250" />
+          <el-table-column prop="nickName" label="用户名" width="252" />
           <el-table-column prop="teacherName" label="老师" width="200" />
           <el-table-column prop="processType" label="处理类型" width="150">
             <template #default="scope">
               <span v-if="scope.row.processType === '提现'" style="color: orange;">提现</span>
-              <span v-else style="color: aqua;">收入</span>
+              <span v-else style="color: #1890ff;">收入</span>
             </template>
           </el-table-column>
           <el-table-column prop="money" label="处理金额" width="160">
             <template #default="scope">
               <span v-if="scope.row.processType === 1" style="color: orange;">{{ scope.row.money }}</span>
-              <span v-else style="color: aqua;">{{ scope.row.money }}</span>
+              <span v-else style="color: #1890ff;">{{ scope.row.money }}</span>
             </template>
           </el-table-column>
           <el-table-column prop="moneyBefore" label="处理前金额" width="160" />
-          <el-table-column prop="applicteTime" label="申请时间" width="300" />
+          <el-table-column prop="applicteTime" label="申请时间" width="290" />
         </el-table>
       </div>
       <div class="incomepage-pagination">
@@ -114,6 +114,8 @@ const search_processType = ref('')
 const search_nickName = ref('')
 const search_teacherName = ref('')
 const tableData = ref<Array<IncomePageData>>([])
+const totalIncome = ref(0)
+const balance = ref(0)
 const IncomeDialogVisible = ref(false)
 const curPageData = ref<Array<IncomePageData>>([])
 const pageSize = ref(15)

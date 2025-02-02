@@ -1,6 +1,5 @@
 .mainpage-view {
   background-color: #f5f5f5;
-  margin: 20px;
 }
 .mainpage-header {
   border: 1px solid #ccc;
@@ -68,7 +67,7 @@
   width: 150px;
   height: 38px;
   margin-top: 20px;
-  background-color: #ccc;
+  background-color: #1890ff;
   padding: 20px 100px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
@@ -82,9 +81,9 @@
   margin-left: 35%;
 }
 .mainpage-main .mainpage-bestselling {
-  border: 1px solid #ccc;
+  border: 1px solid #1890ff;
   padding: 20px;
-  background-color: #ccc;
+  background-color: #1890ff;
 }
 .mainpage-result {
   margin-top: 20px;

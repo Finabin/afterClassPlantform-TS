@@ -22,12 +22,12 @@
           <el-table-column prop="nickName" label="用户名" width="250" />
           <el-table-column prop="userName" label="姓名" width="250" />
           <el-table-column prop="phone" label="手机号" width="250" />
-          <el-table-column prop="buyCourseNum" label="已购课程数" width="215" />
+          <el-table-column prop="buyCourseNum" label="已购课程数" width="212" />
           <el-table-column prop="createTime" label="注册时间" width="250" />
         </el-table>
       </div>
       <div class="studentpage-pagination">
-        <el-pagination background layout="prev, pager, next,sizes" :total="tableData.length" :page-sizes="[5, 15, 30]"
+        <el-pagination background layout="prev, pager, next, sizes" :total="tableData.length" :page-sizes="[5, 15, 30]"
           v-model="pageSize" @size-change="handleSizeChange" @current-change="handlePageChange"
           @prev-click="handlePageChange" @next-click="handlePageChange" size="default" :default-page-size="15" />
       </div>

@@ -5,10 +5,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 24px;
 }
 .logout-popup .logout-popup-footer {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+.logout-popup .logout-popup-footer button {
+  width: 120px;
+  height: 38px;
+  margin: 0 50px;
 }

@@ -7,7 +7,7 @@
       <div @click="updatePersonInfo" class="personinfo-update" v-if="!isUpdate"><span>修改</span></div>
       <div class="personinfo-container">
         <div class="personinfo-update-form" v-if="isUpdate">
-          <div class="personinfo-row">
+          <div class="personinfo-origin-avatar">
             <div>
               <el-avatar :size="100" :src="circleUrl" />
             </div>
@@ -27,7 +27,7 @@
             </div>
             <div class="personinfo-single">
               <span class="personinfo-require">*</span>
-              <span class="personinfo-title">性别:</span>
+              <span class="personinfo-title">性<span style="color: transparent; user-select: none;">—</span>别:</span>
               <el-select v-model="update_info.gender" placeholder="请选择" size="large"
                 style="width: 240px; margin-right: 20px">
                 <el-option v-for="item in sexOptions" :key="item.value" :label="item.label" :value="item.value" />
@@ -37,47 +37,47 @@
           <div class="personinfo-row">
             <div class="personinfo-single">
               <span class="personinfo-require">*</span>
-              <span class="personinfo-title">姓名:</span>
+              <span class="personinfo-title">姓<span style="color: transparent; user-select: none;">—</span>名:</span>
               <el-input v-model="update_info.username" placeholder="请输入" style="width: 240px; height: 38px;" />
             </div>
             <div class="personinfo-single">
               <span class="personinfo-require">*</span>
-              <span class="personinfo-title">手机:</span>
+              <span class="personinfo-title">手<span style="color: transparent; user-select: none;">—</span>机:</span>
               <el-input v-model="update_info.phone" placeholder="请输入" style="width: 240px; height: 38px;" />
             </div>
           </div>
           <div class="personinfo-row">
             <div class="personinfo-single">
               <span class="personinfo-require">*</span>
-              <span class="personinfo-title">年级:</span>
+              <span class="personinfo-title">年<span style="color: transparent; user-select: none;">—</span>级:</span>
               <el-select v-model="update_info.grade" multiple placeholder="Select" size="large" style="width: 240px">
                 <el-option v-for="item in gradeOptions" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </div>
             <div class="personinfo-single">
               <span class="personinfo-require">*</span>
-              <span class="personinfo-title">科目:</span>
+              <span class="personinfo-title">科<span style="color: transparent; user-select: none;">—</span>目:</span>
               <el-select v-model="update_info.subject" multiple placeholder="Select" size="large" style="width: 240px">
                 <el-option v-for="item in subjectOptions" :key="item.value" :label="item.label" :value="item.value" />
               </el-select>
             </div>
           </div>
           <div class="personinfo-row">
-            <div class="personinfo-single">
+            <div class="personinfo-single-intro">
               <span class="personinfo-require">*</span>
-              <span class="personinfo-title">简介:</span>
-              <el-input v-model="update_info.introduction" style="width: 500px" :rows="4" type="textarea"
+              <span class="personinfo-title">简<span style="color: transparent; user-select: none;">—</span>介:</span>
+              <el-input v-model="update_info.introduction" style="width: 666px" :rows="10" type="textarea"
                 placeholder="请输入简介，不超过200字" />
             </div>
           </div>
           <div class="personinfo-row">
-            <div class="personinfo-single">
+            <div class="personinfo-single-button">
               <el-button type="primary" @click="savePersonInfo" style="width: 150px; height: 40px;">确认</el-button>
             </div>
           </div>
         </div>
         <div class="personinfo-origin-form" v-else>
-          <div class="personinfo-origin-row">
+          <div class="personinfo-origin-avatar">
             <el-avatar :size="100" :src="circleUrl" />
           </div>
           <div class="personinfo-origin-row">
@@ -88,7 +88,8 @@
             </div>
             <div class="personinfo-origin-single">
               <span class="personinfo-origin-require">*</span>
-              <span class="personinfo-origin-title">性别:</span>
+              <span class="personinfo-origin-title">性<span
+                  style="color: transparent; user-select: none;">—</span>别:</span>
               <span v-if="origin_info.gender === 1">男</span>
               <span v-else>女</span>
             </div>
@@ -96,32 +97,37 @@
           <div class="personinfo-origin-row">
             <div class="personinfo-origin-single">
               <span class="personinfo-origin-require">*</span>
-              <span class="personinfo-origin-title">姓名:</span>
+              <span class="personinfo-origin-title">姓<span
+                  style="color: transparent; user-select: none;">—</span>名:</span>
               <span>{{ origin_info.username }}</span>
             </div>
             <div class="personinfo-origin-single">
               <span class="personinfo-origin-require">*</span>
-              <span class="personinfo-origin-title">手机:</span>
+              <span class="personinfo-origin-title">手<span
+                  style="color: transparent; user-select: none;">—</span>机:</span>
               <span>{{ origin_info.phone }}</span>
             </div>
           </div>
           <div class="personinfo-origin-row">
             <div class="personinfo-origin-single">
               <span class="personinfo-origin-require">*</span>
-              <span class="personinfo-origin-title">年级:</span>
+              <span class="personinfo-origin-title">年<span
+                  style="color: transparent; user-select: none;">—</span>级:</span>
               <span>{{ origin_info.grade }}</span>
             </div>
             <div class="personinfo-origin-single">
               <span class="personinfo-origin-require">*</span>
-              <span class="personinfo-origin-title">科目:</span>
+              <span class="personinfo-origin-title">科<span
+                  style="color: transparent; user-select: none;">—</span>目:</span>
               <span>{{ origin_info.subject }}</span>
             </div>
           </div>
           <div class="personinfo-origin-row-last">
             <div class="personinfo-origin-last-single">
-              <span class="personinfo-origin-require">*</span>
-              <span class="personinfo-origin-title">简介:</span>
-              <span>{{ origin_info.introduction }}</span>
+              <div class="personinfo-origin-require">*</div>
+              <div class="personinfo-origin-title">简<span style="color: transparent; user-select: none;">—</span>介:
+              </div>
+              <div class="personinfo-origin-content">{{ origin_info.introduction }}</div>
             </div>
           </div>
         </div>

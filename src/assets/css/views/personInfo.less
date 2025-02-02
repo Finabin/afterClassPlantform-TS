@@ -1,8 +1,6 @@
 .personinfo-view {
-  // width: 100vw;
   height: 100vh;
   background-color: #f5f5f5;
-  margin: 20px;
 }
 
 .personinfo-header {
@@ -67,14 +65,15 @@
     width: 70%;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
 
-    .personinfo-row {
+    .personinfo-origin-avatar {
+      margin-left: auto;
+      margin-right: auto;
+      width: 400px;
+      height: 150px;
       display: flex;
       align-items: center;
       justify-items: center;
-      margin: 20px 0;
 
       .personinfo-upload {
         margin: 0 30px;
@@ -90,6 +89,35 @@
           color: #d2cfcf;
           font-size: 10px;
         }
+      }
+    }
+
+    .personinfo-row {
+      display: flex;
+      align-items: center;
+      justify-items: center;
+      margin: 20px 0;
+
+      .personinfo-single-intro {
+        width: 910px;
+        margin: auto;
+        display: flex;
+        flex-direction: row;
+        justify-items: center;
+
+        .personinfo-require {
+          color: red;
+        }
+
+        .personinfo-title {
+          width: 55px;
+          margin-right: 20px;
+        }
+      }
+
+      .personinfo-single-button {
+        width: 400px;
+        margin: auto;
       }
 
       .personinfo-single {
@@ -110,8 +138,12 @@
     width: 70%;
     display: flex;
     flex-direction: column;
-    // align-items: center;
-    // justify-content: center;
+
+    .personinfo-origin-avatar {
+      margin-left: auto;
+      margin-right: auto;
+      width: 300px;
+    }
 
     .personinfo-origin-row {
       display: flex;
@@ -137,8 +169,10 @@
       margin: 20px 0;
 
       .personinfo-origin-last-single {
-        width: 420px;
+        width: 666px;
         margin: 0 50px;
+        display: flex;
+        flex-direction: row;
 
         .personinfo-origin-require {
           color: red;
@@ -146,6 +180,11 @@
 
         .personinfo-origin-title {
           margin-right: 20px;
+        }
+
+        .personinfo-origin-content {
+          width: 566px;
+          height: auto;
         }
       }
     }

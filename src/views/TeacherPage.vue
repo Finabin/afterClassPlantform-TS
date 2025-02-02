@@ -25,7 +25,7 @@
           <el-table-column prop="id" label="课程编号" width="150" v-if="false" />
           <el-table-column prop="status" label="状态" width="100">
             <template #default="scope">
-              <span v-if="scope.row.status == 1" style="color: aqua;">启用</span>
+              <span v-if="scope.row.status == 1" style="color: #1890ff;">启用</span>
               <span v-else style="color: red;">停用</span>
             </template>
           </el-table-column>
@@ -42,7 +42,7 @@
           <el-table-column prop="subject" label="科目" width="100" />
           <el-table-column prop="takePercent" label="抽成比" width="100">
             <template #default="scope">
-              <span style="color: aqua;">{{ scope.row.takePercent }}%</span>
+              <span style="color: #1890ff;">{{ scope.row.takePercent }}%</span>
             </template>
           </el-table-column>
           <el-table-column prop="totalIncome" label="总收入" width="150">
@@ -54,7 +54,8 @@
           <el-table-column prop="createTime" label="创建时间" width="250" />
           <el-table-column fixed="right" label="操作" min-width="120">
             <template #default="scope">
-              <el-button link type="primary" size="small" @click="handleEdit(scope.row, scope.$index)">修改</el-button>
+              <span @click="handleEdit(scope.row, scope.$index)"
+                style="color: #1890ff; margin: 0 10px; cursor: pointer;">修改</span>
             </template>
           </el-table-column>
         </el-table>

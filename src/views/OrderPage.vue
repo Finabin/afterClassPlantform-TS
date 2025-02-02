@@ -31,17 +31,21 @@
           <el-table-column prop="status" label="订单状态" width="100">
             <template #default="scope">
               <span v-if="scope.row.status == '待支付'" style=" color: gray">待支付</span>
-              <span v-else-if="scope.row.status == '已支付'" style="color: red;">已支付</span>
-              <span v-else style="color: aqua;">关闭</span>
+              <span v-else-if="scope.row.status == '已支付'" style="color: #1890ff;">已支付</span>
+              <span v-else style="color: red;">关闭</span>
             </template>
           </el-table-column>
           <el-table-column prop="courseName" label="课程名称" width="150" />
           <el-table-column prop="teacherName" label="老师" width="120" />
           <el-table-column prop="buyerName" label="买家用户名" width="150" />
           <el-table-column prop="courseTime" label="课时" width="100" />
-          <el-table-column prop="price" label="价格" width="100" />
-          <el-table-column prop="createTime" label="创建时间" width="180" />
-          <el-table-column prop="payTime" label="支付时间" width="180" />
+          <el-table-column prop="price" label="价格" width="100">
+            <template #default="scope">
+              <span style=" color: orange">{{ scope.row.price }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column prop="createTime" label="创建时间" width="201" />
+          <el-table-column prop="payTime" label="支付时间" width="201" />
         </el-table>
       </div>
       <div class="orderpage-pagination">

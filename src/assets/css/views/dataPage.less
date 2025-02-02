@@ -1,8 +1,6 @@
 .datapage-view {
-  // width: 100%;
-  // height: 100vh;
+  overflow: hidden;
   background-color: #f5f5f5;
-  margin: 20px;
 }
 
 .datapage-header {
@@ -18,8 +16,7 @@
 }
 
 .datapage-main {
-  margin: 20px 15px;
-  padding: 20px 0;
+  margin: 20px;
 
   .datapage-main-top {
     display: flex;
@@ -31,7 +28,7 @@
       height: 120px;
       display: flex;
       flex-direction: row;
-      background-color: #c7bfbf;
+      background-color: #D7D7D7;
       border-radius: 10px;
 
       .datapage-main-top-single-left {
@@ -71,19 +68,29 @@
     margin-top: 25px;
 
     .datapage-main-middle-single {
-      width: 500px;
-      height: 120px;
+      width: 650px;
+      height: 150px;
       display: flex;
       flex-direction: column;
-      background-color: #cfcaca;
+      background-color: #fff;
+      border: 1px solid #000;
       border-radius: 10px;
-      padding: 10px;
 
       .datapage-main-middle-single-label {
         font-size: 18px;
         font-weight: bold;
         border-bottom: 1px solid #000;
         color: #333;
+        padding: 10px 10px;
+        display: flex;
+        flex-direction: row;
+
+        .datapage-main-middle-single-symbol {
+          width: 8px;
+          border-radius: 20px;
+          background-color: #ccc;
+          margin-right: 5px;
+        }
       }
 
       .datapage-main-middle-single-content {
@@ -104,6 +111,7 @@
           }
 
           .datapage-main-middle-single-content-single-title {
+            margin-top: 10px;
             font-size: 16px;
           }
         }
@@ -113,21 +121,28 @@
 
   .datapage-main-map {
     margin-top: 25px;
-    width: 1375px;
+    width: 1420px;
     height: 400px;
     display: flex;
     flex-direction: column;
-    background-color: #cfcaca;
+    background-color: #fff;
+    border: 1px solid #000;
     border-radius: 10px;
-    padding: 10px;
 
     .datapage-main-map-label {
       font-size: 18px;
       font-weight: bold;
       border-bottom: 1px solid #000;
-      color: #333;
-    }
+      display: flex;
+      flex-direction: row;
+      padding: 10px 10px;
 
-    .datapage-main-map-data {}
+      .datapage-main-middle-single-symbol {
+        width: 8px;
+        border-radius: 20px;
+        background-color: #ccc;
+        margin-right: 5px;
+      }
+    }
   }
 }

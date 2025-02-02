@@ -1,7 +1,6 @@
 .studentpage-view {
   height: 100vh;
   background-color: #f5f5f5;
-  margin: 20px;
 }
 .studentpage-header {
   border: 1px solid #ccc;
@@ -27,13 +26,13 @@
   height: 38px;
   letter-spacing: 3px;
 }
-.studentpage-result {
-  margin-top: 20px;
-  background-color: #fff;
-}
-.studentpage-pagination {
+.studentpage-main .studentpage-pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-top: 20px;
+}
+.studentpage-result {
+  margin-top: 20px;
+  background-color: #fff;
 }

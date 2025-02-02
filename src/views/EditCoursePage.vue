@@ -2,11 +2,13 @@
   <el-main class="addcoursepage-view">
     <div class="addcoursepage-header">
       <span @click="toCoursePage" class="addcoursepage-header-span">课程管理</span>
-      <span> / 查看课程</span>
+      <span class="addcoursepage-header-span-mid"> / </span>
+      <span>查看课程</span>
     </div>
     <div class="addcoursepage-main">
       <div class="addcoursepage-main-content">
         <div class="addcoursepage-main-content-label">
+          <div class="datapage-main-middle-single-symbol"></div>
           基础信息
         </div>
         <div class="addcoursepage-main-content-form">
@@ -38,12 +40,14 @@
           <div class="addcoursepage-main-content-form-single">
             <div class="addcoursepage-main-content-form-single-title"><span>*</span>课程价格：</div>
             <div class="addcoursepage-main-content-form-single-input">
-              <el-input placeholder="请输入" v-model.number="courseInfo.price" style="width: 240px; height: 38px;" />
+              <el-input placeholder="请输入" v-model.number="courseInfo.price" style="width: 120px; height: 38px;" />
               <span>元</span>
             </div>
           </div>
           <div class="addcoursepage-main-content-form-single">
-            <div class="addcoursepage-main-content-form-single-title"><span>*</span>课时：</div>
+            <div class="addcoursepage-main-content-form-single-title"><span>*</span>课<span
+                style="color: transparent; user-select: none;">课时</span>时：
+            </div>
             <div>
               <el-input placeholder="请输入" v-model.number="courseInfo.courseTime" style="width: 240px; height: 38px;" />
             </div>
@@ -64,9 +68,10 @@
       </div>
       <div class="addcoursepage-main-content">
         <div class="addcoursepage-main-content-label">
+          <div class="datapage-main-middle-single-symbol"></div>
           课程目录
         </div>
-        <div>
+        <div class="addcoursepage-main-content-table">
           <el-table :data="courseInfo.catalog" :row-style="rowStyle" :cell-style="cellStyle"
             :header-row-style="headerRowStyle" :header-cell-style="headerCellStyle" border>
             <el-table-column label=" 序号" type="index" :index="indexMethod" width="100" />
@@ -83,7 +88,8 @@
             <el-table-column prop="file" label="课程文件" width="180">
               <template #default="scope">
                 <el-upload :show-file-list="false" :http-request="handleUpload" :limit="1">
-                  <div class="personinfo-upload-btn" @click="recordIndex(scope.$index)">点我上传</div>
+                  <div class="personinfo-upload-btn" @click="recordIndex(scope.$index)"
+                    style="color: #1890ff; cursor: pointer">点我上传</div>
                 </el-upload>
               </template>
             </el-table-column>
@@ -94,18 +100,24 @@
             </el-table-column>
           </el-table>
         </div>
-        <div>
+        <div class="addcoursepage-main-content-table">
           <el-button type="primary" @click="addCatalogDialogVisible = true"
             style="width: 150px; height: 38px;">增加目录</el-button>
         </div>
       </div>
       <div class="addcoursepage-main-content">
         <div class="addcoursepage-main-content-label">
+          <div class="datapage-main-middle-single-symbol"></div>
           课程详情
         </div>
-        <div class="addcoursepage-main-content-textarea">
-          <el-input v-model="courseInfo.courseIntro" style="width: 800px" :rows="5" type="textarea"
-            placeholder="最多150字" />
+        <div class="addcoursepage-main-content-form">
+          <div class="addcoursepage-main-content-form-single">
+            <div class="addcoursepage-main-content-form-single-title"><span>*</span>课程名称：</div>
+            <div class="addcoursepage-main-content-form-single-input">
+              <el-input v-model="courseInfo.courseIntro" style="width: 800px" :rows="5" type="textarea"
+                placeholder="最多150字" />
+            </div>
+          </div>
         </div>
       </div>
       <div class="addcoursepage-footer">
