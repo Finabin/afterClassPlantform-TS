@@ -1,0 +1,145 @@
+Date : 2025-02-02 15:33:23
+Directory : d:\2025 Program\afterClassPlantform-TS\src
+Total : 97 files,  8476 codes, 71 comments, 706 blanks, all 9253 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| vue        |         23 |      3,616 |         12 |        255 |      3,883 |
+| TypeScript |         37 |      1,946 |          7 |        171 |      2,124 |
+| CSS        |         19 |      1,500 |         26 |         37 |      1,563 |
+| Less       |         17 |      1,413 |         26 |        242 |      1,681 |
+| XML        |          1 |          1 |          0 |          1 |          2 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                     | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                        |         97 |      8,476 |         71 |        706 |      9,253 |
+| . (Files)                                                                                |          2 |         47 |          3 |         10 |         60 |
+| apis                                                                                     |          9 |        291 |          0 |         85 |        376 |
+| assets                                                                                   |         37 |      2,914 |         52 |        280 |      3,246 |
+| assets (Files)                                                                           |          3 |        102 |          2 |         21 |        125 |
+| assets\css                                                                               |         34 |      2,812 |         50 |        259 |      3,121 |
+| assets\css\components                                                                    |         10 |        270 |          0 |         27 |        297 |
+| assets\css\pages                                                                         |          2 |        470 |         44 |         42 |        556 |
+| assets\css\views                                                                         |         22 |      2,072 |          6 |        190 |      2,268 |
+| components                                                                               |          7 |        436 |          0 |         49 |        485 |
+| i18n                                                                                     |          3 |         41 |          0 |          4 |         45 |
+| i18n (Files)                                                                             |          1 |         13 |          0 |          2 |         15 |
+| i18n\language                                                                            |          2 |         28 |          0 |          2 |         30 |
+| mocks                                                                                    |         10 |        895 |          0 |         28 |        923 |
+| pages                                                                                    |          3 |        430 |         11 |         43 |        484 |
+| public                                                                                   |          1 |         13 |          0 |          5 |         18 |
+| router                                                                                   |          2 |        233 |          5 |         10 |        248 |
+| static                                                                                   |          6 |        345 |          0 |         18 |        363 |
+| stores                                                                                   |          3 |         33 |          0 |          9 |         42 |
+| utils                                                                                    |          2 |         72 |          0 |          6 |         78 |
+| views                                                                                    |         12 |      2,726 |          0 |        159 |      2,885 |
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                 | language   | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| d:\2025 Program\afterClassPlantform-TS\src\App.vue                                       | vue        |         24 |          1 |          4 |         29 |
+| d:\2025 Program\afterClassPlantform-TS\src\apis\course.ts                                | TypeScript |         55 |          0 |         16 |         71 |
+| d:\2025 Program\afterClassPlantform-TS\src\apis\data.ts                                  | TypeScript |         22 |          0 |          8 |         30 |
+| d:\2025 Program\afterClassPlantform-TS\src\apis\file.ts                                  | TypeScript |         29 |          0 |          9 |         38 |
+| d:\2025 Program\afterClassPlantform-TS\src\apis\income.ts                                | TypeScript |         31 |          0 |          9 |         40 |
+| d:\2025 Program\afterClassPlantform-TS\src\apis\login.ts                                 | TypeScript |         22 |          0 |          7 |         29 |
+| d:\2025 Program\afterClassPlantform-TS\src\apis\main.ts                                  | TypeScript |         35 |          0 |         10 |         45 |
+| d:\2025 Program\afterClassPlantform-TS\src\apis\order.ts                                 | TypeScript |         30 |          0 |          9 |         39 |
+| d:\2025 Program\afterClassPlantform-TS\src\apis\system.ts                                | TypeScript |          4 |          0 |          2 |          6 |
+| d:\2025 Program\afterClassPlantform-TS\src\apis\user.ts                                  | TypeScript |         63 |          0 |         15 |         78 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\base.css                               | CSS        |         71 |          2 |         14 |         87 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\incomeDialog.css        | CSS        |         15 |          0 |          1 |         16 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\incomeDialog.less       | Less       |         15 |          0 |          3 |         18 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\logOutPopUp.css         | CSS        |         20 |          0 |          1 |         21 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\logOutPopUp.less        | Less       |         20 |          0 |          3 |         23 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\mainFilterListItem.css  | CSS        |         41 |          0 |          1 |         42 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\mainFilterListItem.less | Less       |         43 |          0 |          7 |         50 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\mainPagePopUp.css       | CSS        |         20 |          0 |          1 |         21 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\mainPagePopUp.less      | Less       |         22 |          0 |          2 |         24 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\updatePwdPopUp.css      | CSS        |         37 |          0 |          1 |         38 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\components\updatePwdPopUp.less     | Less       |         37 |          0 |          7 |         44 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\pages\login.css                    | CSS        |        231 |         22 |          1 |        254 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\pages\login.less                   | Less       |        239 |         22 |         41 |        302 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\addCoursePage.css            | CSS        |        111 |          0 |          1 |        112 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\addCoursePage.less           | Less       |        113 |          0 |         24 |        137 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\courseDetailPage.css         | CSS        |        167 |          0 |          1 |        168 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\courseDetailPage.less        | Less       |        167 |          0 |         34 |        201 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\coursePage.css               | CSS        |         60 |          0 |          1 |         61 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\coursePage.less              | Less       |         60 |          0 |         11 |         71 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\dataPage.css                 | CSS        |        129 |          0 |          1 |        130 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\dataPage.less                | Less       |        129 |          0 |         19 |        148 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\filePage.css                 | CSS        |         50 |          0 |          1 |         51 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\filePage.less                | Less       |         50 |          0 |          8 |         58 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\incomePage.css               | CSS        |        132 |          0 |          1 |        133 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\incomePage.less              | Less       |        132 |          1 |         20 |        153 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\mainPage.css                 | CSS        |         91 |          0 |          1 |         92 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\mainPage.less                | Less       |         91 |          1 |         12 |        104 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\orderPage.css                | CSS        |         38 |          0 |          1 |         39 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\orderPage.less               | Less       |         38 |          0 |          5 |         43 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\personInfo.css               | CSS        |        160 |          2 |          1 |        163 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\personInfo.less              | Less       |        160 |          2 |         30 |        192 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\studentPage.css              | CSS        |         38 |          0 |          1 |         39 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\studentPage.less             | Less       |         38 |          0 |          5 |         43 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\teacherPage.css              | CSS        |         59 |          0 |          1 |         60 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\css\views\teacherPage.less             | Less       |         59 |          0 |         11 |         70 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\logo.svg                               | XML        |          1 |          0 |          1 |          2 |
+| d:\2025 Program\afterClassPlantform-TS\src\assets\main.css                               | CSS        |         30 |          0 |          6 |         36 |
+| d:\2025 Program\afterClassPlantform-TS\src\components\IncomeDialog.vue                   | vue        |         74 |          0 |          8 |         82 |
+| d:\2025 Program\afterClassPlantform-TS\src\components\LogOutPopUp.vue                    | vue        |         44 |          0 |          8 |         52 |
+| d:\2025 Program\afterClassPlantform-TS\src\components\MainFilterListItem.vue             | vue        |         35 |          0 |          5 |         40 |
+| d:\2025 Program\afterClassPlantform-TS\src\components\MainPagePopUp.vue                  | vue        |         50 |          0 |          5 |         55 |
+| d:\2025 Program\afterClassPlantform-TS\src\components\OrdersGraph.vue                    | vue        |         62 |          0 |          7 |         69 |
+| d:\2025 Program\afterClassPlantform-TS\src\components\SalesGraph.vue                     | vue        |         69 |          0 |          8 |         77 |
+| d:\2025 Program\afterClassPlantform-TS\src\components\UpdatePasswordPopUp.vue            | vue        |        102 |          0 |          8 |        110 |
+| d:\2025 Program\afterClassPlantform-TS\src\i18n\language\en.ts                           | TypeScript |         14 |          0 |          1 |         15 |
+| d:\2025 Program\afterClassPlantform-TS\src\i18n\language\zhCn.ts                         | TypeScript |         14 |          0 |          1 |         15 |
+| d:\2025 Program\afterClassPlantform-TS\src\i18n\locale.ts                                | TypeScript |         13 |          0 |          2 |         15 |
+| d:\2025 Program\afterClassPlantform-TS\src\main.ts                                       | TypeScript |         23 |          2 |          6 |         31 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\courseDetailPage.ts                     | TypeScript |         24 |          0 |          2 |         26 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\coursePage.ts                           | TypeScript |        108 |          0 |          2 |        110 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\filePage.ts                             | TypeScript |         66 |          0 |          2 |         68 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\homeData.ts                             | TypeScript |        178 |          0 |          9 |        187 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\incomePage.ts                           | TypeScript |         72 |          0 |          2 |         74 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\mainPage.ts                             | TypeScript |         73 |          0 |          3 |         76 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\orderPage.ts                            | TypeScript |         87 |          0 |          2 |         89 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\studentPage.ts                          | TypeScript |         91 |          0 |          2 |         93 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\teacherPage.ts                          | TypeScript |        167 |          0 |          2 |        169 |
+| d:\2025 Program\afterClassPlantform-TS\src\mocks\user.ts                                 | TypeScript |         29 |          0 |          2 |         31 |
+| d:\2025 Program\afterClassPlantform-TS\src\pages\Error.vue                               | vue        |         31 |          0 |          6 |         37 |
+| d:\2025 Program\afterClassPlantform-TS\src\pages\Home.vue                                | vue        |        169 |         11 |         27 |        207 |
+| d:\2025 Program\afterClassPlantform-TS\src\pages\Login.vue                               | vue        |        230 |          0 |         10 |        240 |
+| d:\2025 Program\afterClassPlantform-TS\src\public\tableStyle.ts                          | TypeScript |         13 |          0 |          5 |         18 |
+| d:\2025 Program\afterClassPlantform-TS\src\router\menu.ts                                | TypeScript |        126 |          0 |          4 |        130 |
+| d:\2025 Program\afterClassPlantform-TS\src\router\router.ts                              | TypeScript |        107 |          5 |          6 |        118 |
+| d:\2025 Program\afterClassPlantform-TS\src\static\coursePageData.ts                      | TypeScript |         61 |          0 |          3 |         64 |
+| d:\2025 Program\afterClassPlantform-TS\src\static\incomePageData.ts                      | TypeScript |         15 |          0 |          2 |         17 |
+| d:\2025 Program\afterClassPlantform-TS\src\static\mainPageData.ts                        | TypeScript |        145 |          0 |          5 |        150 |
+| d:\2025 Program\afterClassPlantform-TS\src\static\orderPageData.ts                       | TypeScript |         19 |          0 |          2 |         21 |
+| d:\2025 Program\afterClassPlantform-TS\src\static\personInfoData.ts                      | TypeScript |         99 |          0 |          4 |        103 |
+| d:\2025 Program\afterClassPlantform-TS\src\static\teacherPageData.ts                     | TypeScript |          6 |          0 |          2 |          8 |
+| d:\2025 Program\afterClassPlantform-TS\src\stores\index.ts                               | TypeScript |          5 |          0 |          3 |          8 |
+| d:\2025 Program\afterClassPlantform-TS\src\stores\menu.ts                                | TypeScript |         12 |          0 |          3 |         15 |
+| d:\2025 Program\afterClassPlantform-TS\src\stores\user.ts                                | TypeScript |         16 |          0 |          3 |         19 |
+| d:\2025 Program\afterClassPlantform-TS\src\utils\request.ts                              | TypeScript |         51 |          0 |          4 |         55 |
+| d:\2025 Program\afterClassPlantform-TS\src\utils\timeFormat.ts                           | TypeScript |         21 |          0 |          2 |         23 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\AddCoursePage.vue                       | vue        |        381 |          0 |         19 |        400 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\CourseDetailPage.vue                    | vue        |        201 |          0 |         11 |        212 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\CoursePage.vue                          | vue        |        247 |          0 |         18 |        265 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\DataPage.vue                            | vue        |        210 |          0 |          5 |        215 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\EditCoursePage.vue                      | vue        |        381 |          0 |         18 |        399 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\FilePage.vue                            | vue        |        149 |          0 |         12 |        161 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\IncomePage.vue                          | vue        |        183 |          0 |         14 |        197 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\MainPage.vue                            | vue        |        173 |          0 |         11 |        184 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\OrderPage.vue                           | vue        |        165 |          0 |         12 |        177 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\PersonInfo.vue                          | vue        |        274 |          0 |         12 |        286 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\StudentPage.vue                         | vue        |        136 |          0 |         12 |        148 |
+| d:\2025 Program\afterClassPlantform-TS\src\views\TeacherPage.vue                         | vue        |        226 |          0 |         15 |        241 |
+| Total                                                                                    |            |      8,476 |         71 |        706 |      9,253 |
++------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
